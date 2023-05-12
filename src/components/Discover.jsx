@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react'
 import {genres} from '../assets/constants'
 import SongCard from './SongCard'
@@ -64,14 +63,6 @@ export default function Discover() {
        })}
 
       </div>
-=======
-import React from 'react'
-
-export default function Discover() {
-  return (
-    <div>
-      
->>>>>>> 55ce9c262b76565f199e513d45dccaf62a270ab9
     </div>
   )
 }
