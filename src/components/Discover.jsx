@@ -1,39 +1,10 @@
-import React, { useEffect } from 'react'
 import {genres} from '../assets/constants'
 import SongCard from './SongCard'
 import { useState } from 'react'
 import Loader from './Loader'
 
-export default function Discover() {
-  const [data, setData] = useState({
-    'tracks':[]
-  })
-  const [activeSong,setActiveSong] = useState(false)
-  const [isPlaying,setIsPlaying] = useState(false)
-  const [isFetching,setFetching] = useState(false)
-
-  const FetchData = async () => {
-    setFetching(true)
-    let headersList = {
-      "Accept": "*/*",
-      "X-RapidAPI-Key": "23d4a35959msh574c51f2ebe033cp1c47cdjsne230ae678948",
-      "X-RapidAPI-Host": "shazam.p.rapidapi.com"
-     }
-     
-     let response = await fetch("https://shazam.p.rapidapi.com/charts/track", { 
-       method: "GET",
-       headers: headersList
-     });
-     
-     setData(await response.json())
-     console.log(data);
-     setFetching(false);
-  }
-
-  useEffect(() => {
-    window.scrollTo(0,0);
-    FetchData();
-  }, [])
+export default function Discover({data, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
+  
 
   if(isFetching){return <Loader/>}
 
@@ -59,6 +30,7 @@ export default function Discover() {
                 data={data.tracks}
                 isPlaying={isPlaying}
                 activeSong={activeSong}
+                handlePlayPauseClick={handlePlayPauseClick}
                 i={i}
                 />
        })}
