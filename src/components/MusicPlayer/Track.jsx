@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Track = ({activeSongAllDetails, isPlaying, isActive, activeSong }) => (
+const Track = ({activeSongAllDetails, isActive }) => (
   <div className="flex-1 flex items-center justify-start">
-    <div className={`${isPlaying && isActive ? {/*'animate-[spin_3s_linear_infinite]'*/} : ''} hidden sm:block h-16 w-16 mr-4`}>
+    <div className={`${!document.getElementById(activeSongAllDetails.hub.actions[0].id+"").paused && isActive ? {/*'animate-[spin_3s_linear_infinite]'*/} : ''} hidden sm:block h-16 w-16 mr-4`}>
       <img src={activeSongAllDetails.images.coverart} alt="cover art" className="rounded-full" />
     </div>
     <div className="w-[50%]">

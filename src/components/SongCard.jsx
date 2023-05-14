@@ -2,7 +2,7 @@ import React from 'react'
 import PlayPause from './PlayPause'
 import { Link } from 'react-router-dom';
 
-export default function SongCard({data, isPlaying, activeSong, i , handlePlayPauseClick}) {
+export default function SongCard({data,activeSongAllDetails, isPlaying, activeSong, i , handlePlayPauseClick}) {
     
     
   return (
@@ -15,8 +15,8 @@ export default function SongCard({data, isPlaying, activeSong, i , handlePlayPau
               activeSong={activeSong}
               isPlaying={isPlaying}
               data={data}
-             
               i={i}
+              activeSongAllDetails={activeSongAllDetails}
               />
             </div>
             <img alt='images' src={data[i].images.coverart} ></img>
