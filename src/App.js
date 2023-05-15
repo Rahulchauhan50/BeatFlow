@@ -1,6 +1,6 @@
-
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Discover from './components/Discover';
+import Discover from './components/pages/Discover';
+import SongDetails from "./components/pages/SongDetails";
 import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import TopPlay from './components/TopPlay';
@@ -32,7 +32,7 @@ function App() {
     setFetching(true)
     let headersList = {
       "Accept": "*/*",
-      "X-RapidAPI-Key": "c03877c933msh90c5aaf3de4f477p10c783jsnea909cae5029",
+      "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
       "X-RapidAPI-Host": "shazam.p.rapidapi.com"
      }
      
@@ -89,10 +89,11 @@ function App() {
           <div className="flex-1 h-fit pb-40">
             <Routes>
               <Route exact path="/" element={<Discover activeSongAllDetails={activeSongAllDetails} handlePlayPauseClick={handlePlayPauseClick} isPlaying={isPlaying} activeSong={activeSong} data={data} isFetching={isFetching} isActive={isActive}/>} />
+              <Route exact path="/songs/:songid" element={<SongDetails data={data.tracks}/>} />
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">
-            <TopPlay/>
+          <TopPlay data={data} activeSong={activeSong} handlePlayPauseClick={handlePlayPauseClick} />          
           </div>
         </div>
       </div>

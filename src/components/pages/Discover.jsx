@@ -1,6 +1,6 @@
-import {genres} from '../assets/constants'
-import SongCard from './SongCard'
-import Loader from './Loader'
+import {genres} from '../../assets/constants'
+import SongCard from '../SongCard'
+import Loader from '../Loader'
 
 export default function Discover({data, activeSongAllDetails, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
   
