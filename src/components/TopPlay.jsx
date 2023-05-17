@@ -7,16 +7,15 @@ import 'swiper/css';
 import 'swiper/css/free-mode'
 import PlayPause from "./PlayPause";
 
-
 const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick}) => {
 
-    return(
+    return( 
     <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
          <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
             <div className="flex-1 flex flex-row justify-between items-center">
             <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
             <div className="flex-1 flex flex-col justify-center mx-3">
-                <Link  to={`/songs/${song.key}`}>
+                <Link  to={`/songs/${song.key}/${song?.artists[0].adamid}`}>
                     <span className="text-sm font-bold text-white">
                         {song?.title}
                     </span>
@@ -28,11 +27,10 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick}) => {
                 </Link>
             </div>
             </div>
-            <div onClick={()=>{handlePlayPauseClick(data.tracks,i)}}>
+            <div onClick={()=>handlePlayPauseClick( i, data.tracks[i].title, data.tracks[i].images.coverart, data.tracks[i].subtitle,data.tracks[i].hub.actions[0].id)+""}>
             <PlayPause
             activeSong={activeSong}
-            data={data.tracks}
-            i={i}
+            data={data.tracks[i].title}
             />
             </div>
             </div>

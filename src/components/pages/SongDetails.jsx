@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
 import  {useParams}  from 'react-router-dom'
+import RelatedSongs from './RelatedSongs'
 import  DetailsHeader from '../DetailsHeader'
 
-function SongDetails({data}) {
+function SongDetails({data ,activeSong,handlePlayPauseClick}) {
   const [LyricsData, setLyricsData] = useState(false)
+  const [relatedData, setrelatedData] = useState(false);
+
 const {songid} = useParams();
-console.log(songid)
+const {id} = useParams();
 
   const Fetchlyrics = async () => {
 
     let headersListLyrics = {
       "Accept": "*/*",
-      "X-RapidAPI-Key": "23d4a35959msh574c51f2ebe033cp1c47cdjsne230ae678948",
+      "X-RapidAPI-Key": "c5c5b07b9emshf9ccbf3f47591ebp1b50e8jsncb9c3c1cb128",
       "X-RapidAPI-Host": "shazam-core7.p.rapidapi.com"
     }
     const url = `https://shazam-core7.p.rapidapi.com/songs/get_details?id=${songid}`
@@ -25,12 +28,31 @@ console.log(songid)
     setLyricsData(await tempData)
     console.log(tempData)
   }
+  
+  const FtechRelatedSong = async () => {
+
+        let headersListrelated = {
+          "Accept": "*/*",
+          "X-RapidAPI-Key": "5bd2e9a45fmsh64501b1bb6127b9p15b4f5jsn7eb975aae73d",
+          "X-RapidAPI-Host": "shazam.p.rapidapi.com"
+        }
+        const url = `https://shazam.p.rapidapi.com/artists/get-top-songs?id=${id}&l=en-US`
+       
+        let response = await fetch(url, {
+          method: "GET",
+          headers: headersListrelated
+        });
+        
+        var tempDataRel = await response.json()
+        setrelatedData(await tempDataRel)
+        console.log(tempDataRel)
+      }
 
   useEffect(() => {
    Fetchlyrics();
-  }, [songid])
+   FtechRelatedSong();
+  }, [songid,id])
   
-
   return (
     <>
     {data.map((Element)=>{
@@ -39,14 +61,15 @@ console.log(songid)
     })}
     <div className="flex flex-col mt-5 md-0">
         <DetailsHeader
-        artistId={songid}
         songData={LyricsData}
+        img={ LyricsData !== false?LyricsData.images.background:""}
+        title = {LyricsData !== false?LyricsData.title:"Unknown"}
+        subtitle = {LyricsData !== false?LyricsData.subtitle:'Unknown'}
+        genres = {LyricsData !== false?LyricsData?.genres?.primary:""}
       />
-      {/* Render your component content */}
       <div className="mb-10">
       <h2 className="text-white text-3xl font-bold">Lyrics:</h2>
       <div className="mt-5">
-        {console.log(LyricsData)}
         {LyricsData!==false && LyricsData?.sections[1].type === 'LYRICS'
             ? LyricsData?.sections[1]?.text.map((line, i) => (
               <p key={`lyrics-${line}-${i}`} className="text-gray-400 text-base my-1">{line}</p>
@@ -56,7 +79,12 @@ console.log(songid)
             )}
       </div>
       </div>
-      <Related/>
+      <RelatedSongs
+      song={relatedData !== false?relatedData.data:[]}
+      activeSong={activeSong}
+      artistId={id}
+      handlePlayPauseClick={handlePlayPauseClick}
+      />
     </div>
     </>
   )

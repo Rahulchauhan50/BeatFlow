@@ -2,7 +2,7 @@ import {genres} from '../../assets/constants'
 import SongCard from '../SongCard'
 import Loader from '../Loader'
 
-export default function Discover({data, activeSongAllDetails, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
+export default function Discover({data, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
   
 
   if(isFetching){return <Loader/>}
@@ -28,7 +28,6 @@ export default function Discover({data, activeSongAllDetails, isFetching, isPlay
                 isPlaying={isPlaying}
                 activeSong={activeSong}
                 handlePlayPauseClick={handlePlayPauseClick}
-                activeSongAllDetails={activeSongAllDetails}
                 i={i}
                 />
        })}

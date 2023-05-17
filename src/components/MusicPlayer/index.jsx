@@ -5,7 +5,7 @@ import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
 
-const MusicPlayer = ({duration ,totalResults, handlePlayPauseClick, activeSongAllDetails, currentSongsId, currentIndex, isActive, isPlaying, data}) => {
+const MusicPlayer = ({subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
   const [appTime, setAppTime] = useState(0);
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
@@ -43,9 +43,8 @@ const MusicPlayer = ({duration ,totalResults, handlePlayPauseClick, activeSongAl
   
     document.getElementById(currentSongsId).onended = () => {
       if(currentIndex < totalResults-1 && shuffle){
-        console.log("rahhu")
 
-        handlePlayPauseClick(data.tracks,currentIndex+1)
+        handlePlayPauseClick(currentIndex+1, data.tracks[currentIndex+1].title, data.tracks[currentIndex+1].images.coverart, data.tracks[currentIndex+1].subtitle,data.tracks[currentIndex+1].hub.actions[0].id)
       }
     }
 
@@ -75,16 +74,17 @@ const MusicPlayer = ({duration ,totalResults, handlePlayPauseClick, activeSongAl
   
   return (
     <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
-      <Track activeSongAllDetails={activeSongAllDetails} isActive={isActive}  />
+      <Track subtitle={subtitle} coverart={coverart} currentSongsId={currentSongsId} activeSong={activeSong} isActive={isActive}  />
       <div className="flex-1 flex flex-col items-center justify-center">
         <Controls
           repeat={repeat}
           setRepeat={setRepeat}
           shuffle={shuffle}
           handlePlayPauseClick={handlePlayPauseClick}
-          activeSongAllDetails={activeSongAllDetails}
+          currentSongsId={currentSongsId}
           totalResults={totalResults}
           data={data}
+          activeSong={activeSong}
           currentIndex={currentIndex}
           setLoop={setLoop}
           SetShufflefun={SetShufflefun}
