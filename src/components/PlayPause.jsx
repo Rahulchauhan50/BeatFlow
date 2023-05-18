@@ -1,8 +1,8 @@
 import React from 'react'
 import { BsFillPlayCircleFill, BsFillPauseCircleFill} from "react-icons/bs";
-const PlayPause = ({activeSong, data, i}) => 
+const PlayPause = ({activeSong, data}) => 
 
-(activeSong === data[i].title?(
+(activeSong === data?(
     < BsFillPauseCircleFill
     size={35}
     className='text-gray-300'
