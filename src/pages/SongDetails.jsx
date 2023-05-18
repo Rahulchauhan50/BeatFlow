@@ -17,7 +17,7 @@ const {id} = useParams();
 
     let headersListLyrics = {
       "Accept": "*/*",
-      "X-RapidAPI-Key": "c5c5b07b9emshf9ccbf3f47591ebp1b50e8jsncb9c3c1cb128",
+      "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
       "X-RapidAPI-Host": "shazam-core7.p.rapidapi.com"
     }
     const url = `https://shazam-core7.p.rapidapi.com/songs/get_details?id=${songid}`
@@ -30,13 +30,14 @@ const {id} = useParams();
     var tempData = await response.json()
     setLyricsData(await tempData)
     setIsFetchingLyrics(false)
+    window.scrollTo(0,0);
   }
   
   const FtechRelatedSong = async () => {
     setIsFetchingLyrics(true)
         let headersListrelated = {
           "Accept": "*/*",
-          "X-RapidAPI-Key": "5bd2e9a45fmsh64501b1bb6127b9p15b4f5jsn7eb975aae73d",
+          "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-top-songs?id=${id}&l=en-US`

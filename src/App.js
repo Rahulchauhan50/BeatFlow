@@ -46,10 +46,10 @@ function App() {
      setData(await tempdata)
      setFetching(false);
      setTotalResults(tempdata.tracks.length);
+    
   }
 
   useEffect(() => {
-    window.scrollTo(0,0);
     FetchData();
   }, [])
   
@@ -100,8 +100,8 @@ function App() {
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
 
-        <div onClick={()=>{close()}} className="px-6  h-[calc(100vh-100vhpx)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
-          <div className="flex-1 h-fit pb-40">
+        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-100px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+          <div  className="flex-1 h-fit pb-40">
             <Routes>
               <Route exact path="/" element={<Discover handlePlayPauseClick={handlePlayPauseClick} isPlaying={isPlaying} activeSong={activeSong} data={data} isFetching={isFetching} isActive={isActive}/>} />
               <Route exact path="/songs/:songid/:id" activeSong={activeSong} element={<SongDetails handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
