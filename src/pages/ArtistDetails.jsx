@@ -16,7 +16,7 @@ const {Artistid} = useParams();
     setisFetchingArtist(true)
     let headersListrelated = {
       "Accept": "*/*",
-          "X-RapidAPI-Key": "5bd2e9a45fmsh64501b1bb6127b9p15b4f5jsn7eb975aae73d",
+          "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-summary?id=${Artistid}&l=en-US`

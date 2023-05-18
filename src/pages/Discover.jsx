@@ -1,9 +1,17 @@
 import {genres} from '../assets/constants'
 import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
+import { useEffect } from 'react'
 
 export default function Discover({data, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
-  
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 10000);
+  }, [])
+
+  if(isFetching){return <Loader/>}
 
   return (
     

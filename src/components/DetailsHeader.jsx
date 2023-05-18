@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 const DetailsHeader = ({genres,subtitle, img,title }) => {
 return(
     <div className="relative w-full flex flex-col">
