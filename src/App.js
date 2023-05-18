@@ -81,7 +81,7 @@ function App() {
   }
   return (
     <Router>
-      <div className="relative flex h-full">
+      <div className="relative flex h-full wifull">
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
 
