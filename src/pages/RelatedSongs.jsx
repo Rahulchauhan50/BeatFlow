@@ -1,7 +1,7 @@
 import SongBar from '../components/SongBar'
 
 
-const RelatedSongs = ({song, activeSong, artistId , handlePlayPauseClick}) => {
+const RelatedSongs = ({song, activeSong, artistId , handlePlayPauseClick ,isplaying}) => {
     
     return(
         <div className="flex flex-col ">
@@ -10,15 +10,17 @@ const RelatedSongs = ({song, activeSong, artistId , handlePlayPauseClick}) => {
                 {song.map((Element, i)=>{
                   return <SongBar
                   name={Element?.attributes?.name}
-                  songSource = {Element.attributes?.previews[0]?.url}
-                  songid = {Element.id}
                   img={Element.attributes?.artwork?.url.replace('{w}', '125').replace('{h}', '125')}
+                  songid = {Element.id}
                   album={Element?.attributes?.albumName}
+                  songSource = {Element.attributes?.previews[0]?.url}
                   subtitle = {Element?.attributes?.artistName}
                    i={i}
                    activeSong={activeSong}
                    artistId={artistId}
                    handlePlayPauseClick={handlePlayPauseClick}
+                   isplaying={isplaying}
+                   artist={false}
                    />
                 })}
                 

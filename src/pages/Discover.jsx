@@ -3,7 +3,7 @@ import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
 import { useEffect } from 'react'
 
-export default function Discover({data, isFetching, isPlaying, activeSong,handlePlayPauseClick }) {
+export default function Discover({handlePlayPauseClick ,isplaying , activeSong,TempActive, data, isFetching  }) {
 
   useEffect(() => {
     setTimeout(() => {
@@ -11,10 +11,9 @@ export default function Discover({data, isFetching, isPlaying, activeSong,handle
     }, 10000);
   }, [])
 
-  if(isFetching){return <Loader/>}
+  if(isFetching){return <Loader title='Loading songs...'/>}
 
   return (
-    
     <div className='flex flex-col'>
       <div className='w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10'>
       <h2 className='font-bold text-3xl text-white'>Discover</h2>
@@ -31,7 +30,7 @@ export default function Discover({data, isFetching, isPlaying, activeSong,handle
         return <SongCard 
                 key={Elements.key}
                 data={data.tracks}
-                isPlaying={isPlaying}
+                isplaying={isplaying}
                 activeSong={activeSong}
                 handlePlayPauseClick={handlePlayPauseClick}
                 i={i}

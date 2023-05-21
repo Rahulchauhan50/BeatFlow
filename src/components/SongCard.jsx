@@ -2,7 +2,7 @@ import React from 'react'
 import PlayPause from './PlayPause'
 import { Link } from 'react-router-dom';
 
-export default function SongCard({data, activeSong, i , handlePlayPauseClick}) {
+export default function SongCard({ data, isplaying, activeSong , handlePlayPauseClick, i }) {
     
     
   return (
@@ -12,6 +12,7 @@ export default function SongCard({data, activeSong, i , handlePlayPauseClick}) {
         <div  onClick={()=>handlePlayPauseClick(i, data[i].title, data[i].images.coverart, data[i].subtitle,data[i].hub.actions[0].id+"")} className='relative w-full h-auto group'>
             <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong  === data[i].title? 'flex bg-black bg-opacity-70':'hidden'}`}>
               <PlayPause
+              isplaying={isplaying}
               activeSong={activeSong}
               data={data[i].title}
               />

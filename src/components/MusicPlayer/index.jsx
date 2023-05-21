@@ -5,7 +5,7 @@ import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
 
-const MusicPlayer = ({subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
+const MusicPlayer = ({isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
   const [appTime, setAppTime] = useState(0);
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
@@ -40,14 +40,12 @@ const MusicPlayer = ({subtitle, coverart, duration ,totalResults, handlePlayPaus
     }
   }
 
-  
-    document.getElementById(currentSongsId).onended = () => {
+  document.getElementById(currentSongsId).onended = () => {
       if(currentIndex < totalResults-1 && shuffle){
 
         handlePlayPauseClick(currentIndex+1, data.tracks[currentIndex+1].title, data.tracks[currentIndex+1].images.coverart, data.tracks[currentIndex+1].subtitle,data.tracks[currentIndex+1].hub.actions[0].id)
       }
-    }
-
+  }
 
   const setLoop = () => {
     if(document.getElementById(currentSongsId).loop){
@@ -66,15 +64,15 @@ const MusicPlayer = ({subtitle, coverart, duration ,totalResults, handlePlayPaus
        setShuffle(false);
     }
     else{
-      setShuffle(true)
-      setLoop(false);
+      setShuffle(true);
+      setRepeat(false)
     }
   }
 
   
   return (
     <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
-      <Track subtitle={subtitle} coverart={coverart} currentSongsId={currentSongsId} activeSong={activeSong} isActive={isActive}  />
+      <Track isplaying={isplaying} subtitle={subtitle} coverart={coverart} currentSongsId={currentSongsId} activeSong={activeSong} isActive={isActive}  />
       <div className="flex-1 flex flex-col items-center justify-center">
         <Controls
           repeat={repeat}

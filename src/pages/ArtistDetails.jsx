@@ -4,7 +4,7 @@ import  DetailsHeader from '../components/DetailsHeader'
 import SongBar from '../components/SongBar';
 import Loader from '../components/Loader'
 
-function ArtistDetails({handlePlayPauseClick,activeSong, data}) {
+function ArtistDetails({activeSong,isplaying, handlePlayPauseClick, data}) {
   const [ArtistData, setArtistData] = useState(false);
   const [songkey, setsongkey] = useState([]);
   const [isFetchingArtist,setisFetchingArtist] = useState(false)
@@ -16,7 +16,7 @@ const {Artistid} = useParams();
     setisFetchingArtist(true)
     let headersListrelated = {
       "Accept": "*/*",
-          "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
+          "X-RapidAPI-Key": "9a8431f43bmsh8299b6bd5d5d59cp193902jsne54d9313062f",
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-summary?id=${Artistid}&l=en-US`
@@ -37,7 +37,7 @@ const {Artistid} = useParams();
   }, [Artistid])
 
   if(isFetchingArtist){
-    return <Loader/>
+    return <Loader title='Loading Artist details...'/>
   }
   
   return (
@@ -61,15 +61,17 @@ const {Artistid} = useParams();
               {songkey.map((element,i)=>{
                 return <SongBar
                 name={ArtistData?.resources?.songs[element].attributes.name}
-                songSource={ArtistData?.resources?.songs[element]?.attributes?.previews[0]?.url}
-                songid={ArtistData?.resources?.songs[element]?.id}
                 img={ArtistData?.resources?.songs[element]?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')}
+                songid={ArtistData?.resources?.songs[element]?.id}
                 album={ArtistData?.resources?.songs[element]?.attributes?.albumName}
                 subtitle={ArtistData?.resources?.songs[element]?.attributes?.albumName}
+                songSource={ArtistData?.resources?.songs[element]?.attributes?.previews[0]?.url}
                 i={i}
                 activeSong={activeSong}
                 artistId={Artistid}
                 handlePlayPauseClick={handlePlayPauseClick}
+                isplaying={isplaying}
+                artist = {true}
                 />
                
                 })

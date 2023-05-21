@@ -4,7 +4,7 @@ import RelatedSongs from './RelatedSongs'
 import  DetailsHeader from '../components/DetailsHeader'
 import Loader from '../components/Loader'
 
-function SongDetails({data ,activeSong,handlePlayPauseClick}) {
+function SongDetails({activeSong,isplaying ,handlePlayPauseClick ,data}) {
   const [LyricsData, setLyricsData] = useState(false)
   const [relatedData, setrelatedData] = useState(false);
   const [IsFetchingLyrics, setIsFetchingLyrics] = useState(false);
@@ -17,7 +17,7 @@ const {id} = useParams();
 
     let headersListLyrics = {
       "Accept": "*/*",
-      "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
+      "X-RapidAPI-Key": "9a8431f43bmsh8299b6bd5d5d59cp193902jsne54d9313062f",
       "X-RapidAPI-Host": "shazam-core7.p.rapidapi.com"
     }
     const url = `https://shazam-core7.p.rapidapi.com/songs/get_details?id=${songid}`
@@ -37,7 +37,7 @@ const {id} = useParams();
     setIsFetchingLyrics(true)
         let headersListrelated = {
           "Accept": "*/*",
-          "X-RapidAPI-Key": "8ced1fc315msh9cd32a155a7668ep1de176jsn566f12ef3bee",
+          "X-RapidAPI-Key": "9a8431f43bmsh8299b6bd5d5d59cp193902jsne54d9313062f",
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-top-songs?id=${id}&l=en-US`
@@ -58,7 +58,7 @@ const {id} = useParams();
   }, [songid,id])
 
   if(IsFetchingLyrics){
-    return <Loader/>
+    return <Loader title='Loading Lyrics...'/>
   }
   
   return (
@@ -92,6 +92,7 @@ const {id} = useParams();
       activeSong={activeSong}
       artistId={id}
       handlePlayPauseClick={handlePlayPauseClick}
+      isplaying={isplaying}
       />
     </div>
     </>

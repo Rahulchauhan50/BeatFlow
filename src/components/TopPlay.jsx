@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode'
 import PlayPause from "./PlayPause";
 
-const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick}) => {
+const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplaying}) => {
 
     return( 
     <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
@@ -28,6 +28,7 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick}) => {
             </div>
             <div onClick={()=>handlePlayPauseClick( i, data.tracks[i].title, data.tracks[i].images.coverart, data.tracks[i].subtitle,data.tracks[i].hub.actions[0].id)+""}>
             <PlayPause
+            isplaying={isplaying}
             activeSong={activeSong}
             data={data.tracks[i].title}
             />
@@ -36,16 +37,13 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick}) => {
 );}
 
 
-export default function TopPlay({activeSong, data, handlePlayPauseClick}){
+export default function TopPlay({data ,activeSong, isplaying, handlePlayPauseClick}){
     const TopPlays = data.tracks
     return(
         <div  className="xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
             <div className="w-full flex flex-col">
             <div className="flex flex-row justify-between items-center">
                 <h2 className="text-white font-bold my-4 text-2xl">Top Charts</h2>
-                {/* <Link to="/top-charts"> */}
-                    <p className="text-gray-300 text-base cursor-pointer">See more</p>
-                {/* </Link> */}
                 </div>
                 <div className="mt-1 flex flex-col gap-1">
                     {TopPlays?.slice(0, 5).map((songs, i) => (
@@ -56,6 +54,7 @@ export default function TopPlay({activeSong, data, handlePlayPauseClick}){
                         data={data}
                         i={i}
                         handlePlayPauseClick={handlePlayPauseClick}
+                        isplaying={isplaying}
                         />
                     ))}
                 </div>
@@ -83,9 +82,9 @@ export default function TopPlay({activeSong, data, handlePlayPauseClick}){
                     style={{ width: '25%', height: 'auto' }}
                     className="shadow-lg rounded-full animate-slideright"
                     >
-                    {/* <Link to={`/artists/${artist?.artists[0].adamid}`}> */}
+                    <Link to={`/artists/${artist?.artists[0].adamid}`}>
                         <img src={artist?.images?.background} alt="Name" className="rounded-full w-full object-cover" />
-                    {/* </Link> */}
+                    </Link>
                     </SwiperSlide>
                 ))}
                 </Swiper>
