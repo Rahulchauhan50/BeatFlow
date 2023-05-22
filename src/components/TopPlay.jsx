@@ -14,11 +14,11 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplayin
             <div className="flex-1 flex flex-row justify-between items-center">
             <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
             <div className="flex-1 flex flex-col justify-center mx-3">
-                <Link to={`/songs/${song.key}/${song?.artists[0].adamid}`}>
+                {/* <Link to={`/songs/${song.key}/${song?.artists[0].adamid}`}> */}
                     <span className="text-sm font-bold text-white">
                         {song?.title}
                     </span>
-                </Link>
+                {/* </Link> */}
                 <Link to={`/artists/${song?.artists[0].adamid}`}>
                     <span className="text-base text-gray-300 mt-1">
                         {song?.subtitle}

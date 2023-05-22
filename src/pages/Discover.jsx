@@ -34,7 +34,7 @@ export default function Discover({page, settingAroundYou, handlePlayPauseClick ,
       </select>
       </div> 
       <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
-       { console.log(data)}
+
        {data.tracks.map((Elements, i)=>{
         return <SongCard 
                 key={Elements.key}

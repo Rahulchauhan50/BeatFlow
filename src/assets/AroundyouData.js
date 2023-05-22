@@ -5,6 +5,11 @@ export const dataAroundYou = {
       "title":"o bedardeya" ,
       "key": "363572694",
       "subtitle" : "rahul",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://i.ytimg.com/vi/XlOGgjZk_mE/maxresdefault.jpg"
       },
@@ -25,6 +30,11 @@ export const dataAroundYou = {
       "title":"Suraj Hua Maddham" ,
       "key": "6838031096",
       "subtitle" : "Sandesh Shandilya",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://i.ytimg.com/vi/L0zKs8i7Nc8/maxresdefault.jpg"
       },
@@ -45,6 +55,11 @@ export const dataAroundYou = {
       "title":"Main Yahaan Hoon (From Veer-Zaara)" ,
       "key": "8923831096",
       "subtitle" : "Madan Mohan",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi9fF8Bl-LwvjN1L1nG2Tn_0G6BeFLBUB56W5nmirT10ayxGLVY02B3XcX-pSRH5xFl60&usqp=CAU"
       },
@@ -60,10 +75,16 @@ export const dataAroundYou = {
         ]
       }
     },
+
     {
       "title":"Kesariya (From Brahmastra)" ,
       "key": "091192694",
       "subtitle" : "Pritam",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://c.saavncdn.com/493/Kesariya-Audio-Teaser-From-Brahmastra--Hindi-2022-20220414173718-500x500.jpg777"
       },
@@ -80,10 +101,15 @@ export const dataAroundYou = {
       }
     },
 
-{
+    {
       "title":"Jhoome Jo Pathaan" ,
       "key": "06319392694",
       "subtitle" : "Vishal Shekhar",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://i0.wp.com/www.allindiandjsdrive.com/wp-content/uploads/2022/09/No-Love-Remix-DJ-Kawal-VDJ-Shaan.jpg"
       },
@@ -100,10 +126,15 @@ export const dataAroundYou = {
       }
     },
 
-{
+    {
       "title":"No Love" ,
       "key": "0631893832",
       "subtitle" : "Shubh",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://i0.wp.com/www.allindiandjsdrive.com/wp-content/uploads/2022/09/No-Love-Remix-DJ-Kawal-VDJ-Shaan.jpg"
       },
@@ -119,10 +150,16 @@ export const dataAroundYou = {
         ]
       }
     },
-{
+
+    {
       "title":"Thaa" ,
       "key": "06356231194",
       "subtitle" : "Varinder Brar",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://i0.wp.com/www.allindiandjsdrive.com/wp-content/uploads/2022/09/No-Love-Remix-DJ-Kawal-VDJ-Shaan.jpg"
       },
@@ -139,10 +176,15 @@ export const dataAroundYou = {
       }
     },
 
-{
+    {
       "title":"Insane" ,
       "key": "1182373294",
       "subtitle" : "Gurinder Gill , AP Dhillon",
+      "artists" : [
+        {
+            "adamid" : "484568188"
+        }
+      ],
       "images":{
         "coverart" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHzi5GguR5i4rJ_e5epxWdRtqk7_zfqu-brjCAeLX6jccvandcaqQ_NmoO0TCz7vJjYpQ&usqp=CAU"
       },
@@ -158,7 +200,6 @@ export const dataAroundYou = {
         ]
       }
     }
-
 
     ]
     

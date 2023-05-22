@@ -1,10 +1,8 @@
 import React from 'react'
-// import logo from '../assets/logo.svg'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { RiCloseLine } from 'react-icons/ri'
 import { links } from '../assets/constants'
 import { HiOutlineMenu } from 'react-icons/hi'
-import AroundYou from '../pages/AroundYou'
 
 const NavLinks = () => (
   <div className='mt-10'>

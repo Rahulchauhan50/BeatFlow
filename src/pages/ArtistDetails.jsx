@@ -28,7 +28,7 @@ const {Artistid} = useParams();
         
         var tempDataRel = await response.json()
         setArtistData(await tempDataRel)
-        setsongkey(tempDataRel!==false?Object.keys(tempDataRel?.resources?.songs):[])
+        setsongkey(Object.keys(tempDataRel?.resources?.songs))
         setisFetchingArtist(false)
       }
 

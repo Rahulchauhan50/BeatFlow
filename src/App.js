@@ -50,6 +50,7 @@ function App() {
      const tempdata = await response.json();
      setData(await tempdata)
      setFetching(false);
+     console.log(tempdata)
      setTotalResults(tempdata.tracks.length);
     
   }
