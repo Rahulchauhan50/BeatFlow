@@ -1,20 +1,21 @@
 import React from 'react'
 // import logo from '../assets/logo.svg'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { RiCloseLine } from 'react-icons/ri'
 import { links } from '../assets/constants'
 import { HiOutlineMenu } from 'react-icons/hi'
+import AroundYou from '../pages/AroundYou'
 
 const NavLinks = () => (
   <div className='mt-10'>
     {links.map((item)=>(
-      <NavLink 
+      <Link 
       key={item.name}
-      t0={item.to}
+      to={item.to}
       className='flex flex-row justify-start items-center my-8 text-sm font-medium text-gray-400 hover:text-cyan-400' >
         <item.icon className='w-6 h-6 mr-2'/>
       {item.name}
-      </NavLink>
+      </Link>
     ))}
   </div>
 )

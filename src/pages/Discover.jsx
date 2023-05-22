@@ -3,7 +3,7 @@ import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
 import { useEffect } from 'react'
 
-export default function Discover({handlePlayPauseClick ,isplaying , activeSong,TempActive, data, isFetching  }) {
+export default function Discover({page, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
 
   useEffect(() => {
     setTimeout(() => {
@@ -16,7 +16,7 @@ export default function Discover({handlePlayPauseClick ,isplaying , activeSong,T
   return (
     <div className='flex flex-col'>
       <div className='w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10'>
-      <h2 className='font-bold text-3xl text-white'>Discover</h2>
+      <h2 className='font-bold text-3xl text-white'>{page}</h2>
       <select
       className='bg-black text-gray-300 p-3 text-sm rounded-lg outline-none sm:mt-0 mt-5'
       >
@@ -26,6 +26,7 @@ export default function Discover({handlePlayPauseClick ,isplaying , activeSong,T
       </select>
       </div> 
       <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
+       { console.log(data)}
        {data.tracks.map((Elements, i)=>{
         return <SongCard 
                 key={Elements.key}

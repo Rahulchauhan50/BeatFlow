@@ -21,9 +21,9 @@ export default function SongCard({ data, isplaying, activeSong , handlePlayPause
             </div>
             <div className='mt-4 flex flex-col'>
               <p className='font-semibold text-lg text-white truncate'>
-                <Link to={`/songs/${data[i].key}/${data[i]?.artists[0].adamid}`}>
+                {/* <Link to={`/songs/${data[i].key}/${data[i]?.artists[0].adamid}`}> */}
                 {data[i].title}
-                </Link>
+                {/* </Link> */}
               </p>
               <p className='text-sm truncate text-gray-300 mt-1'>
                 <Link>
