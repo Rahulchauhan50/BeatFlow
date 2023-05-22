@@ -23,11 +23,14 @@ function App() {
   const [coverart, setcoverart] = useState(0);
   const [subtitle, setsubtitle] = useState(0);
   const [isFetching,setFetching] = useState(false)
-
+  const [IsArondyou,setIsArondyou] = useState(false)
   const [data, setData] = useState({
     'tracks':[]
   })
 
+  const settingAroundYou = (val) => {
+    setIsArondyou(val)
+  }
   const SetPause = () => {
     setisPlaying(false);
   }
@@ -51,9 +54,17 @@ function App() {
     
   }
 
+
   useEffect(() => {
-    // FetchData();
-  }, [])
+    if(IsArondyou){
+      setData(dataAroundYou)
+    }
+    else{
+      FetchData()
+    }
+  }, [IsArondyou])
+
+
   
   const open = () => {
     SetMobileMenuOpen(true);
@@ -94,10 +105,6 @@ function App() {
       }
   }
 
-
-   
-
-
   return (
     <Router>
       <div className="relative flex h-full">
@@ -105,13 +112,13 @@ function App() {
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
 
-        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-70px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-70px)] md:h-[calc(100vh-0px)]  overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
           <div  className="flex-1 h-fit pb-40">
             <Routes>
-              <Route exact path="/" element={<Discover page='Discover' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
+              <Route exact path="/" element={<Discover page='Discover' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/songs/:songid/:id" element={<SongDetails activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/artists/:Artistid" element={<ArtistDetails activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
-              <Route exact path="/around-you" element={<Discover page='Around You' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={dataAroundYou} isFetching={isFetching}/>} />
+              <Route exact path="/:Around" element={<Discover settingAroundYou={settingAroundYou} page='Around You' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               {/* <Route exact path="/top-artists" element={<Discover page='Top artists' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={dataAroundYou} isFetching={isFetching}/>} />
               <Route exact path="/top-charts" element={<Discover page='Top charts' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={dataAroundYou} isFetching={isFetching}/>} /> */}
             </Routes>
@@ -123,7 +130,7 @@ function App() {
       </div>
       {isActive && (
         <div className="absolute h-20 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
-          <MusicPlayer SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={dataAroundYou.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
+          <MusicPlayer SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
         </div>
       )}</div>
     </Router>

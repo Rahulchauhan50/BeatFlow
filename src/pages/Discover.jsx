@@ -2,14 +2,22 @@ import {genres} from '../assets/constants'
 import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
 import { useEffect } from 'react'
+import  {useParams}  from 'react-router-dom'
 
-export default function Discover({page, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
+export default function Discover({page, settingAroundYou, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
+
+  const {Around} = useParams();
 
   useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 10000);
-  }, [])
+    if(Around==='around-you'){
+      settingAroundYou(true)
+    }else{
+      settingAroundYou(false)
+    }
+  }, [Around])
+
+
+  
 
   if(isFetching){return <Loader title='Loading songs...'/>}
 
