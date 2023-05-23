@@ -30,6 +30,7 @@ const {Artistid} = useParams();
         setArtistData(await tempDataRel)
         setsongkey(Object.keys(tempDataRel?.resources?.songs))
         setisFetchingArtist(false)
+        console.log(songkey)
       }
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const {Artistid} = useParams();
   }, [Artistid])
 
   if(isFetchingArtist){
-    return <Loader title='Loading Artist details...'/>
+    return <Loader title='Loading Artist...'/>
   }
   
   return (
@@ -58,7 +59,7 @@ const {Artistid} = useParams();
         <div className="flex flex-col ">
              <h1 className="font-bold text-3xl text-white">Related Songs:</h1>
              <div className="mt-6 w-full flex flex-col">
-              {songkey.map((element,i)=>{
+              {songkey?.map((element,i)=>{
                 return <SongBar
                 name={ArtistData?.resources?.songs[element].attributes.name}
                 img={ArtistData?.resources?.songs[element]?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')}
@@ -81,8 +82,8 @@ const {Artistid} = useParams();
               {/* {songkey.map((element,i)=>{}} */}
                 
              </div>
-             {songkey.map((element,i)=>{
-              return  <audio id={data[i].hub.actions[0].id+""} src={data[i].hub.actions[1].uri}></audio>
+             {songkey?.map((element,i)=>{
+              return  <audio id={data[i]?.hub?.actions[0]?.id+""} src={data[i]?.hub?.actions[1]?.uri}></audio>
              })}
         </div>
     </div>

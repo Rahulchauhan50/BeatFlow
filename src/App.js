@@ -17,7 +17,6 @@ function App() {
   const [currentSongsId,setcurrentSongsId] = useState([])
   const [currentIndex,setCurrentIndex] = useState(0)
   const [isActive,setisActive] = useState(false)
-  const [totalResults, setTotalResults] = useState("rahul");
   const [PreviousSongId, setPreviousSongId] = useState(null);
   const [duration, setDuration] = useState(90);
   const [coverart, setcoverart] = useState(0);
@@ -51,7 +50,6 @@ function App() {
      setData(await tempdata)
      setFetching(false);
      console.log(tempdata)
-     setTotalResults(tempdata.tracks.length);
     
   }
 
@@ -61,7 +59,7 @@ function App() {
       setData(dataAroundYou)
     }
     else{
-      FetchData()
+      // FetchData()
     }
   }, [IsArondyou])
 

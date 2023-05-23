@@ -14,13 +14,13 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplayin
             <div className="flex-1 flex flex-row justify-between items-center">
             <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
             <div className="flex-1 flex flex-col justify-center mx-3">
-                {/* <Link to={`/songs/${song.key}/${song?.artists[0].adamid}`}> */}
-                    <span className="text-sm font-bold text-white">
+                <Link to={`/songs/${song.key}/${song?.artists[0].adamid}`}>
+                    <span className="text-sm font-bold text-white hover:underline">
                         {song?.title}
                     </span>
-                {/* </Link> */}
+                </Link>
                 <Link to={`/artists/${song?.artists[0].adamid}`}>
-                    <span className="text-base text-gray-300 mt-1">
+                    <span className="text-base text-gray-300 mt-1 hover:underline">
                         {song?.subtitle}
                     </span>
                 </Link>
@@ -39,6 +39,7 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplayin
 
 export default function TopPlay({data ,activeSong, isplaying, handlePlayPauseClick}){
     const TopPlays = data.tracks
+    {console.log(data)}
     return(
         <div  className="xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
             <div className="w-full flex flex-col">

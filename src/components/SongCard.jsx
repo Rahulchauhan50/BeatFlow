@@ -17,19 +17,19 @@ export default function SongCard({ data, isplaying, activeSong , handlePlayPause
               data={data[i].title}
               />
             </div>
-            <img alt='images' src={data[i].images.coverart} ></img>
+            <img className='w-full' alt='images' src={data[i].images.coverart} ></img>
             </div>
             <div className='mt-4 flex flex-col'>
-              <p className='font-semibold text-lg text-white truncate'>
-                {/* <Link to={`/songs/${data[i].key}/${data[i]?.artists[0].adamid}`}> */}
+              <span className='font-semibold text-lg text-white truncate hover:underline'>
+                <Link to={`/songs/${data[i].key}/${data[i]?.artists[0].adamid}`}>
                 {data[i].title}
-                {/* </Link> */}
-              </p>
-              <p className='text-sm truncate text-gray-300 mt-1'>
-                <Link>
+                </Link>
+              </span>
+              <span className='text-sm truncate text-gray-300 mt-1 hover:underline'>
+                <Link to={`/artists/${data[i]?.artists[0].adamid}`}>
                 {data[i].subtitle}
                 </Link>
-              </p>
+              </span>
 
             </div>
         

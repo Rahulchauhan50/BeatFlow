@@ -10,7 +10,7 @@ const Track = ({isplaying, subtitle, coverart, currentSongsId, isActive , active
         {activeSong.length > 15?activeSong.slice(0,18)+"..." : activeSong}
       </p>
       <p className="truncate text-gray-300">
-        {subtitle? subtitle : 'No active Song'}
+        {subtitle.length > 15?subtitle.slice(0,18)+"..." : subtitle}
       </p>
     </div>
   </div>
