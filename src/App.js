@@ -8,6 +8,9 @@ import MusicPlayer from "./components/MusicPlayer";
 import React, { useEffect } from 'react'
 import ArtistDetails from './pages/ArtistDetails'
 import {dataAroundYou} from './assets/AroundyouData'
+import TopArtist from './pages/TopArtist'
+import Search from './pages/Search'
+import SearchBar from "./components/SearchBar";
  
 function App() {
 
@@ -23,21 +26,19 @@ function App() {
   const [subtitle, setsubtitle] = useState(0);
   const [isFetching,setFetching] = useState(false)
   const [IsArondyou,setIsArondyou] = useState(false)
-  const [data, setData] = useState({
-    'tracks':[]
-  })
+  const [data, setData] = useState({'tracks':[]})
 
-  const settingAroundYou = (val) => {
-    setIsArondyou(val)
-  }
+  const settingAroundYou = (val) => {setIsArondyou(val)}
+
   const SetPause = () => {
     setisPlaying(false);
   }
+
   const FetchData = async () => {
     setFetching(true)
     let headersList = {
       "Accept": "*/*",
-      "X-RapidAPI-Key": "9a8431f43bmsh8299b6bd5d5d59cp193902jsne54d9313062f",
+      "X-RapidAPI-Key": "fbbd2ad3a3msh6e1c77ddece80d5p160a98jsn6bfee9489732",
       "X-RapidAPI-Host": "shazam.p.rapidapi.com"
      }
      
@@ -49,38 +50,34 @@ function App() {
      const tempdata = await response.json();
      setData(await tempdata)
      setFetching(false);
-     console.log(tempdata)
-    
   }
-
 
   useEffect(() => {
     if(IsArondyou){
       setData(dataAroundYou)
     }
     else{
-      // FetchData()
+      FetchData()
     }
   }, [IsArondyou])
-
-
   
   const open = () => {
     SetMobileMenuOpen(true);
   }
+
   const close = () => {
     SetMobileMenuOpen(false);
   }
 
   const handlePlayPauseClick = async (code,title,coverart,subtitle,songcurid) =>{
-    setDuration(document.getElementById(songcurid).duration)
+    setDuration(document.getElementById(songcurid)?.duration)
     setisActive(true);
     setActiveSong(title)
     setCurrentIndex(code)
     if(songcurid !== currentSongsId){
       setisPlaying(true)
       document.getElementById('audioStack').innerHTML = document.getElementById(songcurid).outerHTML;
-      document.getElementsByTagName('audio')[0].play()
+      document.getElementsByTagName('audio')[0]?.play()
       setcurrentSongsId(songcurid)
       setcoverart(coverart)
       setsubtitle(subtitle)
@@ -89,18 +86,17 @@ function App() {
     setcurrentSongsId(songcurid)
     setcoverart(coverart)
     setsubtitle(subtitle)
-      if(document.getElementsByTagName('audio')[0].paused){
+      if(document.getElementsByTagName('audio')[0]?.paused){
         if(PreviousSongId !== null && !document.getElementById(PreviousSongId)?.paused){
-          await document.getElementById(PreviousSongId).pause();
+          await document.getElementById(PreviousSongId)?.pause();
         }
-
         setisPlaying(true)
-        await document.getElementsByTagName('audio')[0].play();
+        await document.getElementsByTagName('audio')[0]?.play();
         setPreviousSongId(songcurid);
       }
       else{
         setisPlaying(false);
-        await document.getElementById(songcurid).pause();
+        await document.getElementById(songcurid)?.pause();
       }
   }
 
@@ -110,16 +106,17 @@ function App() {
         <span id="audioStack"></span>
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
-
-        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-70px)] md:h-[calc(100vh-0px)]  overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+        <SearchBar/>
+        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-78px)] md:h-[calc(100vh-0px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
           <div  className="flex-1 h-fit pb-40">
             <Routes>
               <Route exact path="/" element={<Discover page='Discover' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/songs/:songid/:id" element={<SongDetails activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/artists/:Artistid" element={<ArtistDetails activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/:Around" element={<Discover settingAroundYou={settingAroundYou} page='Around You' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
-              {/* <Route exact path="/top-artists" element={<Discover page='Top artists' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={dataAroundYou} isFetching={isFetching}/>} />
-              <Route exact path="/top-charts" element={<Discover page='Top charts' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={dataAroundYou} isFetching={isFetching}/>} /> */}
+              <Route exact path="/top-artists" element={<TopArtist isTopArtisPage={true} page='Top artists' data={data?.tracks} isFetching={isFetching}/>} />
+              <Route path="/search/:searchTerm" element={<Search activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
+              <Route exact path="/top-charts" element={<Discover page='Top Charts' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

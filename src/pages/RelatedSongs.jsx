@@ -1,6 +1,5 @@
 import SongBar from '../components/SongBar'
 
-
 const RelatedSongs = ({song, activeSong, artistId , handlePlayPauseClick ,isplaying}) => {
     
     return(

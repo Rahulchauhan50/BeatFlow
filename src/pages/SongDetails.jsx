@@ -37,7 +37,7 @@ const {id} = useParams();
     setIsFetchingLyrics(true)
         let headersListrelated = {
           "Accept": "*/*",
-          "X-RapidAPI-Key": "9a8431f43bmsh8299b6bd5d5d59cp193902jsne54d9313062f",
+          "X-RapidAPI-Key": "fbbd2ad3a3msh6e1c77ddece80d5p160a98jsn6bfee9489732",
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-top-songs?id=${id}&l=en-US`

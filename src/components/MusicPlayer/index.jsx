@@ -6,7 +6,7 @@ import Track from './Track';
 import VolumeBar from './VolumeBar';
 
 const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
-  const [appTime,setAppTime] = useState(0);
+  const [appTime, setAppTime] = useState(0);
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
@@ -44,7 +44,7 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
       SetPause();
       if(currentIndex < totalResults-1 && shuffle){
 
-        handlePlayPauseClick(currentIndex+1, data.tracks[currentIndex+1].title, data.tracks[currentIndex+1].images.coverart, data.tracks[currentIndex+1].subtitle,data.tracks[currentIndex+1].hub.actions[0].id)
+        handlePlayPauseClick(currentIndex+1, data?.tracks[currentIndex+1].title, data?.tracks[currentIndex+1].images.coverart, data?.tracks[currentIndex+1].subtitle,data?.tracks[currentIndex+1].hub.actions[0].id)
       }
   }
 
