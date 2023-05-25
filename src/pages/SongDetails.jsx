@@ -30,7 +30,6 @@ const {id} = useParams();
     var tempData = await response.json()
     setLyricsData(await tempData)
     setIsFetchingLyrics(false)
-    window.scrollTo(0,0);
   }
   
   const FtechRelatedSong = async () => {
@@ -53,8 +52,9 @@ const {id} = useParams();
       }
 
   useEffect(() => {
-   Fetchlyrics();
-   FtechRelatedSong();
+    document.getElementById('forScroll').scrollIntoView({ behavior: 'smooth' });
+    Fetchlyrics();
+    FtechRelatedSong();
   }, [songid,id])
 
   if(IsFetchingLyrics){
@@ -65,7 +65,6 @@ const {id} = useParams();
     <>
     {data.map((Element)=>{
         return <audio id={Element.hub.actions[0].id+""} src={Element.hub.actions[1].uri}></audio>
-
     })}
     <div className="flex flex-col mt-5 md-0">
         <DetailsHeader
@@ -75,7 +74,7 @@ const {id} = useParams();
         subtitle = {LyricsData !== false?LyricsData.subtitle:'Unknown'}
         genres = {LyricsData !== false?LyricsData?.genres?.primary:""}
       />
-      <div className="mb-10">
+      <div  className="mb-10">
       <h2 className="text-white text-3xl font-bold">Lyrics:</h2>
       <div className="mt-5">
         {LyricsData!==false && LyricsData?.sections[1].type === 'LYRICS'

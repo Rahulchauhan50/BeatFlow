@@ -9,7 +9,7 @@ import PlayPause from "./PlayPause";
 const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplaying}) => {
 
     return( 
-    <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title? 'bg-[#4c426e]' : 'bg-transparent'} py-1 rounded-lg cursor-pointer mb-1`}>
+    <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
          <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
             <div className="flex-1 flex flex-row justify-between items-center">
             <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
@@ -40,11 +40,11 @@ const TopChartCard = ({activeSong, data, i, song, handlePlayPauseClick, isplayin
 export default function TopPlay({data ,activeSong, isplaying, handlePlayPauseClick}){
     const TopPlays = data.tracks
     {console.log(data)}
-    return(
+    return(<>
         <div  className="xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
             <div className="w-full flex flex-col">
             <div className="flex flex-row justify-between items-center">
-                <h2 className="text-white font-bold mb-3 mt-0 text-2xl">Top Charts</h2>
+                <h2 className="text-white font-bold my-4 text-2xl">Top Charts</h2>
                 </div>
                 <div className="mt-1 flex flex-col gap-1">
                     {TopPlays?.slice(0, 5).map((songs, i) => (
@@ -91,6 +91,8 @@ export default function TopPlay({data ,activeSong, isplaying, handlePlayPauseCli
                 </Swiper>
             </div>
         </div>
+    </>
+
     )
     
 }

@@ -34,6 +34,7 @@ const {Artistid} = useParams();
       }
 
   useEffect(() => {
+    document.getElementById('forScroll').scrollIntoView({ behavior: 'smooth' });
    FtechRelatedSong();
   }, [Artistid])
 
@@ -56,7 +57,7 @@ const {Artistid} = useParams();
         genres = {ArtistData !== false?ArtistData?.resources?.artists[Artistid]?.attributes?.genreNames:""}
       />
         
-        <div className="flex flex-col ">
+        <div   className="flex flex-col ">
              <h1 className="font-bold text-3xl text-white">Related Songs:</h1>
              <div className="mt-6 w-full flex flex-col">
               {songkey?.map((element,i)=>{

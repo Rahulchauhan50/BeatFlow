@@ -13,7 +13,7 @@ const SearchBar = () => {
     navigate(`/search/${searchTerm}`);
   };
 
-   return <form onSubmit={handleSubmit} autoComplete="off" className="p-2 md:my-0 sm:py-2 mb-0 text-gray-400 focus-within:text-gray-600">
+   return <form style={{backgroundColor: "#17035a00"}} onSubmit={handleSubmit} autoComplete="off" className="p-2 rounded-3xl md:border-none border-solid border-2 border-slate-600 mt-3 md:my-0 sm:py-2 mb-0 text-gray-400 focus-within:text-gray-600">
     <label className="sr-only">
       Search all files
     </label>

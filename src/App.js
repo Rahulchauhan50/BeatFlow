@@ -59,6 +59,7 @@ function App() {
     else{
       FetchData()
     }
+  
   }, [IsArondyou])
   
   const open = () => {
@@ -102,13 +103,14 @@ function App() {
 
   return (
     <Router>
-      <div className="relative flex h-full">
+      <div id="forScroll1" className="relative flex h-full">
         <span id="audioStack"></span>
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
         <SearchBar/>
         <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-78px)] md:h-[calc(100vh-0px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
           <div  className="flex-1 h-fit pb-40">
+            <span id='forScroll'></span>
             <Routes>
               <Route exact path="/" element={<Discover page='Discover' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/songs/:songid/:id" element={<SongDetails activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
