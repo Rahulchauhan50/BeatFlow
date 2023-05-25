@@ -16,8 +16,14 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
     document.getElementById(currentSongsId).volume = volume;
   }
 
-  document.getElementById(currentSongsId).ontimeupdate = () => {
-    setAppTime(document.getElementById(currentSongsId).currentTime)
+  try{
+    document.getElementById(currentSongsId).ontimeupdate = () => {
+      setAppTime(document.getElementById(currentSongsId).currentTime)
+    }
+  }catch{
+    document.getElementById(currentSongsId).ontimeupdate = () => {
+      setAppTime(document.getElementById(currentSongsId).currentTime)
+    }
   }
 
   const changeAppTime = (event) =>{
