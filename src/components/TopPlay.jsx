@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Swiper , SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper";
@@ -7,36 +7,38 @@ import 'swiper/css/free-mode'
 import PlayPause from "./PlayPause";
 
 const TopChartCard = ({subtitle, activeSong, data, i, song, handlePlayPauseClick, isplaying}) => {
-    
+   
+
     return( 
     <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title && subtitle === song.subtitle? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
          <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
             <div className="flex-1 flex flex-row justify-between items-center">
             <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
             <div className="flex-1 flex flex-col justify-center mx-3">
-                <Link to={`/songs/${song.key}/${song?.artists[0].adamid}`}>
+                <Link to={`/songs/${song.key}/${song?.artists[0]?.adamid}`}>
                     <span className="text-sm font-bold text-white hover:underline">
                         {song?.title}
                     </span>
                 </Link>
-                <Link to={`/artists/${song?.artists[0].adamid}`}>
+                <Link to={`/artists/${song?.artists[0]?.adamid}`}>
                     <span className="text-base text-gray-300 mt-1 hover:underline">
                         {song?.subtitle}
                     </span>
                 </Link>
             </div>
             </div>
-            <div onClick={()=>handlePlayPauseClick( i, data.tracks[i].title, data.tracks[i].images.coverart, data.tracks[i].subtitle,data.tracks[i].hub.actions[0].id+"",false,data?.tracks[i]?.hub?.options[0]?.actions[1]?.uri)}>
+            <div onClick={()=>handlePlayPauseClick( i, data?.tracks[i]?.title, data?.tracks[i]?.images.coverart, data.tracks[i]?.subtitle,data.tracks[i]?.hub.actions[0]?.id+"",false,'https://music.apple.com')}>
             <PlayPause
             isplaying={isplaying}
             activeSong={activeSong}
-            data={data.tracks[i].title}
-            subtitle={data.tracks[i].subtitle}
+            data={data?.tracks[i].title}
+            subtitle={data?.tracks[i].subtitle}
             currentsuntitle={subtitle}
             />
             </div>
             </div>
 );}
+
 
 export default function TopPlay({subtitle,data ,activeSong, isplaying, handlePlayPauseClick}){
     const TopPlays = data.tracks

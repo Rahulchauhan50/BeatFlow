@@ -148,6 +148,7 @@ function App() {
         <SearchBar/>
         <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-78px)] md:h-[calc(100vh-0px)] overflow-y-scroll flex xl:flex-row flex-col-reverse">
           <div  className="flex-1 h-fit pb-40">
+          <span style={{display:"none"}} id='forScroll'></span>
             <Routes>
               <Route exact path="/" element={<Discover IsArondyou={IsArondyou} page='Discover' subtitle={subtitle} settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/songs/:songid/:id" element={<SongDetails subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />

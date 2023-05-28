@@ -31,7 +31,7 @@ const {id} = useParams();
     
     var tempData = await response.json()
     setLyricsData(await tempData)
-    setIsFetchingLyrics(false)
+    // setIsFetchingLyrics(false)
   }
   catch{
     setIsFetchingLyrics(false);
@@ -41,7 +41,6 @@ const {id} = useParams();
   
   const FtechRelatedSong = async () => {
     try{
-      setIsFetchingLyrics(true)
         let headersListrelated = {
           "Accept": "*/*",
           "X-RapidAPI-Key": localStorage.getItem('fetchKey'),
