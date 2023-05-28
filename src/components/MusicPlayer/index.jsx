@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-
+import { FaAngleUp, FaAngleDown } from 'react-icons/fa'
 import Controls from './Controls';
 import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
+import Player from '../MusicPlayer/Player'
 
-const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
+const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
   const [appTime, setAppTime] = useState(0);
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
@@ -18,13 +19,10 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
 
   try{
     document.getElementById(currentSongsId).ontimeupdate = () => {
-      setAppTime(document.getElementById(currentSongsId).currentTime)
+     try{ setAppTime(document.getElementById(currentSongsId).currentTime)}
+     catch{}
     }
-  }catch{
-    document.getElementById(currentSongsId).ontimeupdate = () => {
-      setAppTime(document.getElementById(currentSongsId).currentTime)
-    }
-  }
+  }catch{}
 
   const changeAppTime = (event) =>{
     setAppTime(event.target.value)
@@ -46,13 +44,18 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
     }
   }
 
-  document.getElementById(currentSongsId).onended = () => {
-      SetPause();
+  try{
+    document.getElementById(currentSongsId).onended = () => {
+      
       if(currentIndex < totalResults-1 && shuffle){
 
         handlePlayPauseClick(currentIndex+1, data?.tracks[currentIndex+1].title, data?.tracks[currentIndex+1].images.coverart, data?.tracks[currentIndex+1].subtitle,data?.tracks[currentIndex+1].hub.actions[0].id)
       }
+      else{
+        SetPause();
+      }
   }
+  }catch{}
 
   const setLoop = () => {
     if(document.getElementById(currentSongsId).loop){
@@ -77,7 +80,8 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
   }
 
   
-  return (
+  return (<>
+    <div style={{position:"fixed"}} className="absolute h-20 bottom-0 left-0 right-0 flex bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
     <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
       <Track isplaying={isplaying} subtitle={subtitle} coverart={coverart} currentSongsId={currentSongsId} activeSong={activeSong} isActive={isActive}  />
       <div className="flex-1 flex flex-col items-center justify-center">
@@ -94,6 +98,7 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
           setLoop={setLoop}
           SetShufflefun={SetShufflefun}
           isplaying={isplaying}
+          isdown={isdown}
         />
         <Seekbar
           value={appTime}
@@ -101,10 +106,20 @@ const MusicPlayer = ({SetPause,isplaying, subtitle, coverart, duration ,totalRes
           max={duration}
           onInput={(event) => changeAppTime(event)}
           Seek={Seek}
+          isdown={isdown}
         />
       </div>
       <VolumeBar value={volume} min="0" max="1" onChange={(event) => {volumechange(event)} }/>
+      <div className='absolute md:hidden block top-6 right-3 z-50'>
+      {isdown?(<FaAngleUp onClick={()=>up()} className='w-6 h-6 text-white mr-2'/>):(<FaAngleDown onClick={()=>down()} className='w-6 h-6 text-white mr-2'/>)}
+      </div>
     </div>
+    
+    </div>
+    <div className={`absolute botton-0 w-screen h-full bg-gradient-to-tl from-white/10 to-[#281a81] backdrop-blur-xl z-10 p-6 transition-all duration-500 md:hidden ${!isdown?'bottom-0':'-bottom-full'}`}>
+    <Player fullsong={fullsong} appTime={appTime} changeAppTime={changeAppTime} Seek={Seek} repeat={repeat}  setRepeat={setRepeat}  setLoop={setLoop} shuffle={shuffle} SetShufflefun={SetShufflefun} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
+    </div>
+    </>
   );
 };
 

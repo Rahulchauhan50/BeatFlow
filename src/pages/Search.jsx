@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import  {useParams}  from 'react-router-dom'
 import SongBar from '../components/SongBar'
 import TopArtist from '../pages/TopArtist'
+import Error from '../components/Error'
 
-const Search = ({activeSong,isplaying, handlePlayPauseClick, data}) => {
+const Search = ({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) => {
     const [searchData, setSearchData] = useState('');
     const [isSearching, setisSearching] = useState(false);
     
@@ -12,28 +13,33 @@ const Search = ({activeSong,isplaying, handlePlayPauseClick, data}) => {
     const {searchTerm} = useParams();
 
     const FetchSearchSongs = async () => {
-        setisSearching(true)
+        try{
+            setisSearching(true)
         const url = `https://shazam.p.rapidapi.com/search?term=${searchTerm}&locale=en-US&offset=0&limit=5`;
         const options = {
             method: 'GET',
             headers: {
-                    'X-RapidAPI-Key': 'fbbd2ad3a3msh6e1c77ddece80d5p160a98jsn6bfee9489732',
+                    'X-RapidAPI-Key': localStorage.getItem('fetchKey'),
                     'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
                 }
             };
-
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
                 setSearchData(result);
             } catch (error) {
-                console.error(error);
             }
             setisSearching(false)
+        }
+        catch{
+            setisSearching(false);
+            return <Error/>
+          }
     }
 
     useEffect(() => {
         FetchSearchSongs();
+        document.getElementById('forScroll').scrollIntoView({ behavior: 'smooth' });
        }, [searchTerm])
 
        if(isSearching){
@@ -61,6 +67,8 @@ const Search = ({activeSong,isplaying, handlePlayPauseClick, data}) => {
                handlePlayPauseClick={handlePlayPauseClick}
                isplaying={isplaying}
                artist = {true}
+               ssubtitle={subtitle}
+               fullsong={Element.track?.hub.options[0].actions[1].uri}
                />
               
                })

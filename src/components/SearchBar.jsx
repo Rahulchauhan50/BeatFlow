@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom';
 
@@ -7,14 +7,18 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
+  useEffect(() => {
+    document.getElementById('searchscroll').scrollIntoView();
+    })
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     navigate(`/search/${searchTerm}`);
   };
 
-   return <form style={{backgroundColor: "#17035a00"}} onSubmit={handleSubmit} autoComplete="off" className="p-2 rounded-3xl md:border-none border-solid border-2 border-slate-600 mt-3 md:my-0 sm:py-2 mb-0 text-gray-400 focus-within:text-gray-600">
-    <label className="sr-only">
+   return <><span id='searchscroll'></span><form style={{backgroundColor: "#17035a00",position:'-webkit-sticky',position:'sticky'}} onSubmit={handleSubmit} autoComplete="off" className="p-2 rounded-3xl md:border-none border-solid border-2 border-slate-600 mt-3 md:my-0 sm:py-2 mb-0 text-gray-400 focus-within:text-gray-600">
+    <label  className="sr-only">
       Search all files
     </label>
     <div className="flex flex-row sm:pt-2 sm:py-2 justify-start items-center">
@@ -29,6 +33,6 @@ const SearchBar = () => {
         onChange={(event) => setSearchTerm(event.target.value)}
       />
     </div>
-  </form>
+  </form></>
 }
 export default SearchBar;

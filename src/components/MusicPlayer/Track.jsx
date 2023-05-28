@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Track = ({isplaying, subtitle, coverart, currentSongsId, isActive , activeSong }) => (
+const Track = ({isplaying, subtitle, coverart, isActive , activeSong }) => (
   <div className="flex-1 flex items-center justify-start">
     <div className={`${isplaying && isActive ? 'animate-[spin_3s_linear_infinite]' : ''} hidden sm:block h-16 w-16 mr-4`}>
       <img src={coverart} alt="cover art" className="rounded-full" />

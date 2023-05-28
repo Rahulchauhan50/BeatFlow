@@ -2,9 +2,8 @@ import {genres} from '../assets/constants'
 import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
 import { useEffect } from 'react'
-import  {useParams}  from 'react-router-dom'
-
-export default function Discover({page, settingAroundYou, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
+import  {useParams,Link}  from 'react-router-dom'
+export default function Discover({IsArondyou, subtitle, page, settingAroundYou, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
 
   const {Around} = useParams();
 
@@ -16,13 +15,15 @@ export default function Discover({page, settingAroundYou, handlePlayPauseClick ,
     }
   }, [Around])
 
-
   if(isFetching){return <Loader title='Loading songs...'/>}
-
+  
   return (
+    <>
     <div className='flex flex-col'>
       <div className='w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10'>
+        <Link to='/player' >
       <h2 className='font-bold text-3xl text-white'>{page}</h2>
+        </Link>
       <select
       className='bg-black text-gray-300 p-3 mr-3 text-sm rounded-lg outline-none sm:mt-0 mt-5'
       >
@@ -30,21 +31,23 @@ export default function Discover({page, settingAroundYou, handlePlayPauseClick ,
           return <option key={Elements.title}>{Elements.title}</option>
         })}
       </select>
-      </div> 
+      </div>  
       <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
-
-       {data.tracks.map((Elements, i)=>{
+       {data?.tracks?.map((Elements, i)=>{
         return <SongCard 
+                subtitle={subtitle}
                 key={Elements.key}
                 data={data.tracks}
                 isplaying={isplaying}
                 activeSong={activeSong}
                 handlePlayPauseClick={handlePlayPauseClick}
                 i={i}
+                IsArondyou={IsArondyou}
                 />
        })}
 
       </div>
     </div>
+    </>
   )
 }

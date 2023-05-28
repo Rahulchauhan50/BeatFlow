@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react'
 import  {useParams}  from 'react-router-dom'
 import  DetailsHeader from '../components/DetailsHeader'
-import SongBar from '../components/SongBar';
+import SongBar from '../components/SongBar'
 import Loader from '../components/Loader'
+import Error from '../components/Error'
 
-function ArtistDetails({activeSong,isplaying, handlePlayPauseClick, data}) {
+function ArtistDetails({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
   const [ArtistData, setArtistData] = useState(false);
   const [songkey, setsongkey] = useState([]);
   const [isFetchingArtist,setisFetchingArtist] = useState(false)
 
-
-const {Artistid} = useParams();
+  const {Artistid} = useParams();
 
   const FtechRelatedSong = async () => {
-    setisFetchingArtist(true)
-    let headersListrelated = {
-      "Accept": "*/*",
-          "X-RapidAPI-Key": "fbbd2ad3a3msh6e1c77ddece80d5p160a98jsn6bfee9489732",
+    try{
+      setisFetchingArtist(true)
+      let headersListrelated = {
+        "Accept": "*/*",
+            "X-RapidAPI-Key": localStorage.getItem('fetchKey'),
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-summary?id=${Artistid}&l=en-US`
@@ -25,12 +26,15 @@ const {Artistid} = useParams();
           method: "GET",
           headers: headersListrelated
         });
-        
         var tempDataRel = await response.json()
         setArtistData(await tempDataRel)
         setsongkey(Object.keys(tempDataRel?.resources?.songs))
         setisFetchingArtist(false)
-        console.log(songkey)
+    }
+    catch{
+      setisFetchingArtist(false);
+      return <Error/>
+    }
       }
 
   useEffect(() => {
@@ -62,6 +66,8 @@ const {Artistid} = useParams();
              <div className="mt-6 w-full flex flex-col">
               {songkey?.map((element,i)=>{
                 return <SongBar
+                key={ArtistData?.resources?.songs[element]?.id}
+                ssubtitle={subtitle}
                 name={ArtistData?.resources?.songs[element].attributes.name}
                 img={ArtistData?.resources?.songs[element]?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')}
                 songid={ArtistData?.resources?.songs[element]?.id}
@@ -74,6 +80,7 @@ const {Artistid} = useParams();
                 handlePlayPauseClick={handlePlayPauseClick}
                 isplaying={isplaying}
                 artist = {true}
+                fullsong={ArtistData?.resources?.songs[element]?.attributes?.url}
                 />
                
                 })

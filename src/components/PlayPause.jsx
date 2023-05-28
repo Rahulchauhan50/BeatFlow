@@ -1,7 +1,7 @@
 import React from 'react'
 import { BsFillPlayCircleFill, BsFillPauseCircleFill} from "react-icons/bs";
-const PlayPause = ({isplaying, activeSong, data}) => {
-     return activeSong === data && isplaying?
+const PlayPause = ({subtitle,isplaying, activeSong, data, currentsuntitle}) => {
+     return (activeSong === data && isplaying && subtitle === currentsuntitle)?
           < BsFillPauseCircleFill
           size={35}
           className='text-gray-300'
