@@ -2,13 +2,13 @@ import React from 'react'
 import PlayPause from './PlayPause'
 import { Link } from 'react-router-dom';
 
-export default function SongCard({IsArondyou, subtitle, data, isplaying, activeSong , handlePlayPauseClick, i }) {
+export default function SongCard({bundle, IsArondyou, subtitle, data, isplaying, activeSong , handlePlayPauseClick, i }) {
     
   return (
     
     <div className='flex flex-col w-[80vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
-      <audio id={data[i].hub.actions[0].id+""} src={data[i].hub.actions[1].uri}></audio>
-        <div  onClick={()=>handlePlayPauseClick(i, data[i].title, data[i].images.coverart, data[i].subtitle,data[i].hub.actions[0].id+"", false,!IsArondyou? data[i]?.hub?.options[0]?.actions[1]?.uri:'https://music.apple.com')} className='relative w-full h-auto group'>
+      <audio track={bundle} id={data[i].hub.actions[0].id+""} src={data[i].hub.actions[1].uri}></audio>
+        <div trackforclick = {bundle+"-"+i}  onClick={()=>handlePlayPauseClick(i, data[i].title, data[i].images.coverart, data[i].subtitle,data[i].hub.actions[0].id+"", false,!IsArondyou? data[i]?.hub?.options[0]?.actions[1]?.uri:'https://music.apple.com')} className='relative w-full h-auto group'>
             <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong  === data[i].title && subtitle === data[i].subtitle? 'flex bg-black bg-opacity-70':'hidden'}`}>
               <PlayPause
               isplaying={isplaying}

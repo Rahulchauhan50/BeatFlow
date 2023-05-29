@@ -5,7 +5,7 @@ import  DetailsHeader from '../components/DetailsHeader'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 
-function SongDetails({ subtitle, activeSong,isplaying ,handlePlayPauseClick ,data}) {
+function SongDetails({otherBundle, subtitle, activeSong,isplaying ,handlePlayPauseClick ,data}) {
   const [LyricsData, setLyricsData] = useState(false)
   const [relatedData, setrelatedData] = useState(false);
   const [IsFetchingLyrics, setIsFetchingLyrics] = useState(false);
@@ -74,9 +74,7 @@ const {id} = useParams();
   
   return (
     <>
-    {data?.map((Element)=>{
-        return <audio id={Element.hub.actions[0].id+""} src={Element?.hub?.actions[1]?.uri}></audio>
-    })}
+    <div>
     <div className="flex flex-col mt-5 md-0">
         <DetailsHeader
         songData={LyricsData}
@@ -98,6 +96,7 @@ const {id} = useParams();
       </div>
       </div>
       <RelatedSongs
+      otherBundle={otherBundle}
       song={relatedData !== false?relatedData.data:[]}
       activeSong={activeSong}
       artistId={id}
@@ -105,6 +104,7 @@ const {id} = useParams();
       isplaying={isplaying}
       subtitle={subtitle}
       />
+    </div>
     </div>
     </>
   )

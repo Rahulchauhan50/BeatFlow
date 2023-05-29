@@ -2,7 +2,7 @@ import React from 'react';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { BsArrowRepeat, BsFillPauseFill, BsFillPlayFill, BsShuffle } from 'react-icons/bs';
 
-const Controls = ({isplaying, SetShufflefun, data, currentIndex, totalResults, currentSongsId, activeSong,handlePlayPauseClick, repeat, setLoop, shuffle, isdown}) => {
+const Controls = ({isplaying, SetShufflefun, data, currentIndex, totalResults, activeSong,handlePlayPauseClick, repeat, setLoop, shuffle, isdown}) => {
   return (
     <div className={`flex items-center ${isdown?'justify-around':"justify-between w-11/12"}  md:w-36 lg:w-52 2xl:w-80`}>
       <BsArrowRepeat size={20} color={repeat ? 'red' : 'white'} onClick={()=>{setLoop()}} className={`${isdown?'hidden ':"block w-7 h-7"} sm:block cursor-pointer`} />

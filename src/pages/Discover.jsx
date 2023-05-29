@@ -3,7 +3,7 @@ import SongCard from '../components/SongCard'
 import Loader from '../components/Loader'
 import { useEffect } from 'react'
 import  {useParams,Link}  from 'react-router-dom'
-export default function Discover({IsArondyou, subtitle, page, settingAroundYou, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
+export default function Discover({bundle,IsArondyou, subtitle, page, settingAroundYou, handlePlayPauseClick ,isplaying , activeSong, data, isFetching  }) {
 
   const {Around} = useParams();
 
@@ -35,6 +35,7 @@ export default function Discover({IsArondyou, subtitle, page, settingAroundYou, 
       <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
        {data?.tracks?.map((Elements, i)=>{
         return <SongCard 
+                bundle={bundle}
                 subtitle={subtitle}
                 key={Elements.key}
                 data={data.tracks}

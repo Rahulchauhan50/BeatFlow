@@ -46,36 +46,45 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
 
   try{
     document.getElementById(currentSongsId).onended = () => {
-      
-      if(currentIndex < totalResults-1 && shuffle){
+      SetPause();
+      if(shuffle){
 
-        handlePlayPauseClick(currentIndex+1, data?.tracks[currentIndex+1].title, data?.tracks[currentIndex+1].images.coverart, data?.tracks[currentIndex+1].subtitle,data?.tracks[currentIndex+1].hub.actions[0].id)
-      }
-      else{
-        SetPause();
+        if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
+          document.querySelector(`[trackforclick='discover-${currentIndex+1}']`)?.click();
+        }
+        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Aroundyou'){
+          document.querySelector(`[trackforclick='Aroundyou-${currentIndex+1}']`)?.click();
+        }
+        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'SongDetails'){
+          document.querySelector(`[trackforclick='SongDetails-${currentIndex+1}']`)?.click();
+        }
+        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
+          document.querySelector(`[trackforclick='ArtistDetails-${currentIndex+1}']`)?.click();
+        }
       }
   }
   }catch{}
 
   const setLoop = () => {
-    if(document.getElementById(currentSongsId).loop){
-      document.getElementById(currentSongsId).loop = false;
-      setRepeat(false)
+    setShuffle(false);
+    if(repeat === true){
+        setRepeat(false)
+        document.getElementsByTagName('audio')[0].loop = false;
+      }else if(repeat === false){
+        setRepeat(true);
+        document.getElementsByTagName('audio')[0].loop = true;
+      }
     }
-    else{
-      document.getElementById(currentSongsId).loop = true;
-      setRepeat(true);
-      setShuffle(false);
-    }
-  }
+  
 
   const SetShufflefun = async () => {
+    setRepeat(false)
+    document.getElementsByTagName('audio')[0].loop = false;
     if(shuffle===true){
        setShuffle(false);
     }
     else{
       setShuffle(true);
-      setRepeat(false)
     }
   }
 

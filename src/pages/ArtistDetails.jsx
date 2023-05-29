@@ -5,7 +5,7 @@ import SongBar from '../components/SongBar'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 
-function ArtistDetails({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
+function ArtistDetails({otherBundle, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
   const [ArtistData, setArtistData] = useState(false);
   const [songkey, setsongkey] = useState([]);
   const [isFetchingArtist,setisFetchingArtist] = useState(false)
@@ -66,6 +66,7 @@ function ArtistDetails({ subtitle, activeSong,isplaying, handlePlayPauseClick, d
              <div className="mt-6 w-full flex flex-col">
               {songkey?.map((element,i)=>{
                 return <SongBar
+                otherBundle={otherBundle}
                 key={ArtistData?.resources?.songs[element]?.id}
                 ssubtitle={subtitle}
                 name={ArtistData?.resources?.songs[element].attributes.name}
@@ -87,9 +88,6 @@ function ArtistDetails({ subtitle, activeSong,isplaying, handlePlayPauseClick, d
 
               }
              </div>
-             {songkey?.map((element,i)=>{
-              return  <audio id={data[i]?.hub?.actions[0]?.id+""} src={data[i]?.hub?.actions[1]?.uri}></audio>
-             })}
         </div>
     </div>
 
