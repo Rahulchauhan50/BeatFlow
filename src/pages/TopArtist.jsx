@@ -21,7 +21,7 @@ export default function TopArtist({page, data, isFetching , isTopArtisPage }) {
     </div> 
     <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
        {data?.map((Elements, i)=>{
-        return <div className='flex flex-col w-[70vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
+        return <div key={Elements?.artist?.adamid} className='flex flex-col w-[70vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
                 <Link to={`/artists/${Elements?.artists !== undefined?Elements?.artists[0]?.adamid : Elements?.artist?.adamid}`}>
                   <div  className='relative w-full h-auto group'>
                   <img className='w-full' alt='images' src={Elements?.images?.background !== undefined?Elements?.images?.background : Elements?.artist?.avatar} ></img>

@@ -23,6 +23,7 @@ const RelatedSongs = ({subtitle,song, activeSong, artistId , handlePlayPauseClic
                    artist={false}
                    ssubtitle={subtitle}
                    fullsong={Element?.url}
+                   otherBundle='SongDetails'
                    />
                 })}
                 

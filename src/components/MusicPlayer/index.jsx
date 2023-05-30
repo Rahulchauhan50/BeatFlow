@@ -75,7 +75,6 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
         document.getElementsByTagName('audio')[0].loop = true;
       }
     }
-  
 
   const SetShufflefun = async () => {
     setRepeat(false)
@@ -88,6 +87,25 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
     }
   }
 
+  const PevNext = (Index) => {
+    console.log('hello')
+    if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
+      console.log('discover')
+      document.querySelector(`[trackforclick='discover-${Index}']`)?.click();
+    }
+    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Aroundyou'){
+      console.log('Aroundyou')
+      document.querySelector(`[trackforclick='Aroundyou-${Index}']`)?.click();
+    }
+    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'SongDetails'){
+      console.log('SongDetails')
+      document.querySelector(`[trackforclick='SongDetails-${Index}']`)?.click();
+    }
+    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
+      console.log('ArtistDetails')
+      document.querySelector(`[trackforclick='ArtistDetails-${Index}']`)?.click();
+    }
+  }
   
   return (<>
     <div style={{position:"fixed"}} className="absolute h-20 bottom-0 left-0 right-0 flex bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
@@ -108,11 +126,12 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
           SetShufflefun={SetShufflefun}
           isplaying={isplaying}
           isdown={isdown}
+          PevNext={PevNext}
         />
         <Seekbar
           value={appTime}
           min="0"
-          max={duration}
+          max={duration!==NaN?duration:90}
           onInput={(event) => changeAppTime(event)}
           Seek={Seek}
           isdown={isdown}
@@ -126,7 +145,7 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
     
     </div>
     <div className={`absolute botton-0 w-screen h-full bg-gradient-to-tl from-white/10 to-[#281a81] backdrop-blur-xl z-10 p-6 transition-all duration-500 md:hidden ${!isdown?'bottom-0':'-bottom-full'}`}>
-    <Player fullsong={fullsong} appTime={appTime} changeAppTime={changeAppTime} Seek={Seek} repeat={repeat}  setRepeat={setRepeat}  setLoop={setLoop} shuffle={shuffle} SetShufflefun={SetShufflefun} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
+    <Player PevNext={PevNext} fullsong={fullsong} appTime={appTime} changeAppTime={changeAppTime} Seek={Seek} repeat={repeat}  setRepeat={setRepeat}  setLoop={setLoop} shuffle={shuffle} SetShufflefun={SetShufflefun} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
     </div>
     </>
   );

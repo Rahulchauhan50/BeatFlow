@@ -155,7 +155,7 @@ function App() {
               <Route exact path="/artists/:Artistid" element={<ArtistDetails otherBundle='ArtistDetails' subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/:Around" element={<Discover bundle='Aroundyou' IsArondyou={IsArondyou} subtitle={subtitle} settingAroundYou={settingAroundYou} page='Around You' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/top-artists" element={<TopArtist isTopArtisPage={true} page='Top artists' data={data?.tracks} isFetching={isFetching}/>} />
-              <Route path="/search/:searchTerm" element={<Search subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
+              <Route exact path="/search/:searchTerm" element={<Search subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/top-charts" element={<Discover bundle='discover' IsArondyou={IsArondyou} subtitle={subtitle} page='Top Charts' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
             </Routes>
               <Footer/>

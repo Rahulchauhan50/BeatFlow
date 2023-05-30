@@ -5,7 +5,7 @@ import { FaAngleUp ,FaAngleDown, FaMusic} from 'react-icons/fa'
 import { useEffect } from "react";
 import iimg from '../../assets/pngwing.jpeg'
 
-const MusicPlayer = ({fullsong, appTime,changeAppTime,Seek,repeat,  setRepeat ,setLoop, shuffle, SetShufflefun,up,down,isdown, isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, activeSong, data}) => {
+const MusicPlayer = ({PevNext, fullsong, appTime,changeAppTime,Seek,repeat,  setRepeat ,setLoop, shuffle, SetShufflefun,up,down,isdown, isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, activeSong, data}) => {
   useEffect(() => {
    if(isplaying){
     document.getElementById('myMarquee')?.start();
@@ -54,7 +54,7 @@ const MusicPlayer = ({fullsong, appTime,changeAppTime,Seek,repeat,  setRepeat ,s
          SetShufflefun={SetShufflefun}
          isplaying={isplaying}
          isdown={isdown}
-        
+         PevNext={PevNext}
         />
       </div>
       <a href={fullsong} target='_blank' >
