@@ -13,7 +13,7 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    document.getElementById('search-field').blur()
     navigate(`/search/${searchTerm}`);
   };
 

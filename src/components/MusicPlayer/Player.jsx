@@ -26,7 +26,7 @@ const MusicPlayer = ({PevNext, fullsong, appTime,changeAppTime,Seek,repeat,  set
       <div style={{marginTop:"10%"}}>
       <marquee id='myMarquee' className="text-3xl font-bold text-center" direction="left" behavior="scroll" hspace="50">{activeSong}</marquee>
       </div>
-      <div className="flex flex-col items-center my-4">
+      <div className="flex flex-col items-center my-2">
         <div id="musicName" className="text-xl font-medium mb-8">{subtitle}</div>
         <img style={{borderRadius:"20px",width:"80vw"}} className='mb-8' id="songImage" src={coverart} />
       </div>
