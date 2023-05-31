@@ -5,7 +5,7 @@ import  DetailsHeader from '../components/DetailsHeader'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 
-function SongDetails({otherBundle, subtitle, activeSong,isplaying ,handlePlayPauseClick ,data}) {
+function SongDetails({setProgressing, otherBundle, subtitle, activeSong,isplaying ,handlePlayPauseClick ,data}) {
   const [LyricsData, setLyricsData] = useState(false)
   const [relatedData, setrelatedData] = useState(false);
   const [IsFetchingLyrics, setIsFetchingLyrics] = useState(false);
@@ -14,6 +14,7 @@ const {songid} = useParams();
 const {id} = useParams();
 
   const Fetchlyrics = async () => {
+    setProgressing(10)
     try{
     setIsFetchingLyrics(true)
 
@@ -31,7 +32,7 @@ const {id} = useParams();
     
     var tempData = await response.json()
     setLyricsData(await tempData)
-    // setIsFetchingLyrics(false)
+    setIsFetchingLyrics(false)
   }
   catch{
     setIsFetchingLyrics(false);
@@ -41,23 +42,27 @@ const {id} = useParams();
   
   const FtechRelatedSong = async () => {
     try{
+      setProgressing(20)
         let headersListrelated = {
           "Accept": "*/*",
           "X-RapidAPI-Key": localStorage.getItem('fetchKey'),
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
         const url = `https://shazam.p.rapidapi.com/artists/get-top-songs?id=${id}&l=en-US`
-       
+        setProgressing(30)
         let response = await fetch(url, {
           method: "GET",
           headers: headersListrelated
         });
+        setProgressing(70)
         var tempDataRel = await response.json()
         setrelatedData(await tempDataRel)
         setIsFetchingLyrics(false)
+        setProgressing(100)
     }
     catch{
       setIsFetchingLyrics(false);
+      setProgressing(100)
       return <Error/>
     }
     }

@@ -5,7 +5,7 @@ import SongBar from '../components/SongBar'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 
-function ArtistDetails({otherBundle, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
+function ArtistDetails({setProgressing, otherBundle, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
   const [ArtistData, setArtistData] = useState(false);
   const [songkey, setsongkey] = useState([]);
   const [isFetchingArtist,setisFetchingArtist] = useState(false)
@@ -14,22 +14,26 @@ function ArtistDetails({otherBundle, subtitle, activeSong,isplaying, handlePlayP
 
   const FtechRelatedSong = async () => {
     try{
+      setProgressing(10)
       setisFetchingArtist(true)
       let headersListrelated = {
         "Accept": "*/*",
             "X-RapidAPI-Key": localStorage.getItem('fetchKey'),
           "X-RapidAPI-Host": "shazam.p.rapidapi.com"
         }
+        setProgressing(20)
         const url = `https://shazam.p.rapidapi.com/artists/get-summary?id=${Artistid}&l=en-US`
-       
+        setProgressing(30)
         let response = await fetch(url, {
           method: "GET",
           headers: headersListrelated
         });
+        setProgressing(70)
         var tempDataRel = await response.json()
         setArtistData(await tempDataRel)
         setsongkey(Object.keys(tempDataRel?.resources?.songs))
         setisFetchingArtist(false)
+        setProgressing(100)
     }
     catch{
       setisFetchingArtist(false);

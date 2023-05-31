@@ -61,6 +61,9 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
         else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
           document.querySelector(`[trackforclick='ArtistDetails-${currentIndex+1}']`)?.click();
         }
+        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Search'){
+          document.querySelector(`[trackforclick='Search-${currentIndex+1}']`)?.click();
+        }
       }
   }
   }catch{}
@@ -88,7 +91,7 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
   }
 
   const PevNext = (Index) => {
-    console.log('hello')
+    alert(currentIndex)
     if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
       console.log('discover')
       document.querySelector(`[trackforclick='discover-${Index}']`)?.click();
@@ -104,6 +107,9 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
     else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
       console.log('ArtistDetails')
       document.querySelector(`[trackforclick='ArtistDetails-${Index}']`)?.click();
+    }
+    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Search'){
+      document.querySelector(`[trackforclick='Search-${Index}']`)?.click();
     }
   }
   
@@ -131,7 +137,7 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
         <Seekbar
           value={appTime}
           min="0"
-          max={duration!==NaN?duration:90}
+          max={duration===isNaN?90:duration}
           onInput={(event) => changeAppTime(event)}
           Seek={Seek}
           isdown={isdown}

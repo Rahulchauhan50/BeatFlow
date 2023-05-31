@@ -5,34 +5,39 @@ import SongBar from '../components/SongBar'
 import TopArtist from '../pages/TopArtist'
 import Error from '../components/Error'
 
-const Search = ({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) => {
+const Search = ({setProgressing, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) => {
     const [searchData, setSearchData] = useState('');
     const [isSearching, setisSearching] = useState(false);
-    
 
     const {searchTerm} = useParams();
 
     const FetchSearchSongs = async () => {
+        setProgressing(10)
         try{
             setisSearching(true)
-        const url = `https://shazam.p.rapidapi.com/search?term=${searchTerm}&locale=en-US&offset=0&limit=5`;
-        const options = {
+            const url = `https://shazam.p.rapidapi.com/search?term=${searchTerm}&locale=en-US&offset=0&limit=5`;
+            setProgressing(20)
+            const options = {
             method: 'GET',
             headers: {
                     'X-RapidAPI-Key': localStorage.getItem('fetchKey'),
                     'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
                 }
-            };
+             };
+            setProgressing(30)
             try {
                 const response = await fetch(url, options);
+                setProgressing(70)
                 const result = await response.json();
                 setSearchData(result);
+                setProgressing(100)
             } catch (error) {
             }
             setisSearching(false)
         }
         catch{
             setisSearching(false);
+            setProgressing(100)
             return <Error/>
           }
     }
@@ -69,15 +74,13 @@ const Search = ({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) =
                artist = {true}
                ssubtitle={subtitle}
                fullsong={Element.track?.hub.options[0].actions[1].uri}
+               otherBundle='Search'
                />
               
                })
 
              }
             </div>
-            {searchData?.tracks?.hits?.map((Element,i)=>{
-             return  <audio id={Element.track?.key} src={Element.track?.hub?.actions?.actions?.uri}></audio>
-            })}
        </div>
    </div>
    </div> 
@@ -85,7 +88,7 @@ const Search = ({ subtitle, activeSong,isplaying, handlePlayPauseClick, data}) =
    <TopArtist isTopArtisPage={false} page={`Related artists`} data={searchData?.artists?.hits} isFetching={isSearching}/>
 
     
-  </>
+     </>
 };
 
 export default Search;

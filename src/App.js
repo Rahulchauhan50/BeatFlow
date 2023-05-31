@@ -12,7 +12,8 @@ import Search from './pages/Search'
 import SearchBar from "./components/SearchBar";
 import Error from "./components/Error";
 import Footer from "./components/Footer";
-import Player from './components/MusicPlayer/Player'
+import CustomLoadingBar from "./LoadingBar";
+
  
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
   const [data, setData] = useState({'tracks':[]})
   const [isdown, setisdown] = useState(true)
   const [fullsong, setfullsong] = useState('')
+  const [Progress, setProgress] = useState(0)
 
   const settingAroundYou = (val) => setIsArondyou(val)
   const SetPause = () => setisPlaying(false);
@@ -42,6 +44,7 @@ function App() {
 
   const FetchData = async (fetchkeyId,currentIndex) => {
     try {
+      setProgressing(10)
       setFetching(true);
       document.getElementById('loader');
       const headersList = {
@@ -49,10 +52,12 @@ function App() {
         "X-RapidAPI-Key": fetchkeyId,
         "X-RapidAPI-Host": "shazam.p.rapidapi.com"
       };
+      setProgressing(30)
       const response = await fetch("https://shazam.p.rapidapi.com/charts/track", {
         method: "GET",
         headers: headersList
       });
+      setProgressing(70)
   
       const tempdata = await response.json();
       if (
@@ -70,10 +75,12 @@ function App() {
         setData(tempdata);
         setFetching(false);
         localStorage.setItem('fetchKey',keyArray[currentIndex])
+        setProgressing(100)
       }
       } catch (error) {
       setFetching(false);
       console.error(error);
+      setProgressing(100)
     }
   };
 
@@ -139,8 +146,14 @@ function App() {
     }catch{}
   }
 
+  const setProgressing = (val) => {
+    setProgress(val)
+  }
+
   return (
     <Router>
+      <CustomLoadingBar progress={Progress} />
+
       <div className="relative flex h-screen">
         <span className="hidden" id="audioStack"></span>
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
@@ -151,11 +164,11 @@ function App() {
           <span style={{display:"none"}} id='forScroll'></span>
             <Routes>
               <Route exact path="/" element={<Discover bundle='discover' IsArondyou={IsArondyou} page='Discover' subtitle={subtitle} settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
-              <Route exact path="/songs/:songid/:id" element={<SongDetails otherBundle='SongDetails' subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
-              <Route exact path="/artists/:Artistid" element={<ArtistDetails otherBundle='ArtistDetails' subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
+              <Route exact path="/songs/:songid/:id" element={<SongDetails setProgressing={setProgressing} otherBundle='SongDetails' subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
+              <Route exact path="/artists/:Artistid" element={<ArtistDetails setProgressing={setProgressing} otherBundle='ArtistDetails' subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/:Around" element={<Discover bundle='Aroundyou' IsArondyou={IsArondyou} subtitle={subtitle} settingAroundYou={settingAroundYou} page='Around You' handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
               <Route exact path="/top-artists" element={<TopArtist isTopArtisPage={true} page='Top artists' data={data?.tracks} isFetching={isFetching}/>} />
-              <Route exact path="/search/:searchTerm" element={<Search subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
+              <Route exact path="/search/:searchTerm" element={<Search setProgressing={setProgressing} subtitle={subtitle} activeSong={activeSong} isplaying={isplaying} handlePlayPauseClick={handlePlayPauseClick} data={data.tracks}/>} />
               <Route exact path="/top-charts" element={<Discover bundle='discover' IsArondyou={IsArondyou} subtitle={subtitle} page='Top Charts' settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
             </Routes>
               <Footer/>
@@ -165,9 +178,9 @@ function App() {
           </div>
         </div>
       </div>
-      {isActive && (<MusicPlayer fullsong={fullsong} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data?.tracks?.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
-      
-      )}</div>
+      {isActive && (<MusicPlayer fullsong={fullsong} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data?.tracks?.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />)}
+      </div>
+
       
     </Router>
   );
