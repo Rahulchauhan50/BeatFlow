@@ -24,7 +24,7 @@ const SongBar = ({otherBundle,ssubtitle, name, img, songid, album, subtitle, son
       </div>
     </div>
     
-      (<div trackforclick={otherBundle+"-"+i} onClick={()=>handlePlayPauseClick(i,name,img,subtitle,songid,false,fullsong)}>
+      <div trackforclick={otherBundle+"-"+i} onClick={()=>handlePlayPauseClick(i,name,img,subtitle,songid,false,fullsong)}>
           <PlayPause
             isplaying={isplaying}
             activeSong={activeSong}

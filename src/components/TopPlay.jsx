@@ -1,4 +1,3 @@
-import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Swiper , SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper";
@@ -43,12 +42,12 @@ const TopChartCard = ({subtitle, activeSong, data, i, song, handlePlayPauseClick
 export default function TopPlay({subtitle,data ,activeSong, isplaying, handlePlayPauseClick}){
     const TopPlays = data.tracks
     return(<>
-        <div  className="xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
+        <div  className="mt-16 md:mt-1 xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
             <div className="w-full flex flex-col">
             <div className="flex flex-row justify-between items-center">
                 <h2 id="topchart" className="text-white font-bold my-4 md:mb-2 text-2xl">Top Charts</h2>
                 </div>
-                <div className="mt-1 flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                     {TopPlays?.slice(0, 5).map((songs, i) => (
                         <TopChartCard
                         activeSong={activeSong}
@@ -64,7 +63,7 @@ export default function TopPlay({subtitle,data ,activeSong, isplaying, handlePla
                 </div>
             </div>
 
-            <div className="w-full flex flex-col mt-4">
+            <div className="w-full flex flex-col mt-2">
             <div className="flex flex-row justify-between items-center">
                 <h2 className="text-white font-bold text-2xl">Top Artists</h2>
                 <Link to="/top-artists">

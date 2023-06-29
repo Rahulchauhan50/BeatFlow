@@ -158,9 +158,10 @@ function App() {
         <span className="hidden" id="audioStack"></span>
       <Sidebar open={open} close={close} mobileMenuOpen={mobileMenuOpen}/>
       <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
-        <SearchBar/>
-        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-78px)] md:h-[calc(100vh-0px)] overflow-y-scroll flex xl:flex-row flex-col-reverse">
-          <div  className="flex-1 h-fit pb-40">
+        <SearchBar isplaying={isplaying} isActive={isActive} close={close}/>
+
+        <div onClick={()=>{close()}} className="px-6 h-[calc(100vh-1px)] md:h-[calc(100vh-0px)] overflow-y-scroll flex xl:flex-row flex-col-reverse">
+          <div  className="flex-1 h-fit pb-40 md:mt-20">
           <span style={{display:"none"}} id='forScroll'></span>
             <Routes>
               <Route exact path="/" element={<Discover bundle='discover' IsArondyou={IsArondyou} page='Discover' subtitle={subtitle} settingAroundYou={settingAroundYou} handlePlayPauseClick={handlePlayPauseClick} isplaying={isplaying} activeSong={activeSong} data={data} isFetching={isFetching}/>} />
@@ -179,9 +180,8 @@ function App() {
         </div>
       </div>
       {isActive && (<MusicPlayer fullsong={fullsong} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data?.tracks?.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />)}
+  
       </div>
-
-      
     </Router>
   );
 }

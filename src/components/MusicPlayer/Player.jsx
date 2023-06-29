@@ -58,7 +58,7 @@ const MusicPlayer = ({PevNext, fullsong, appTime,changeAppTime,Seek,repeat,  set
         />
       </div>
       <a href={fullsong} target='_blank' >
-      <div className='m-auto' style={{outline: "3px solid #ffffff3d",backgroundColor: "#1e232a",borderRadius: "38px", width: "250px",height:"75px",marginTop: "20px",border: "3px solid #ffffff5e"}}>
+      <div className='m-auto' style={{backgroundColor: "#1e232a",borderRadius: "38px", width: "250px",height:"75px",marginTop: "20px",border: "3px solid #ffffff5e"}}>
         <img style={{height: "55px",margin: "7px",display: "inline",border: "2px solid #ffffffbf",borderRadius: "27px"}} src={iimg}/> 
         <span style={{fontSize: "25px",fontFamily: "cursive",fontWeight: "bold", margin:"auto"}} > Play full song</span>
     </div>

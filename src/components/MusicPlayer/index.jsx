@@ -91,7 +91,6 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
   }
 
   const PevNext = (Index) => {
-    alert(currentIndex)
     if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
       console.log('discover')
       document.querySelector(`[trackforclick='discover-${Index}']`)?.click();
@@ -150,11 +149,10 @@ const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle,
     </div>
     
     </div>
-    <div className={`absolute botton-0 w-screen h-full bg-gradient-to-tl from-white/10 to-[#281a81] backdrop-blur-xl z-10 p-6 transition-all duration-500 md:hidden ${!isdown?'bottom-0':'-bottom-full'}`}>
+    <div className={`absolute botton-0 w-screen h-full bg-gradient-to-tl from-white/10 to-[#281a81] backdrop-blur-xl z-30 p-6 transition-all duration-500 md:hidden ${!isdown?'bottom-0':'-bottom-full'}`}>
     <Player PevNext={PevNext} fullsong={fullsong} appTime={appTime} changeAppTime={changeAppTime} Seek={Seek} repeat={repeat}  setRepeat={setRepeat}  setLoop={setLoop} shuffle={shuffle} SetShufflefun={SetShufflefun} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
     </div>
     </>
   );
 };
-
 export default MusicPlayer;
