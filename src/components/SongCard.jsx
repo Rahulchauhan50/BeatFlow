@@ -1,39 +1,52 @@
-import React from 'react'
-import PlayPause from './PlayPause'
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-export default function SongCard({bundle, IsArondyou, subtitle, data, isplaying, activeSong , handlePlayPauseClick, i }) {
-    
+import PlayPause from './PlayPause';
+import { playPause, setActiveSong } from '../redux/features/playerSlice';
+
+const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
+  const dispatch = useDispatch();
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+
+  const handlePlayClick = () => {
+    dispatch(setActiveSong({ song, data, i }));
+  };
+
   return (
-    
-    <div className='flex flex-col w-[80vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
-      <audio track={bundle} id={data[i].hub.actions[0].id+""} src={data[i].hub.actions[1].uri}></audio>
-        <div trackforclick = {bundle+"-"+i}  onClick={()=>handlePlayPauseClick(i, data[i].title, data[i].images.coverart, data[i].subtitle,data[i].hub.actions[0].id+"", false,!IsArondyou? data[i]?.hub?.options[0]?.actions[1]?.uri:'https://music.apple.com')} className='relative w-full h-auto group'>
-            <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong  === data[i].title && subtitle === data[i].subtitle? 'flex bg-black bg-opacity-70':'hidden'}`}>
+    <div className='flex flex-col w-[80vw] md:w-[14vw] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
+        <div className='relative w-full h-auto group'>
+            <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong?.title === song.title ? 'flex bg-black bg-opacity-70' : 'hidden'}`}>
               <PlayPause
-              isplaying={isplaying}
+              isPlaying={isPlaying}
               activeSong={activeSong}
-              currentsuntitle = {data[i].subtitle}
-              data={data[i].title}
-              subtitle={subtitle}
+              song={song}
+              handlePause={handlePauseClick}
+              handlePlay={handlePlayClick}
               />
             </div>
-            <img className='w-full' alt='images' src={data[i].images.coverart} ></img>
+            <img className='w-full' alt='images' src={song?.images?.coverart?song?.images?.coverart: 'https://e0.pxfuel.com/wallpapers/968/425/desktop-wallpaper-colorful-headphones-simple-vector-icon-or-logo-element-in-thin-line-style-on-dark-background-a-music-logo-design-edm-logo-iphone-neon.jpg'} ></img>
             </div>
             <div className='mt-4 flex flex-col'>
               <span className='font-semibold text-lg text-white truncate hover:underline'>
-                <Link to={`/songs/${data[i].key}/${data[i]?.artists[0].adamid}`}>
-                {data[i].title}
+                <Link to={`/songs/${song?.key}/${song.artists?song.artists[0].adamid:""}`}>
+                {song?.title}
                 </Link>
               </span>
               <span className='text-sm truncate text-gray-300 mt-1 hover:underline'>
-                <Link to={`/artists/${data[i]?.artists[0].adamid}`}>
-                {data[i].subtitle}
+                <Link to={`/artists/${song.artists?song.artists[0].adamid:""}`}>
+                {song?.subtitle}
                 </Link>
               </span>
 
             </div>
         
     </div>
-  )
-}
+  );
+};
+
+export default SongCard;
+

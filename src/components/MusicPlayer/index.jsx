@@ -1,158 +1,128 @@
-import React, { useState } from 'react';
-import { FaAngleUp, FaAngleDown } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { FaAngleUp , FaMusic} from 'react-icons/fa'
+
+
+import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
 import Controls from './Controls';
+import Player from './Player';
 import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
-import Player from '../MusicPlayer/Player'
 
-const MusicPlayer = ({ fullsong, up ,down, isdown, SetPause,isplaying, subtitle, coverart, duration ,totalResults, handlePlayPauseClick, currentSongsId, currentIndex, isActive, activeSong, data}) => {
+const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
+  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+  const [duration, setDuration] = useState(0);
+  const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
+  const dispatch = useDispatch();
 
-  const volumechange = (event) => {
-    setVolume(event.target.value)
-    document.getElementById(currentSongsId).volume = volume;
-  }
+  useEffect(() => {
+    if (currentSongs.length) dispatch(playPause(true));
+  }, [currentIndex]);
 
-  try{
-    document.getElementById(currentSongsId).ontimeupdate = () => {
-     try{ setAppTime(document.getElementById(currentSongsId).currentTime)}
-     catch{}
+  const handlePlayPause = () => {
+    if (!isActive) return;
+
+    if (isPlaying) {
+      dispatch(playPause(false));
+    } else {
+      dispatch(playPause(true));
     }
-  }catch{}
+  };
 
-  const changeAppTime = (event) =>{
-    setAppTime(event.target.value)
-    document.getElementById(currentSongsId).currentTime = appTime;
-  }
+  const handleNextSong = () => {
+    dispatch(playPause(false));
 
-  const Seek = (val) => {
-    if(val){
-      if(document.getElementById(currentSongsId).currentTime === duration-6){
-        return
+    if (!shuffle) {
+      dispatch(nextSong((currentIndex + 1) % currentSongs.length));
+    } else {
+      dispatch(nextSong(Math.floor(Math.random() * currentSongs.length)));
+    }
+  };
+
+  const handlePrevSong = () => {
+    if (currentIndex === 0) {
+      dispatch(prevSong(currentSongs.length - 1));
+    } else if (shuffle) {
+      dispatch(prevSong(Math.floor(Math.random() * currentSongs.length)));
+    } else {
+      dispatch(prevSong(currentIndex - 1));
+    }
+  };
+
+  const handleShareClick = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Share via',
+          text: 'Check out this amazing content!',
+          url: 'https://example.com',
+        });
+      } else {
+        alert('Web Share API is not supported on this browser.');
       }
-      document.getElementById(currentSongsId).currentTime = appTime+5;
+    } catch (error) {
+      console.error('Error sharing:', error);
     }
-    else{
-      if(document.getElementById(currentSongsId).currentTime < 6){
-        return
-      }
-      document.getElementById(currentSongsId).currentTime = appTime-5;
-    }
-  }
+  };
 
-  try{
-    document.getElementById(currentSongsId).onended = () => {
-      SetPause();
-      if(shuffle){
-
-        if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
-          document.querySelector(`[trackforclick='discover-${currentIndex+1}']`)?.click();
-        }
-        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Aroundyou'){
-          document.querySelector(`[trackforclick='Aroundyou-${currentIndex+1}']`)?.click();
-        }
-        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'SongDetails'){
-          document.querySelector(`[trackforclick='SongDetails-${currentIndex+1}']`)?.click();
-        }
-        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
-          document.querySelector(`[trackforclick='ArtistDetails-${currentIndex+1}']`)?.click();
-        }
-        else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Search'){
-          document.querySelector(`[trackforclick='Search-${currentIndex+1}']`)?.click();
-        }
-      }
-  }
-  }catch{}
-
-  const setLoop = () => {
-    setShuffle(false);
-    if(repeat === true){
-        setRepeat(false)
-        document.getElementsByTagName('audio')[0].loop = false;
-      }else if(repeat === false){
-        setRepeat(true);
-        document.getElementsByTagName('audio')[0].loop = true;
-      }
-    }
-
-  const SetShufflefun = async () => {
-    setRepeat(false)
-    document.getElementsByTagName('audio')[0].loop = false;
-    if(shuffle===true){
-       setShuffle(false);
-    }
-    else{
-      setShuffle(true);
-    }
-  }
-
-  const PevNext = (Index) => {
-    if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'discover'){
-      console.log('discover')
-      document.querySelector(`[trackforclick='discover-${Index}']`)?.click();
-    }
-    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Aroundyou'){
-      console.log('Aroundyou')
-      document.querySelector(`[trackforclick='Aroundyou-${Index}']`)?.click();
-    }
-    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'SongDetails'){
-      console.log('SongDetails')
-      document.querySelector(`[trackforclick='SongDetails-${Index}']`)?.click();
-    }
-    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'ArtistDetails'){
-      console.log('ArtistDetails')
-      document.querySelector(`[trackforclick='ArtistDetails-${Index}']`)?.click();
-    }
-    else if(document.getElementsByTagName('audio')[0].getAttribute('track') === 'Search'){
-      document.querySelector(`[trackforclick='Search-${Index}']`)?.click();
-    }
-  }
-  
-  return (<>
-    <div style={{position:"fixed"}} className="absolute h-20 bottom-0 left-0 right-0 flex bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
-    <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
-      <Track isplaying={isplaying} subtitle={subtitle} coverart={coverart} currentSongsId={currentSongsId} activeSong={activeSong} isActive={isActive}  />
-      <div className="flex-1 flex flex-col items-center justify-center">
+  return (
+    <div className={`${mobilePlayerOpen?"flex-col w-full flex items-center":"relative sm:px-12 px-8 w-full flex items-center justify-between"}`}>
+      <div className='absolute md:hidden block top-[15vh] right-3 z-[50]'>
+      {mobilePlayerOpen?(<FaAngleUp onClick={changePlayer} className='w-8 h-8 text-white mr-4'/>):""}
+      </div>
+      <div className='absolute md:hidden block top-[15vh] left-8 z-[50]'>
+      <FaMusic className='w-6 h-6 text-white mr-2'/>
+      </div>
+      <Track mobilePlayerOpen={mobilePlayerOpen} changePlayer={changePlayer} isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
+      <div className={`${mobilePlayerOpen?"flex-col-reverse w-[80vw] absolute bottom-[17%] justify-between" : " flex-col"} items-center justify-center flex`}>
         <Controls
+        handleShareClick={handleShareClick}
+          mobilePlayerOpen={mobilePlayerOpen}
+          isPlaying={isPlaying}
+          isActive={isActive}
           repeat={repeat}
           setRepeat={setRepeat}
           shuffle={shuffle}
-          handlePlayPauseClick={handlePlayPauseClick}
-          currentSongsId={currentSongsId}
-          totalResults={totalResults}
-          data={data}
-          activeSong={activeSong}
-          currentIndex={currentIndex}
-          setLoop={setLoop}
-          SetShufflefun={SetShufflefun}
-          isplaying={isplaying}
-          isdown={isdown}
-          PevNext={PevNext}
+          setShuffle={setShuffle}
+          currentSongs={currentSongs}
+          handlePlayPause={handlePlayPause}
+          handlePrevSong={handlePrevSong}
+          handleNextSong={handleNextSong}
         />
         <Seekbar
+        handleShareClick={handleShareClick}
+          mobilePlayerOpen={mobilePlayerOpen}
           value={appTime}
+          repeat={repeat}
+          shuffle={shuffle}
+          setShuffle={setShuffle}
+          setRepeat={setRepeat}
           min="0"
-          max={duration===isNaN?90:duration}
-          onInput={(event) => changeAppTime(event)}
-          Seek={Seek}
-          isdown={isdown}
+          max={duration}
+          onInput={(event) => setSeekTime(event.target.value)}
+          setSeekTime={setSeekTime}
+          appTime={appTime}
+        />
+        <Player
+          activeSong={activeSong}
+          volume={volume}
+          isPlaying={isPlaying}
+          seekTime={seekTime}
+          repeat={repeat}
+          currentIndex={currentIndex}
+          onEnded={handleNextSong}
+          onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
+          onLoadedData={(event) => setDuration(event.target.duration)}
         />
       </div>
-      <VolumeBar value={volume} min="0" max="1" onChange={(event) => {volumechange(event)} }/>
-      <div className='absolute md:hidden block top-6 right-3 z-50'>
-      {isdown?(<FaAngleUp onClick={()=>up()} className='w-6 h-6 text-white mr-2'/>):(<FaAngleDown onClick={()=>down()} className='w-6 h-6 text-white mr-2'/>)}
-      </div>
+      <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
     </div>
-    
-    </div>
-    <div className={`absolute botton-0 w-screen h-full bg-gradient-to-tl from-white/10 to-[#281a81] backdrop-blur-xl z-30 p-6 transition-all duration-500 md:hidden ${!isdown?'bottom-0':'-bottom-full'}`}>
-    <Player PevNext={PevNext} fullsong={fullsong} appTime={appTime} changeAppTime={changeAppTime} Seek={Seek} repeat={repeat}  setRepeat={setRepeat}  setLoop={setLoop} shuffle={shuffle} SetShufflefun={SetShufflefun} up={up} down={down} isdown={isdown} SetPause={SetPause} isplaying={isplaying} subtitle={subtitle} coverart={coverart} duration={duration} totalResults={data.tracks.length} handlePlayPauseClick={handlePlayPauseClick} activeSong={activeSong} currentSongsId={currentSongsId} currentIndex={currentIndex} isActive={isActive} data={data} />
-    </div>
-    </>
   );
 };
+
 export default MusicPlayer;

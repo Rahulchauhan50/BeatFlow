@@ -1,19 +1,18 @@
-import React from 'react'
-import { BsFillPlayCircleFill, BsFillPauseCircleFill} from "react-icons/bs";
-const PlayPause = ({subtitle,isplaying, activeSong, data, currentsuntitle}) => {
-     return (activeSong === data && isplaying && subtitle === currentsuntitle)?
-          < BsFillPauseCircleFill
-          size={35}
-          className='text-gray-300'
-        
-    />:
-    
-        <BsFillPlayCircleFill
-        size={35}
-        className='text-gray-300'
-       
-        />
-}
+import React from 'react';
+import { FaPauseCircle, FaPlayCircle } from 'react-icons/fa';
 
-        
-export default PlayPause
+const PlayPause = ({ isPlaying, activeSong, song, handlePause, handlePlay }) => (isPlaying && activeSong?.title === song?.title && activeSong?.subtitle === song?.subtitle && activeSong?.attributes?.name === song?.attributes?.name && activeSong?.attributes?.albumName === song?.attributes?.albumName ? (
+  <FaPauseCircle
+    size={35}
+    className="text-gray-300"
+    onClick={handlePause}
+  />
+) : (
+  <FaPlayCircle
+    size={35}
+    className="text-gray-300"
+    onClick={handlePlay}
+  />
+));
+
+export default PlayPause;

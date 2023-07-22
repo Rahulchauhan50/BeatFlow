@@ -1,94 +1,88 @@
-import Loader from '../components/Loader'
-import { useEffect, useState } from 'react';
-import  {useParams}  from 'react-router-dom'
-import SongBar from '../components/SongBar'
-import TopArtist from '../pages/TopArtist'
-import Error from '../components/Error'
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { SongBar } from '../components';
+import { useDispatch } from 'react-redux';
+import { Error, Loader } from '../components';
+import Notfound from '../components/Notfound';
+import { useGetSongsBySearchQuery } from '../redux/services/shazamCore';
+import { playPause, setActiveSong } from '../redux/features/playerSlice';
+import { Link } from 'react-router-dom';
 
-const Search = ({setProgressing, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) => {
-    const [searchData, setSearchData] = useState('');
-    const [isSearching, setisSearching] = useState(false);
 
-    const {searchTerm} = useParams();
+const Search = () => {
+  const dispatch = useDispatch();
 
-    const FetchSearchSongs = async () => {
-        setProgressing(10)
-        try{
-            setisSearching(true)
-            const url = `https://shazam.p.rapidapi.com/search?term=${searchTerm}&locale=en-US&offset=0&limit=5`;
-            setProgressing(20)
-            const options = {
-            method: 'GET',
-            headers: {
-                    'X-RapidAPI-Key': localStorage.getItem('fetchKey'),
-                    'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-                }
-             };
-            setProgressing(30)
-            try {
-                const response = await fetch(url, options);
-                setProgressing(70)
-                const result = await response.json();
-                setSearchData(result);
-                setProgressing(100)
-            } catch (error) {
-            }
-            setisSearching(false)
-        }
-        catch{
-            setisSearching(false);
-            setProgressing(100)
-            return <Error/>
-          }
-    }
+  const { searchTerm } = useParams();
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { data, isFetching, error } = useGetSongsBySearchQuery(searchTerm);
 
-    useEffect(() => {
-        FetchSearchSongs();
-        document.getElementById('forScroll').scrollIntoView({ behavior: 'smooth' });
-       }, [searchTerm])
+  const songs = data?.tracks?.hits.map((song) => song.track);
 
-       if(isSearching){
-        return <Loader title='Searching...'/>
-      }
+  const divRef = useRef(null);
 
-    return <>
-    <div>
-    <div className="flex flex-col mt-5 md-0">
-   <div className="flex flex-col mt-5 md-0">
-       <div className="flex flex-col ">
-            <h1 className="font-bold text-3xl text-white">{`Related Songs`}</h1>
+  useEffect(() => {
+      divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  },[isFetching]);
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+  if (isFetching) return <Loader title={`Searching...`} />;
+
+  if (error) return <Error />;
+
+  return (
+    <div ref={divRef}>
+      <div className="flex flex-col mt-5 md-0">
+        <div className="flex flex-col mt-5 md-0">
+          <div className="flex flex-col ">
+            <h1  className="font-bold text-3xl mb-2 text-white">{`Related Songs :`}</h1>
             <div className="mt-6 w-full flex flex-col">
-             {searchData?.tracks?.hits?.map((Element,i)=>{
-               return <SongBar
-               name={Element.track?.title}
-               img={Element.track?.images?.coverart}
-               songid={Element.track?.key}
-               album={Element.track?.subtitle}
-               subtitle={Element.track?.subtitle}
-               songSource={Element.track?.hub?.actions[1]?.uri}
-               i={i}
-               activeSong={activeSong}
-               artistId='213157068'
-               handlePlayPauseClick={handlePlayPauseClick}
-               isplaying={isplaying}
-               artist = {true}
-               ssubtitle={subtitle}
-               fullsong={Element.track?.hub.options[0].actions[1].uri}
-               otherBundle='Search'
-               />
-              
-               })
-
-             }
+              {songs?songs?.map((song, i) => {
+                return <SongBar
+                  song={song}
+                  key={`${song.key}-${i}`}
+                  i={i}
+                  artistId={false}
+                  isPlaying={isPlaying}
+                  activeSong={activeSong}
+                  handlePlayClick={() => {
+                    dispatch(setActiveSong({ song, data, i }));
+                    dispatch(playPause(true))
+                  }}
+                  handlePauseClick={handlePauseClick}
+                />
+              }):<Notfound term='songs'/>
+              }
             </div>
-       </div>
-   </div>
-   </div> 
-   </div>
-   <TopArtist isTopArtisPage={false} page={`Related artists`} data={searchData?.artists?.hits} isFetching={isSearching}/>
+          </div>
+        </div>
+      </div>
+      <div className='flex flex-col'>
+    <div className='w-full flex justify-between sm:flex-row flex-col my-8'>
+    <h2 className='font-bold text-3xl text-white'>Related Artists :</h2>
+    </div> 
+    <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
+       {data?.artists?data?.artists?.hits.map((Elements, i)=>{
+        return <div key={Elements?.artist?.adamid} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
+                  <div  className='relative w-full h-auto group'>
+                <Link to={`/artists/${Elements?.artists !== undefined?Elements?.artists[0]?.adamid : Elements?.artist?.adamid}`}>
+                  <img style={{boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)"}} className='w-full rounded-full' alt='images' src={Elements?.artist?.avatar?Elements?.artist?.avatar : "https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg"} ></img>
+                </Link>
+                  </div>
+                  <div className='mt-4 flex flex-col items-center'>
+                    <span className='text-sm truncate text-gray-300 mt-1 hover:underline'>
+                      {Elements?.artist?.name?.length > 20? Elements?.artist?.name.slice(0,20)+"...":Elements?.artist?.name}
+                    </span>
+                </div>
+      </div>
+       }):<Notfound term='artists'/>}
 
-    
-     </>
+      </div>
+    </div>
+    </div>
+  );
 };
 
 export default Search;

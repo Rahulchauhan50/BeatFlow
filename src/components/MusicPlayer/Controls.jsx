@@ -1,21 +1,25 @@
 import React from 'react';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
+import { FaShare } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { BsArrowRepeat, BsFillPauseFill, BsFillPlayFill, BsShuffle } from 'react-icons/bs';
 
-const Controls = ({PevNext,isplaying, SetShufflefun, data, currentIndex, totalResults, activeSong,handlePlayPauseClick, repeat, setLoop, shuffle, isdown}) => {
-  return (
-    <div className={`flex items-center ${isdown?'justify-around':"justify-between w-11/12"}  md:w-36 lg:w-52 2xl:w-80`}>
-      <BsArrowRepeat size={20} color={repeat ? 'red' : 'white'} onClick={()=>{setLoop()}} className={`${isdown?'hidden ':"block w-7 h-7"} sm:block cursor-pointer`} />
-      {<MdSkipPrevious onClick={()=>PevNext(currentIndex-1)} size={30} color="#FFF" className={`${data?.tracks[0]?.title===activeSong?'opacity-40 cursor-none':'cursor-pointer'} ${!isdown?'mx-auto w-14 h-14':""}`} />}
-      {isplaying? (
-        <BsFillPauseFill size={45} color="#FFF" onClick={()=>handlePlayPauseClick(currentIndex, data?.tracks[currentIndex]?.title, data?.tracks[currentIndex]?.images?.coverart, data?.tracks[currentIndex]?.subtitle,data?.tracks[currentIndex]?.hub.actions[0].id+"",true)} className={`cursor-pointer ${!isdown?'w-14 h-16':""}`} />
-      ) : (
-        <BsFillPlayFill size={45} color="#FFF" onClick={()=>handlePlayPauseClick(currentIndex, data?.tracks[currentIndex]?.title, data?.tracks[currentIndex]?.images?.coverart, data?.tracks[currentIndex]?.subtitle,data?.tracks[currentIndex]?.hub.actions[0].id+"",true)} className={`cursor-pointer ${!isdown?'w-14 h-16':""}`} />
-      )}
-      {<MdSkipNext onClick={()=>PevNext(currentIndex+1)} size={30} color="#FFF" className={`${data?.tracks[totalResults-1]?.title===activeSong?'opacity-40 cursor-none':'cursor-pointer'} ${!isdown?'mx-auto w-14 h-14':""}`}  />}
-      <BsShuffle onClick={()=>{SetShufflefun()}} size= {20} color={shuffle ? 'red' : 'white'} className={`${isdown?'hidden':"block w-7 h-7"} sm:block cursor-pointer`} />
-    </div>
-  )
-};
+const Controls = ({handleShareClick, mobilePlayerOpen, isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong }) => (
+  <div className={`${mobilePlayerOpen?"w-[80vw] mt-[3vh] justify-between":"justify-around md:w-[25vw] 2xl:w-80"} flex items-center`}>
+    {!mobilePlayerOpen && <BsArrowRepeat size={mobilePlayerOpen?30:20} color={repeat ? 'red' : 'white'} onClick={() => setRepeat((prev) => !prev)} className={`${mobilePlayerOpen?"flex":"hidden sm:block"} cursor-pointer text-white`} />}
+    <FaHeart className={`cursor-pointer md:flex ${mobilePlayerOpen?"flex ":"hidden"}`} size={mobilePlayerOpen?30:20} color={repeat ? 'red' : 'white'} />
+    {currentSongs?.length && <MdSkipPrevious size={mobilePlayerOpen?50:30} color="#FFF" className="cursor-pointer" onClick={handlePrevSong} />}
+    {isPlaying ? (
+      <BsFillPauseFill size={mobilePlayerOpen?60:45} color="#FFF" onClick={handlePlayPause} className="cursor-pointer" />
+    ) : (
+      <BsFillPlayFill size={mobilePlayerOpen?60:45} color="#FFF" onClick={handlePlayPause} className="cursor-pointer" />
+    )}
+    {currentSongs?.length && <MdSkipNext size={mobilePlayerOpen?50:30} color="#FFF" className="cursor-pointer" onClick={handleNextSong} />}
+    <FaShare onClick={handleShareClick} className={`cursor-pointer md:flex ${mobilePlayerOpen?"flex":"hidden"}`} size={mobilePlayerOpen?30:20} color={repeat ? 'red' : 'white'}/>
+    {!mobilePlayerOpen && <BsShuffle size={mobilePlayerOpen?30:20} color={shuffle ? 'red' : 'white'} onClick={() => setShuffle((prev) => !prev)} className={`${mobilePlayerOpen?"flex":"hidden sm:block"} cursor-pointer text-white`}  /> }
+    
+
+  </div>
+);
 
 export default Controls;

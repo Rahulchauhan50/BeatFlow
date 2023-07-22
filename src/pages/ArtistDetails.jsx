@@ -1,105 +1,60 @@
-import { useState, useEffect } from 'react'
-import  {useParams}  from 'react-router-dom'
-import  DetailsHeader from '../components/DetailsHeader'
-import SongBar from '../components/SongBar'
-import Loader from '../components/Loader'
-import Error from '../components/Error'
+import React, { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { DetailsHeader, Error, Loader, RelatedSongs } from '../components';
+import { playPause, setActiveSong } from '../redux/features/playerSlice';
+import { useGetArtistDetailsQuery } from '../redux/services/shazamCore';
 
-function ArtistDetails({setProgressing, otherBundle, subtitle, activeSong,isplaying, handlePlayPauseClick, data}) {
-  const [ArtistData, setArtistData] = useState(false);
-  const [songkey, setsongkey] = useState([]);
-  const [isFetchingArtist,setisFetchingArtist] = useState(false)
-
-  const {Artistid} = useParams();
-
-  const FtechRelatedSong = async () => {
-    try{
-      setProgressing(10)
-      setisFetchingArtist(true)
-      let headersListrelated = {
-        "Accept": "*/*",
-            "X-RapidAPI-Key": localStorage.getItem('fetchKey'),
-          "X-RapidAPI-Host": "shazam.p.rapidapi.com"
-        }
-        setProgressing(20)
-        const url = `https://shazam.p.rapidapi.com/artists/get-summary?id=${Artistid}&l=en-US`
-        setProgressing(30)
-        let response = await fetch(url, {
-          method: "GET",
-          headers: headersListrelated
-        });
-        setProgressing(70)
-        var tempDataRel = await response.json()
-        setArtistData(await tempDataRel)
-        setsongkey(Object.keys(tempDataRel?.resources?.songs))
-        setisFetchingArtist(false)
-        setProgressing(100)
-    }
-    catch{
-      setisFetchingArtist(false);
-      return <Error/>
-    }
-      }
-
+const ArtistDetails = () => {
+  const dispatch = useDispatch();
+  const { id: artistId } = useParams();
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { data: artistData, isFetching: isFetchingArtistDetails, error } = useGetArtistDetailsQuery(artistId);
+  const divRef = useRef(null);
+  
   useEffect(() => {
-    document.getElementById('forScroll').scrollIntoView({ behavior: 'smooth' });
-   FtechRelatedSong();
-  }, [Artistid])
+    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  },[isFetchingArtistDetails]);
+    const handlePauseClick = () => {
+      dispatch(playPause(false));
+  };
 
-  if(isFetchingArtist){
-    return <Loader title='Loading Artist...'/>
-  }
-  
+  const handlePlayClick = (song, i) => {
+    dispatch(setActiveSong({ song, artistData, i }));
+    dispatch(playPause(true));
+  };
+
+  if (isFetchingArtistDetails) return <Loader title="Loading artist..." />;
+
+  if (error) return <Error />;
+
+
   return (
-  
-   <div>
-    
-
-     <div className="flex flex-col mt-5 md-0">
+      <><span ref={divRef}></span>
     <div className="flex flex-col mt-5 md-0">
-        <DetailsHeader
-        songData={ArtistData}
-        img={ ArtistData !== false?ArtistData?.resources?.artists[Artistid]?.attributes?.artwork?.url.replace('{w}', '125').replace('{h}', '125'):""}
-        title = {ArtistData !== false?ArtistData.resources?.artists[Artistid]?.attributes?.name:"Unknown"}
-        subtitle = {''}
-        genres = {ArtistData !== false?ArtistData?.resources?.artists[Artistid]?.attributes?.genreNames:""}
+      <div className="flex flex-col mt-5 md-0" >
+      <DetailsHeader
+        artistId={artistId}
+        artistData={artistData}
       />
-        
-        <div   className="flex flex-col ">
-             <h1 className="font-bold text-3xl text-white">Related Songs:</h1>
-             <div className="mt-6 w-full flex flex-col">
-              {songkey?.map((element,i)=>{
-                return <SongBar
-                otherBundle={otherBundle}
-                key={ArtistData?.resources?.songs[element]?.id}
-                ssubtitle={subtitle}
-                name={ArtistData?.resources?.songs[element].attributes.name}
-                img={ArtistData?.resources?.songs[element]?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')}
-                songid={ArtistData?.resources?.songs[element]?.id}
-                album={ArtistData?.resources?.songs[element]?.attributes?.albumName}
-                subtitle={ArtistData?.resources?.songs[element]?.attributes?.albumName}
-                songSource={ArtistData?.resources?.songs[element]?.attributes?.previews[0]?.url}
-                i={i}
-                activeSong={activeSong}
-                artistId={Artistid}
-                handlePlayPauseClick={handlePlayPauseClick}
-                isplaying={isplaying}
-                artist = {true}
-                fullsong={ArtistData?.resources?.songs[element]?.attributes?.url}
-                />
-               
-                })
-
-              }
-             </div>
-        </div>
+  <div   className="flex flex-col ">
+  <div className="mt-6 w-full flex flex-col">
+      <RelatedSongs
+        artistData={artistData.resources?Object.keys(artistData?.resources?.songs).map((key) => {
+          return { id: key, ...artistData?.resources?.songs[key] };
+        }):[]}
+        artistId={artistId}
+        isPlaying={isPlaying}
+        activeSong={activeSong}
+        handlePauseClick={handlePauseClick}
+        handlePlayClick={handlePlayClick}
+      />
     </div>
-
-    </div> 
-
     </div>
-   
-  )
-}
+    </div>
+    </div>
+    </>
+  );
+};
 
 export default ArtistDetails;

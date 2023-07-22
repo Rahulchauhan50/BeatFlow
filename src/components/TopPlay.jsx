@@ -1,100 +1,130 @@
-import { Link } from "react-router-dom";
-import { Swiper , SwiperSlide } from 'swiper/react';
-import { FreeMode } from "swiper";
+import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper';
+
+import PlayPause from './PlayPause';
+import { playPause, setActiveSong } from '../redux/features/playerSlice';
+import { useGetTopChartsQuery } from '../redux/services/shazamCore';
+
 import 'swiper/css';
-import 'swiper/css/free-mode'
-import PlayPause from "./PlayPause";
+import 'swiper/css/free-mode';
 
-const TopChartCard = ({subtitle, activeSong, data, i, song, handlePlayPauseClick, isplaying}) => {
-   
+const TopChartCard = ({ song, i, isPlaying, activeSong, handlePauseClick, handlePlayClick }) => (
+  <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong?.title === song?.title ? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
+    <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
+    <div className="flex-1 flex flex-row justify-between items-center ">
+      <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
+      <div className="flex-1 flex flex-col justify-center mx-3">
+        <Link to={`/songs/${song?.key}/${song.artists?song.artists[0].adamid:""}`}>
+          <span className="text-sm font-bold text-white hover:underline">
+            {song?.title.length > 20?song?.title.slice(0,20)+"...":song?.title }
+          </span>
+        </Link>
+        <Link to={`/artists/${song?.artists[0].adamid}`}>
+          <span className="text-base text-gray-300 mt-1 hover:underline">
+            {song?.subtitle}
+          </span>
+        </Link>
+      </div>
+    </div>
+    <PlayPause
+      isPlaying={isPlaying}
+      activeSong={activeSong}
+      song={song}
+      handlePause={handlePauseClick}
+      handlePlay={handlePlayClick}
+    />
+  </div>
+);
 
-    return( 
-    <div className={`w-full flex flex-row items-center hover:bg-[#4c426e] ${activeSong  === song.title && subtitle === song.subtitle? 'bg-[#4c426e]' : 'bg-transparent'} py-1 p-4 rounded-lg cursor-pointer mb-1`}>
-         <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
-            <div className="flex-1 flex flex-row justify-between items-center">
-            <img className="w-16 h-16 md:h-14 rounded-lg" src={song?.images?.coverart} alt={song?.title} />
-            <div className="flex-1 flex flex-col justify-center mx-3">
-                <Link to={`/songs/${song.key}/${song?.artists[0]?.adamid}`}>
-                    <span className="text-sm font-bold text-white hover:underline">
-                        {song?.title}
-                    </span>
-                </Link>
-                <Link to={`/artists/${song?.artists[0]?.adamid}`}>
-                    <span className="text-base text-gray-300 mt-1 hover:underline">
-                        {song?.subtitle}
-                    </span>
-                </Link>
-            </div>
-            </div>
-            <div onClick={()=>handlePlayPauseClick( i, data?.tracks[i]?.title, data?.tracks[i]?.images.coverart, data.tracks[i]?.subtitle,data.tracks[i]?.hub.actions[0]?.id+"",false,'https://music.apple.com')}>
-            <PlayPause
-            isplaying={isplaying}
-            activeSong={activeSong}
-            data={data?.tracks[i].title}
-            subtitle={data?.tracks[i].subtitle}
-            currentsuntitle={subtitle}
+const TopPlay = ({IsUserPage}) => {
+  const {user} = useParams();
+
+  const dispatch = useDispatch();
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { data,isFetching } = useGetTopChartsQuery();
+
+  const divRef = useRef(null);
+  useEffect(() => {
+    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  },[isFetching]);  
+
+  if (isFetching) return <></>;
+
+  const topPlays = data?.tracks?.slice(0, 5);
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+
+  const handlePlayClick = (song, i) => {
+    dispatch(setActiveSong({ song, data, i }));
+    dispatch(playPause(true));
+  };
+  console.log(user)
+  return (
+    <>
+    <div className={`flex xl:mt-1 xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex-col`}>
+      <div className="w-full flex flex-col">
+        <div className="flex flex-row justify-between items-center">
+          <h2 ref={divRef} className="text-white font-bold my-4 md:mb-2 text-2xl">Top Charts</h2>
+          </div>
+
+        <div className="flex flex-col gap-1">
+          {topPlays?.map((song, i) => (
+            <TopChartCard
+              key={song.key}
+              song={song}
+              i={i}
+              isPlaying={isPlaying}
+              activeSong={activeSong}
+              handlePauseClick={handlePauseClick}
+              handlePlayClick={() => handlePlayClick(song, i)}
             />
-            </div>
-            </div>
-);}
-
-
-export default function TopPlay({subtitle,data ,activeSong, isplaying, handlePlayPauseClick}){
-    const TopPlays = data.tracks
-    return(<>
-        <div  className="mt-16 md:mt-1 xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex flex-col">
-            <div className="w-full flex flex-col">
-            <div className="flex flex-row justify-between items-center">
-                <h2 id="topchart" className="text-white font-bold my-4 md:mb-2 text-2xl">Top Charts</h2>
-                </div>
-                <div className="flex flex-col gap-1">
-                    {TopPlays?.slice(0, 5).map((songs, i) => (
-                        <TopChartCard
-                        activeSong={activeSong}
-                        key={songs.key}
-                        song={songs}
-                        data={data}
-                        i={i}
-                        handlePlayPauseClick={handlePlayPauseClick}
-                        isplaying={isplaying}
-                        subtitle={subtitle}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            <div className="w-full flex flex-col mt-2">
-            <div className="flex flex-row justify-between items-center">
-                <h2 className="text-white font-bold text-2xl">Top Artists</h2>
-                <Link to="/top-artists">
-                    <p className="text-gray-300 text-base cursor-pointer">See more</p>
-                </Link>
-                </div>
-                <Swiper
-                slidesPerView="auto"
-                spaceBetween={15}
-                freeMode
-                centeredSlides
-                centeredSlidesBounds
-                modules={[FreeMode]}
-                className="mt-4"
-                >
-                {TopPlays?.slice(0, 10).map((artist) => (
-                    <SwiperSlide
-                    key={artist?.key}
-                    style={{ width: '25%', height: 'auto' }}
-                    className="shadow-lg rounded-full animate-slideright"
-                    >
-                    <Link to={`/artists/${artist?.artists[0].adamid}`}>
-                        <img src={artist?.images?.background} alt="Name" className="rounded-full w-full object-cover" />
-                    </Link>
-                    </SwiperSlide>
-                ))}
-                </Swiper>
-            </div>
+          ))}
         </div>
-    </>
+      </div>
 
-    )
-    
-}
+      <div className="w-full flex flex-col mt-2">
+        <div className="flex flex-row justify-between items-center">
+          <h2 className="text-white font-bold text-2xl">Top Artists</h2>
+          <Link to="/top-artists">
+            <p className="text-gray-300 text-base cursor-pointer">See more</p>
+          </Link>
+        </div>
+
+        <Swiper
+          slidesPerView="auto"
+          spaceBetween={15}
+          freeMode
+          centeredSlides
+          centeredSlidesBounds
+          modules={[FreeMode]}
+          className="mt-4"
+        >
+          {topPlays?.slice(0, 5).map((artist) => (
+            <SwiperSlide
+              key={artist?.key}
+              style={{ width: '25%', height: 'auto' }}
+              className="shadow-lg rounded-full animate-slideright"
+            >
+              <Link to={`/artists/${artist?.artists[0].adamid}`}>
+                <img src={artist?.images?.background} alt="Name" className="rounded-full w-full object-cover" />
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </div>
+    </>
+  );
+};
+
+export default TopPlay;
+
+
+
+

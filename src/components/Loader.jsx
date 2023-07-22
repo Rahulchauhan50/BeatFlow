@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react'
-import loader from '../assets/loader.svg'
+import React, { useEffect, useRef } from 'react';
 
-export default function Loader({title}) {
 
-  useEffect(()=>{
-    document.getElementById('loader').scrollIntoView();
-    document.getElementById('searchscroll').scrollIntoView();
-  })
+import { loader } from '../assets';
 
-  return (
-    <>
-    <span id='loader' ></span>
-    <div  className='flex md:h-screen h-4/5 m-auto justify-center items-center flex-col align-middle'>
-       <div>
-       <img src={loader} alt='Loader' className='w-32 h-32 object-contain'/>
-        <h1 className='font-bold text-2xl text-white mt-2'>
-          {title}
-        </h1>
-       </div>
-    </div> 
-    </>
-  )
-}
+const Loader = ({ title }) => {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  },[]);
+
+  return  <>
+  <span ref={divRef} ></span>
+  <div  className='flex md:h-screen h-4/5 m-auto justify-center items-center flex-col align-middle'>
+     <div>
+     <img src={loader} alt='Loader' className='w-32 h-32 object-contain'/>
+      <h1 className='font-bold text-2xl text-white mt-2'>
+        {title}
+      </h1>
+     </div>
+  </div> 
+  </>
+};
+
+export default Loader;

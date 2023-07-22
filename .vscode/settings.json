@@ -1,0 +1,13 @@
+{
+    "editor.scrollBeyondLastLine": false,
+    "editor.scrollPredominantAxis": true,
+    "editor.smoothScrolling": true,
+    "terminal.integrated.smoothScrolling": true,
+    "editor.fastScrollSensitivity": 0,
+    "editor.scrollbar.verticalScrollbarSize": 15,
+    "workbench.editor.scrollToSwitchTabs": false,
+    "workbench.list.fastScrollSensitivity": 1,
+    "workbench.list.smoothScrolling": true,
+    "markdown.preview.scrollEditorWithPreview": true,
+    "terminal.integrated.fastScrollSensitivity": 1
+}

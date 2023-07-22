@@ -1,88 +1,128 @@
-import React, { useState, useEffect } from 'react';
-import { FiSearch } from 'react-icons/fi'
-import { MdMic } from 'react-icons/md'
+import { Link } from 'react-router-dom';
+import { FaSearch, FaMicrophone } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import start from '../assets/start.mp3'
 import end from '../assets/end.mp3'
+import { useDispatch } from 'react-redux';
+import { playPause } from '../redux/features/playerSlice';
+import SignInPopup from '../pages/SignPage';
+import SignUpPopup from '../pages/SignupPage';
 
 
-const SearchBar = ({isActive, isplaying}) => {
+const Navbar = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopupOut, setShowPopupOut] = useState(false);
+
+  const handleTogglePopupOut = () => {
+    setShowPopup(false)
+    setShowPopupOut(!showPopupOut);
+  };
+  const dispatch = useDispatch();
+
+  const handleTogglePopup = () => {
+    setShowPopupOut(false)
+    setShowPopup(!showPopup);
+  };
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setShowPopup(true)
+    },5000)
+  },[])
+
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    document.getElementById('searchscroll').scrollIntoView();
-    })
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      document.getElementById('search-field').blur()
+      navigate(`/search/${searchTerm}`);
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    document.getElementById('search-field').blur()
-    navigate(`/search/${searchTerm}`);
-  };
+    const startRecogniion = () => {
+      dispatch(playPause(false));
+      const audio1 = new Audio(start);
+      audio1.play();
+  
+      document.getElementById('search-field').value=''
+      const recognition = new window.webkitSpeechRecognition();
+        recognition.continuous = true; 
+        recognition.interimResults = true; 
+  
+        recognition.onstart = function() {
+          console.log('Speech recognition started...');
+        };
+        
+        recognition.onend = async function() {
+          const audio2 = new Audio(end);
+          await audio2.play();
+          setSearchTerm(document.getElementById('search-field').value)
+          if(document.getElementById('search-field').value!==''){
+            navigate(`/search/${document.getElementById('search-field').value}`);
+          }
+          console.log('Speech recognition ended.');
+  
+        };
+  
+        recognition.onresult = function(event) {
+          const result = event.results[event.results.length - 1][0].transcript;
+          console.log(result)
+          setSearchTerm(result)
+        };
+          recognition.start();
+          setTimeout(() => {
+            recognition.stop();
+          },5000);
+    }
 
-  const startRecogniion = () => {
-    const audio1 = new Audio(start);
-    audio1.play();
+  return (
+    <nav className="from-black to-[#121286] p-4 flex h-[60px] md:justify-between items-center mt-2 rounded-2xl">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <Link to='/'>
+          <button className="text-white text-xl mr-4 hidden sm:block">Home</button>
+          </Link>
+        </div>
 
-    document.getElementById('search-field').value=''
-    const recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = true; 
-      recognition.interimResults = true; 
+      </div>
+      <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="bg-[#0071d738] w-[80vw] md:w-[40vw] justify-between rounded-full flex items-center px-4 py-2">
+            <div className='flex w-full items-center'>
 
-      recognition.onstart = function() {
-        document.getElementsByTagName('audio')[0]?.pause();
-        console.log('Speech recognition started...');
-      };
-      
-      recognition.onend = async function() {
-        const audio2 = new Audio(end);
-        await audio2.play();
-        setSearchTerm(document.getElementById('search-field').value)
-        if(document.getElementById('search-field').value!==''){
-          navigate(`/search/${document.getElementById('search-field').value}`);
-        }
-        console.log('Speech recognition ended.');
-        audio2.onended = () => {
-          if(isActive && isplaying){
-            document.getElementsByTagName('audio')[0]?.play();
-        }
-      
-        }
+            <FaSearch className="text-gray-300 mr-2" />
+            <input
+               autoComplete="off"
+               id="search-field"
+              type="search"
+              className="bg-transparent w-full text-white outline-none placeholder-gray-500"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              />
+              </div>
+            <FaMicrophone onClick={startRecogniion} className="text-gray-300 ml-2 cursor-pointer" />
+          </div>
+          </form>
+        <div className="flex items-center gap-8">
+          <button
+        onClick={handleTogglePopup}
+        className="px-4 py-2 bg-gradient-to-r from-purple-500 rounded hidden sm:block to-pink-500 text-white shadow hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors"
+      >
+        SignIn
+      </button>
+      <button
+        onClick={handleTogglePopupOut}
+        className="px-4 py-2 bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
+      >
+        SignUp
+      </button>
+        </div>
+        <SignInPopup handleTogglePopupOut={handleTogglePopupOut} showPopup={showPopup} handleTogglePopup={handleTogglePopup}/>
+        <SignUpPopup handleTogglePopup={handleTogglePopup} showPopupOut={showPopupOut} handleTogglePopupOut={handleTogglePopupOut} />
+    </nav>
+  );
+};
 
-      };
 
-      recognition.onresult = function(event) {
-        const result = event.results[event.results.length - 1][0].transcript;
-        console.log(result)
-        setSearchTerm(result)
-      };
-        recognition.start();
-        setTimeout(() => {
-          recognition.stop();
-        },5000);
-  }
-
-   return <><span id='searchscroll'></span><form style={{padding:"0px", marginTop:"15px", border: "2px solid", backgroundColor: "#17035a00",position:'absolute'}} onSubmit={handleSubmit} autoComplete="off" className="flex flex-row z-10 md:w-6/12 bg-gradient-to-br from-black to-[#080836] w-full rounded-3xl md:border-none border-solid border-2 border-slate-600 mt-3 md:my-0 sm:py-2 mb-0 text-gray-400 focus-within:text-gray-600">
-    <label  className="sr-only">
-      Search all files
-    </label>
-    <div style={{height: "100%",backgroundColor: "#fdfdfd38",borderRadius: "15px 0px 0px 15px",borderRight: "1px solid"}} className="h-full flex flex-row md:py-0 justify-start items-center">
-      <FiSearch style={{height: "100%",marginTop: "10px",marginBottom: "10px",marginRight: "10px"}} aria-hidden="true" className="w-6 h-6 ml-4" />
-    </div>
-    <div className="md:w-4/5 w-7/12 m-2 flex flex-row md:py-0 justify-start items-center">
-      <input
-        autoComplete="off"
-        id="search-field"
-        className="flex-1 bg-transparent pl-2 border-none placeholder-gray-500 text-xl outline-none text-white"
-        placeholder="Search"
-        type="search"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-      />
-    </div>
-    <div onClick={startRecogniion} className="cursor-pointer h-full flex flex-row md:py-0 justify-end items-center">
-      <MdMic style={{height: "100%",marginTop: "10px",marginBottom: "10px",marginRight: "10px"}} aria-hidden="true" className="w-6 h-6 ml-4" />
-    </div>
-  </form></>
-}
-export default SearchBar;
+export default Navbar;
