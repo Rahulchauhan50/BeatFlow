@@ -64,7 +64,6 @@ const TopPlay = ({IsUserPage}) => {
     dispatch(setActiveSong({ song, data, i }));
     dispatch(playPause(true));
   };
-  console.log(user)
   return (
     <>
     <div className={`flex xl:mt-1 xl:ml-6 ml-0 xl:mb-0 mb-2 flex-1 xl:max-w-[400px] max-w-full flex-col`}>

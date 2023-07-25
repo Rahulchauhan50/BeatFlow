@@ -4,16 +4,12 @@ import { useDispatch } from 'react-redux';
 
 import PlayPause from './PlayPause';
 import { playPause, setActiveSong } from '../redux/features/playerSlice';
-
+ 
 const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   const dispatch = useDispatch();
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
-  };
-
-  const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
   };
 
   return (
@@ -25,7 +21,10 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
               activeSong={activeSong}
               song={song}
               handlePause={handlePauseClick}
-              handlePlay={handlePlayClick}
+              handlePlay={() => {
+                dispatch(setActiveSong({ song, data, i }));
+                dispatch(playPause(true))
+              }}
               />
             </div>
             <img className='w-full' alt='images' src={song?.images?.coverart?song?.images?.coverart: 'https://e0.pxfuel.com/wallpapers/968/425/desktop-wallpaper-colorful-headphones-simple-vector-icon-or-logo-element-in-thin-line-style-on-dark-background-a-music-logo-design-edm-logo-iphone-neon.jpg'} ></img>

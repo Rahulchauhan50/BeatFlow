@@ -1,8 +1,8 @@
 import React from 'react';
 import { BsFillVolumeUpFill, BsVolumeDownFill, BsFillVolumeMuteFill } from 'react-icons/bs';
 
-const VolumeBar = ({ value, min, max, onChange, setVolume }) => (
-  <div className="hidden lg:flex flex-1 items-center justify-end">
+const VolumeBar = ({mobilePlayerOpen, value, min, max, onChange, setVolume }) => (
+  <div className={`${mobilePlayerOpen?"flex top-[28%] items-center absolute w-[78vw] justify-between":"hidden lg:flex flex-1 items-center justify-end"}`}>
     {value <= 1 && value > 0.5 && <BsFillVolumeUpFill size={25} color="#FFF" onClick={() => setVolume(0)} />}
     {value <= 0.5 && value > 0 && <BsVolumeDownFill size={25} color="#FFF" onClick={() => setVolume(0)} />}
     {value === 0 && <BsFillVolumeMuteFill size={25} color="#FFF" onClick={() => setVolume(1)} />}
@@ -13,7 +13,7 @@ const VolumeBar = ({ value, min, max, onChange, setVolume }) => (
       min={min}
       max={max}
       onChange={onChange}
-      className="2xl:w-40 lg:w-32 md:w-32 h-1 ml-2"
+      className={`${mobilePlayerOpen?"w-[85%] h-1":"2xl:w-40 lg:w-32 md:w-32 h-1 ml-2"}`}
     />
   </div>
 );

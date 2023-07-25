@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
 
-const RelatedSongs = ({artistData, artistId, isPlaying, activeSong, handlePauseClick }) => {
+const RelatedSongs = ({artistData, artistId, isPlaying, activeSong, handlePauseClick , setArtist}) => {
   const dispatch = useDispatch(); ;
     return(
         <div className="flex flex-col ">
@@ -32,7 +32,9 @@ const RelatedSongs = ({artistData, artistId, isPlaying, activeSong, handlePauseC
                   activeSong={activeSong}
                   handlePlayClick={() => {
                     dispatch(setActiveSong({ song, artistData, i }));
-                    dispatch(playPause(true))}}
+                    dispatch(playPause(true))
+                    setArtist()
+                  }}
                     handlePauseClick={handlePauseClick}
                    />
                 })}

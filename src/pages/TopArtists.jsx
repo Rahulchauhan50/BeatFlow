@@ -21,8 +21,6 @@ const TopAtists = () => {
 
   if (error) return <Error />;
 
-  const genreTitle = genres.find(({ value }) => value === genreListId)?.title;
-
   return (
     <>
     <span ref={divRef}></span>
@@ -32,7 +30,7 @@ const TopAtists = () => {
     </div> 
     <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
        {data?.tracks.map((Elements, i)=>{
-        return <div key={Elements?.artist?.adamid} className='flex flex-col w-[70vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
+        return <div key={Elements?.artist?.adamid+i} className='flex flex-col w-[70vw] md:w-[190px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm rounded-lg cursor-pointer'>
                 <Link to={`/artists/${Elements?.artists !== undefined?Elements?.artists[0]?.adamid : Elements?.artist?.adamid}`}>
                   <div  className='relative w-full h-auto group'>
                   <img style={{boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)"}}  className='w-full rounded-full' alt='images' src={Elements?.images?.background !== undefined?Elements?.images?.background : Elements?.artist?.avatar} ></img>

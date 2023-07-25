@@ -8,11 +8,13 @@ import { useDispatch } from 'react-redux';
 import { playPause } from '../redux/features/playerSlice';
 import SignInPopup from '../pages/SignPage';
 import SignUpPopup from '../pages/SignupPage';
+import { useSelector } from 'react-redux';
 
 
 const Navbar = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupOut, setShowPopupOut] = useState(false);
+  const { UserDetails } = useSelector((state) => state.UserAuth);
 
   const handleTogglePopupOut = () => {
     setShowPopup(false)
@@ -105,7 +107,13 @@ const Navbar = () => {
           </div>
           </form>
         <div className="flex items-center gap-8">
-          <button
+          {UserDetails?.name?<button
+        onClick={handleTogglePopupOut}
+        className="px-4 py-2 bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
+      >
+        LogOut
+      </button>:<>
+            <button
         onClick={handleTogglePopup}
         className="px-4 py-2 bg-gradient-to-r from-purple-500 rounded hidden sm:block to-pink-500 text-white shadow hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors"
       >
@@ -117,9 +125,12 @@ const Navbar = () => {
       >
         SignUp
       </button>
+          </>}
+          
         </div>
+        {!UserDetails.name && <>
         <SignInPopup handleTogglePopupOut={handleTogglePopupOut} showPopup={showPopup} handleTogglePopup={handleTogglePopup}/>
-        <SignUpPopup handleTogglePopup={handleTogglePopup} showPopupOut={showPopupOut} handleTogglePopupOut={handleTogglePopupOut} />
+        <SignUpPopup handleTogglePopup={handleTogglePopup} showPopupOut={showPopupOut} handleTogglePopupOut={handleTogglePopupOut} /></>}
     </nav>
   );
 };

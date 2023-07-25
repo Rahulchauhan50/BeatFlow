@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const KeyArray = JSON.parse(process.env.REACT_APP_SPOTIFY_API.replace(/'/g, '"'))
+
 export const shazamCoreApi = createApi({
   reducerPath: 'shazamCoreApi',
   baseQuery: fetchBaseQuery({
@@ -17,10 +18,12 @@ export const shazamCoreApi = createApi({
     getSongsBySearch: builder.query({ query: (searchTerm) => `search?term=${searchTerm}` }),
     getSongDetails: builder.query({ query: (songid) => `https://shazam-core7.p.rapidapi.com/songs/get_details?id=${songid}` }),
     getSongRelated: builder.query({ query: (id ) => `artists/get-top-songs?id=${id}&l=en-US`}),
+    getUserData: builder.query({ query: () => `http://localhost:5000/`}),
 
   }),
 });
-console.log()
+
+
 export const {
   useGetTopChartsQuery,
   useGetSongsByCountryQuery,
@@ -28,4 +31,5 @@ export const {
   useGetSongsBySearchQuery,
   useGetSongDetailsQuery,
   useGetSongRelatedQuery,
+  useGetUserDataQuery,
 } = shazamCoreApi;

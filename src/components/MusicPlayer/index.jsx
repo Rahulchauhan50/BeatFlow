@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaAngleUp , FaMusic} from 'react-icons/fa'
-
-
+import { useAddFavSongMutation } from '../../redux/services/UserApi';
 import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
@@ -11,7 +10,9 @@ import Track from './Track';
 import VolumeBar from './VolumeBar';
 
 const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+  const [AddFavSong] = useAddFavSongMutation();
+
+  const {activeSong, currentSongs, currentIndex, isActive, isPlaying, artistId } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -19,6 +20,27 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const dispatch = useDispatch();
+
+  const handleAddFavSong = () => {
+    if(activeSong?.hub?.actions[1]?.uri? (
+      AddFavSong({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
+      .unwrap()
+      .then((data) => {
+      })
+      .catch((error) => {
+        console.error('Error adding song', error);
+      }))      
+      
+      : AddFavSong({"title":activeSong?.attributes?.name, "key":activeSong?.id, "subtitle":activeSong?.attributes?.artistName, "adamid":artistId, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.id, "coverart":activeSong?.attributes?.artwork?.url, uri:activeSong?.attributes?.previews[0]?.url})
+      .unwrap()
+      .then((data) => {
+        console.log(' song added successfully', data);
+      })
+      .catch((error) => {
+        console.error('Error adding song', error);
+      }));
+  };
+  
 
   useEffect(() => {
     if (currentSongs.length) dispatch(playPause(true));
@@ -79,9 +101,10 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
       <FaMusic className='w-6 h-6 text-white mr-2'/>
       </div>
       <Track mobilePlayerOpen={mobilePlayerOpen} changePlayer={changePlayer} isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
-      <div className={`${mobilePlayerOpen?"flex-col-reverse w-[80vw] absolute bottom-[17%] justify-between" : " flex-col"} items-center justify-center flex`}>
+      <div className={`${mobilePlayerOpen?"flex-col-reverse w-[80vw] absolute bottom-[15%] justify-between" : " flex-col"} items-center justify-center flex`}>
         <Controls
-        handleShareClick={handleShareClick}
+        handleAddFavSong={handleAddFavSong}
+          handleShareClick={handleShareClick}
           mobilePlayerOpen={mobilePlayerOpen}
           isPlaying={isPlaying}
           isActive={isActive}
@@ -120,7 +143,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
           onLoadedData={(event) => setDuration(event.target.duration)}
         />
       </div>
-      <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+      <VolumeBar mobilePlayerOpen={mobilePlayerOpen} value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
     </div>
   );
 };

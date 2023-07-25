@@ -15,19 +15,44 @@ router.get('/get-data',fetchuser,async(req,res)=>{
 })
 router.post('/add-favsongs',fetchuser,async(req,res)=>{
     try {
-        const {FavSongs, SongId} = req.body;
+        const {title, key, subtitle, adamid, background, id, coverart, uri} = req.body;
 
         const existingData = await Data.findOne({ user: req.user.id });
-
+        
         if (existingData) {
-            existingData.FavSongs.push({ song:FavSongs,SongId });
+            const existingSongIndex = await existingData.FavSongs.findIndex(
+                (song) => song.hub.actions[1].uri === uri);
+
+            if(existingSongIndex < 0){
+            existingData.FavSongs.push({
+                title,
+                key,
+                subtitle,
+                artists: [{ adamid }],
+                images: { background, coverart },
+                hub: { actions: [{ id},{ uri }] }
+              });
             const updatedData = await existingData.save();
             res.json({ updatedData });
+        }else{
+            res.json({ message:"fav song alreadt exist" });
         }
+    }
 
         else {
-            // If the user doesn't have a document yet, create a new one and save the song
-            const newData = new Data({ user: req.user.id, FavSongs: [{ song:FavSongs ,SongId}] });
+            const newData = new Data({
+                user: req.user.id,
+                FavSongs: [
+                  {
+                    title,
+                    key,
+                    subtitle,
+                    artists: [{ adamid }],
+                    images: { background, coverart },
+                    hub: { actions: [{ id }, { uri }] },
+                  },
+                ],
+              });
             const savedData = await newData.save();
             res.json({ savedData });
         }
@@ -39,19 +64,27 @@ router.post('/add-favsongs',fetchuser,async(req,res)=>{
 })
 router.post('/add-favArtist',fetchuser,async(req,res)=>{
     try {
-        const {FavArtists, ArtistId} = req.body;
+        const {title, subTitle, image, ArtistId} = req.body;
 
         const existingData = await Data.findOne({ user: req.user.id });
 
         if (existingData) {
-            existingData.FavArtists.push({ artist:FavArtists ,ArtistId});
-            const updatedData = await existingData.save();
-            res.json({ updatedData });
+            const existingSongIndex = await existingData.FavArtists.findIndex(
+                (artist) =>artist.ArtistId === ArtistId);
+                
+                console.log(existingSongIndex)
+                if(existingSongIndex < 0){
+                
+                existingData.FavArtists.push({title, subTitle, image, ArtistId});
+                const updatedData = await existingData.save();
+                res.json({ updatedData });
+                }else{
+                    res.json({message:"artist is already is fav list" });
+                }
         }
 
         else {
-            // If the user doesn't have a document yet, create a new one and save the song
-            const newData = new Data({ user: req.user.id, FavArtists: [{ artist:FavArtists,ArtistId }] });
+            const newData = new Data({ user: req.user.id, FavArtists: [{ title, subTitle, image, ArtistId }] });
             const savedData = await newData.save();
             res.json({ savedData });
         }
@@ -63,19 +96,52 @@ router.post('/add-favArtist',fetchuser,async(req,res)=>{
 })
 router.post('/add-history',fetchuser,async(req,res)=>{
     try {
-        const {histories, SongId} = req.body;
+        const {title, key, subtitle, adamid, background, id, coverart, uri} = req.body;
 
         const existingData = await Data.findOne({ user: req.user.id });
 
         if (existingData) {
-            existingData.histories.push({ histery:histories, SongId });
-            const updatedData = await existingData.save();
-            res.json({ updatedData });
-        }
+            const existingSongIndex = await existingData.histories.findIndex(
+                (song) => song.hub.actions[1].uri === uri);
+                
+                if (existingSongIndex >= 0) {
+                    existingData.histories.splice(existingSongIndex, 1);
+                  }
 
-        else {
-            // If the user doesn't have a document yet, create a new one and save the song
-            const newData = new Data({ user: req.user.id, histories: [{ histery:histories, SongId }] });
+                
+                await existingData.histories.unshift({
+                    title,
+                    key,
+                    subtitle,
+                    artists: [{ adamid }],
+                    images: { background, coverart },
+                    hub: { actions: [{ id }, { uri }] },
+                });
+                
+                
+                if (existingData.histories.length > 10) {
+                    await existingData.histories.pop(); 
+                }
+                
+
+                  const updatedData = await existingData.save();
+                  res.json({ updatedData });
+                  
+                }
+                else {
+                    const newData = new Data({
+                user: req.user.id,
+                histories: [
+                  {
+                    title,
+                    key,
+                    subtitle,
+                    artists: [{ adamid }],
+                    images: { background, coverart },
+                    hub: { actions: [{ id }, { uri }] },
+                  },
+                ],
+              });
             const savedData = await newData.save();
             res.json({ savedData });
         }

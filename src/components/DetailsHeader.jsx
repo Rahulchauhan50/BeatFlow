@@ -1,4 +1,18 @@
+import { useAddFavArtistMutation } from '../redux/services/UserApi';
+
 const DetailsHeader = ({artistData, artistId}) => {
+  const [AddFavArtist] = useAddFavArtistMutation();
+
+  const handleAddFavArtist = () => {
+    AddFavArtist({title:artistData?.resources?.artists[artistId]?.attributes?.name, subTitle:artistData?.resources?.artists[artistId]?.attributes?.genreNames[0], image:artistData?.resources?.artists[artistId]?.attributes?.artwork?.url, ArtistId:artistId})
+      .unwrap()
+      .then((data) => {
+        console.log(' Artist added successfully', data);
+      })
+      .catch((error) => {
+        console.error('Error adding Artist', error);
+      });
+  };
   return(
       <div className="relative w-full flex flex-col">
         <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
@@ -16,6 +30,7 @@ const DetailsHeader = ({artistData, artistId}) => {
             <p className="text-base text-gray-400 mt-2">
               {artistData?.resources? artistData?.resources?.artists[artistId]?.attributes?.genreNames:artistData.genres?.primary}
             </p>
+            <button onClick={handleAddFavArtist} className="text-white">Add</button>
           </div>
         </div>
         <div className="w-full sm:h-44 h-24" />

@@ -38,7 +38,7 @@ router.post('/',[
     const AuthToken = jwt.sign(data,JWT_SECRET)
 
 
-   res.json(AuthToken)
+   res.json({"success":true,"authToken":AuthToken,user})
     }catch(err){
         res.json({error:err,mesage:err.message}).status(500)
     }
@@ -73,8 +73,7 @@ router.post('/login',[
     
         const AuthToken = jwt.sign(data,JWT_SECRET)
     
-    
-       res.json(AuthToken)
+        res.json({"success":true,"authToken":AuthToken})
         }catch(err){
             res.json({error:err,mesage:err.message}).status(500)
         }
