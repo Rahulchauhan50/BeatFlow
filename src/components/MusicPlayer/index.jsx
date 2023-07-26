@@ -2,15 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaAngleUp , FaMusic} from 'react-icons/fa'
 import { useAddFavSongMutation } from '../../redux/services/UserApi';
+import { useDeleteFavSongMutation } from '../../redux/services/UserApi';
 import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
 import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
+import {setAlert, setAlertMsg} from '../../redux/features/playerSlice';
 
 const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
   const [AddFavSong] = useAddFavSongMutation();
+  const [deletEFavSong] = useDeleteFavSongMutation();
+  const dispatch = useDispatch();
+
+
+  const [fav , setFav] = useState(false)
 
   const {activeSong, currentSongs, currentIndex, isActive, isPlaying, artistId } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
@@ -19,31 +26,49 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
-  const dispatch = useDispatch();
 
   const handleAddFavSong = () => {
-    if(activeSong?.hub?.actions[1]?.uri? (
-      AddFavSong({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
-      .unwrap()
-      .then((data) => {
-      })
-      .catch((error) => {
-        console.error('Error adding song', error);
-      }))      
-      
-      : AddFavSong({"title":activeSong?.attributes?.name, "key":activeSong?.id, "subtitle":activeSong?.attributes?.artistName, "adamid":artistId, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.id, "coverart":activeSong?.attributes?.artwork?.url, uri:activeSong?.attributes?.previews[0]?.url})
-      .unwrap()
-      .then((data) => {
-        console.log(' song added successfully', data);
-      })
-      .catch((error) => {
-        console.error('Error adding song', error);
-      }));
+    if(fav){
+      setFav(false)
+        deletEFavSong(activeSong?.key)
+          .unwrap() // Use .unwrap() to access the response data directly
+          .then((data) => {
+            console.log('song removed successfully', data);
+            dispatch(setAlert(true))
+            dispatch(setAlertMsg("Song removed from Favorite list successfully"))
+          })
+          .catch((error) => {
+            console.error('Error removing favorite song', error);
+    })
+        
+    }else{
+      setFav(true)
+      if(activeSong?.hub?.actions[1]?.uri? (
+        AddFavSong({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
+        .unwrap()
+        .then((data) => {
+          console.log(' song added successfully', data);
+          dispatch(setAlert(true))
+          dispatch(setAlertMsg("Song added to Favorite list successfully"))
+        })
+        .catch((error) => {
+          console.error('Error adding song', error);
+        }))      
+        
+        : AddFavSong({"title":activeSong?.attributes?.name, "key":activeSong?.id, "subtitle":activeSong?.attributes?.artistName, "adamid":artistId, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.id, "coverart":activeSong?.attributes?.artwork?.url, uri:activeSong?.attributes?.previews[0]?.url})
+        .unwrap()
+        .then((data) => {
+          console.log(' song added successfully', data);
+        })
+        .catch((error) => {
+          console.error('Error adding song', error);
+        }));
+    }
+    
   };
-  
 
   useEffect(() => {
-    if (currentSongs.length) dispatch(playPause(true));
+    if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);
 
   const handlePlayPause = () => {
@@ -101,9 +126,10 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
       <FaMusic className='w-6 h-6 text-white mr-2'/>
       </div>
       <Track mobilePlayerOpen={mobilePlayerOpen} changePlayer={changePlayer} isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
-      <div className={`${mobilePlayerOpen?"flex-col-reverse w-[80vw] absolute bottom-[15%] justify-between" : " flex-col"} items-center justify-center flex`}>
+      <div className={`${mobilePlayerOpen?"flex-col-reverse w-[80vw] absolute bottom-[5%] justify-between" : " flex-col"} items-center justify-center flex`}>
         <Controls
-        handleAddFavSong={handleAddFavSong}
+          fav={fav}
+          handleAddFavSong={handleAddFavSong}
           handleShareClick={handleShareClick}
           mobilePlayerOpen={mobilePlayerOpen}
           isPlaying={isPlaying}
@@ -132,6 +158,8 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
           appTime={appTime}
         />
         <Player
+          setFav={setFav} 
+          fav={fav}
           activeSong={activeSong}
           volume={volume}
           isPlaying={isPlaying}

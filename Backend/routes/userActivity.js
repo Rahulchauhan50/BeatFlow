@@ -62,6 +62,60 @@ router.post('/add-favsongs',fetchuser,async(req,res)=>{
     }
    
 })
+router.post('/IsfavSong',fetchuser,async(req,res)=>{
+    try {
+        const {uri} = req.body;
+
+        const existingData = await Data.findOne({ user: req.user.id });
+
+        if (existingData) {
+            
+            const existingSongIndex = await existingData.FavSongs.findIndex(
+                (song) => song.hub.actions[1].uri === uri);
+
+                if (existingSongIndex >= 0) {
+                    res.json({result:true})
+                    return
+                }
+                res.json({result:false})
+        }
+        else {
+            res.json({result:false})
+        }
+    } catch (error) {
+        res.send(error)
+        console.log(error)
+    }
+   
+})
+router.post('/IsfavArtist',fetchuser,async(req,res)=>{
+    try {
+        const {artistId} = req.body;
+
+        const existingData = await Data.findOne({ user: req.user.id });
+    if (existingData) {
+    
+    const existingSongIndex = await existingData.FavArtists.findIndex((artist)=>{
+         return artist.ArtistId === artistId
+    })
+        
+        if (existingSongIndex >= 0) {
+            
+            res.json({result:true,artistId})
+            return
+        }
+        console.log("yes2")
+                res.json({result:false,artistId})
+        }
+        else {
+            res.json({result:false,artistId})
+        }
+    } catch (error) {
+        res.send(error)
+        console.log(error)
+    }
+   
+})
 router.post('/add-favArtist',fetchuser,async(req,res)=>{
     try {
         const {title, subTitle, image, ArtistId} = req.body;
@@ -155,15 +209,15 @@ router.delete('/delete-favsong/:songId', fetchuser, async (req, res) => {
     try {
         const songIdToDelete = req.params.songId;
         const existingData = await Data.findOne({ user: req.user.id });
-
+        console.log(songIdToDelete)
         if (!existingData) {
             return res.status(404).json({ error: "User's data not found" });
         }
 
-        existingData.FavSongs = existingData.FavSongs.filter(song => song.SongId !== songIdToDelete);
+        existingData.FavSongs = await existingData.FavSongs.filter(song => song.key !== songIdToDelete);
         await existingData.save();
 
-        res.json({ message: 'Song deleted successfully' });
+        res.json({ message: songIdToDelete});
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
         console.log(error);
@@ -189,6 +243,7 @@ router.delete('/delete-all-favsong', fetchuser, async (req, res) => {
 router.delete('/delete-artist/:artistid', fetchuser, async (req, res) => {
     try {
         const ArtistIdToDelete = req.params.artistid;
+        console.log(ArtistIdToDelete)
         const existingData = await Data.findOne({ user: req.user.id });
 
         if (!existingData) {
@@ -198,7 +253,7 @@ router.delete('/delete-artist/:artistid', fetchuser, async (req, res) => {
         existingData.FavArtists = existingData.FavArtists.filter(artist => artist.ArtistId !== ArtistIdToDelete);
         await existingData.save();
 
-        res.json({ message: 'FavArtists deleted successfully' });
+        res.json(ArtistIdToDelete);
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
         console.log(error);

@@ -30,8 +30,8 @@ const Track = ({mobilePlayerOpen,changePlayer, isPlaying, isActive, activeSong }
       </div>
       </div>
       </>}
-    <div className={`${isPlaying && isActive ? /*'animate-[spin_3s_linear_infinite]'*/"" : ''} ${mobilePlayerOpen?"flex relative w-[80vw] h-[40vh] top-[24%]":"hidden sm:block h-16 w-16 mr-4"}`}>
-      <img src={activeSong?.images?.coverart?activeSong?.images?.coverart.replace('{w}', '125').replace('{h}', '125'):activeSong?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')} alt="cover art" className={`${mobilePlayerOpen?"rounded-3xl w-full":"rounded-full"}`} />
+    <div className={`${isPlaying && isActive ? /*'animate-[spin_3s_linear_infinite]'*/"" : ''} ${mobilePlayerOpen?"flex relative w-[80vw] top-[24%]":"hidden sm:block h-16 w-16 mr-4"}`}>
+      <img src={activeSong?.images?.coverart?activeSong?.images?.coverart.replace('{w}', '125').replace('{h}', '125'):activeSong?.attributes?.artwork?.url?.replace('{w}', '125').replace('{h}', '125')} alt="cover art" className={`${mobilePlayerOpen?"rounded-3xl w-full h-auto":"rounded-full"}`} />
     </div>
     <div className="w-[50%]">
       {!mobilePlayerOpen && <><p className="truncate text-white font-bold text-lg">

@@ -13,8 +13,6 @@ const ArtistDetails = () => {
   const { data: artistData, isFetching: isFetchingArtistDetails, error } = useGetArtistDetailsQuery(artistId);
   const divRef = useRef(null);
 
-  
-
   const setArtist = () => {
     dispatch(setArtistId(artistData));
 

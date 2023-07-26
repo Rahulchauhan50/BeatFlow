@@ -26,6 +26,22 @@ export const UserDataApi = createApi({
         method: 'DELETE',
       }),
     }),
+    isFavSong: builder.mutation({
+      query: (uri) => ({
+        url: `data/IsfavSong`,
+        method: 'POST',
+        body: uri
+      }),
+
+    }),
+    isFavArtist: builder.mutation({
+      query: (artistId) => ({
+        url: `data/IsfavArtist`,
+        method: 'POST',
+        body: artistId
+      }),
+
+    }),
     deleteAllFavArtists: builder.mutation({
       query: () => ({
         url: 'data/delete-all-artist',
@@ -78,6 +94,8 @@ export const {
   useGetAllDataQuery,
   useDeleteAllFavSongsMutation,
   useDeleteFavSongMutation,
+  useIsFavSongMutation,
+  useIsFavArtistMutation,
   useDeleteAllFavArtistsMutation,
   useDeleteFavArtistMutation,
   useDeleteAllHistoryMutation,

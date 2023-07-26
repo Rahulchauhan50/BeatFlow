@@ -7,7 +7,9 @@ const initialState = {
   isPlaying: false,
   activeSong: {},
   genreListId: '',
-  artistId:null
+  artistId:null,
+  alert:false,
+  Alertmessage:null
 };
 
 const playerSlice = createSlice({
@@ -24,9 +26,18 @@ const playerSlice = createSlice({
       }
       else if (action.payload?.artistData?.data) {
         state.currentSongs = action.payload?.artistData?.data;
+       
       } 
       else if (action.payload?.artistData) {
         state.currentSongs = action.payload?.artistData
+      } 
+      else if (action.payload.song.song) {
+        state.activeSong = action.payload.song.song
+        console.log("rahul")
+        state.currentSongs = action.payload?.data[0].histories
+      } 
+      else if (action.payload?.data[0].FavSongs) {
+        state.currentSongs = action.payload?.data[0].FavSongs
       } 
       else {
         state.currentSongs = action.payload.data;
@@ -69,9 +80,16 @@ const playerSlice = createSlice({
       state.artistId = action.payload?.data[0]?.id;
       console.log(action.payload)
     },
+    setAlert: (state, action) => {
+      state.alert = action.payload
+    },
+    setAlertMsg: (state, action) => {
+      state.Alertmessage = action.payload
+      console.log(state.alert)
+    }
   },
 });
 
-export const { setActiveSong, nextSong, prevSong, playPause, selectGenreListId, setArtistId} = playerSlice.actions;
+export const { setActiveSong, nextSong, prevSong, playPause, selectGenreListId, setArtistId , setAlert, setAlertMsg} = playerSlice.actions;
 
 export default playerSlice.reducer;
