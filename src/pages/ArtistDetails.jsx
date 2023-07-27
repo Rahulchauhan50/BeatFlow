@@ -15,14 +15,13 @@ const ArtistDetails = () => {
 
   const setArtist = () => {
     dispatch(setArtistId(artistData));
-
   }
-  
+
   useEffect(() => {
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  },[isFetchingArtistDetails]);
-    const handlePauseClick = () => {
-      dispatch(playPause(false));
+  }, [isFetchingArtistDetails]);
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
   };
 
   const handlePlayClick = (song, i) => {
@@ -34,32 +33,31 @@ const ArtistDetails = () => {
 
   if (error) return <Error />;
 
-
   return (
-      <><span ref={divRef}></span>
-    <div className="flex flex-col mt-5 md-0">
-      <div className="flex flex-col mt-5 md-0" >
-      <DetailsHeader
-        artistId={artistId}
-        artistData={artistData}
-      />
-  <div   className="flex flex-col ">
-  <div className="mt-6 w-full flex flex-col">
-      <RelatedSongs
-        artistData={artistData.resources?Object.keys(artistData?.resources?.songs).map((key) => {
-          return { id: key, ...artistData?.resources?.songs[key] };
-        }):[]}
-        artistId={artistId}
-        isPlaying={isPlaying}
-        activeSong={activeSong}
-        handlePauseClick={handlePauseClick}
-        handlePlayClick={handlePlayClick}
-        setArtist={ setArtist}
-      />
-    </div>
-    </div>
-    </div>
-    </div>
+    <><span ref={divRef}></span>
+      <div className="flex flex-col mt-5 md-0">
+        <div className="flex flex-col mt-5 md-0" >
+          <DetailsHeader
+            artistId={artistId}
+            artistData={artistData}
+          />
+          <div className="flex flex-col ">
+            <div className="mt-6 w-full flex flex-col">
+              <RelatedSongs
+                artistData={artistData.resources ? Object.keys(artistData?.resources?.songs).map((key) => {
+                  return { id: key, ...artistData?.resources?.songs[key] };
+                }) : []}
+                artistId={artistId}
+                isPlaying={isPlaying}
+                activeSong={activeSong}
+                handlePauseClick={handlePauseClick}
+                handlePlayClick={handlePlayClick}
+                setArtist={setArtist}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

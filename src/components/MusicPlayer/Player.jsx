@@ -17,10 +17,11 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
     }
   }
   const handleIsFavSong = () => {
-    IsFavsong({uri:activeSong?.hub?.actions[1]?.uri})
+    console.log(activeSong)
+    IsFavsong({uri:activeSong?.hub?.actions[1]?.uri?activeSong?.hub?.actions[1]?.uri:activeSong?.attributes?.previews[0]?.url})
       .unwrap()
       .then((data) => {
-        console.log( data);
+        console.log(data);
         setFav(data?.result)
       })
       .catch((error) => {

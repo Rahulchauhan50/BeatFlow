@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MdDelete } from "react-icons/md";
-
 import PlayPause from './PlayPause';
 
-const SongBar = ({songType, hadleDelete, song, i, artistId, isPlaying, activeSong, handlePauseClick, handlePlayClick, demo }) => (
+const SongBar = ({ song, i, artistId, isPlaying, activeSong, handlePauseClick, handlePlayClick, demo }) => (
   <div className={`w-full flex flex-row items-center hover:bg-[#6649c6] ${activeSong?.title === song?.title && activeSong?.subtitle === song?.subtitle && activeSong?.attributes?.name === song?.attributes?.name && activeSong?.attributes?.albumName === song?.attributes?.albumName ? 'bg-[#6649c6]' : 'bg-[#260f70]'} py-2 p-4 rounded-lg mb-2`}>
    <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
     
@@ -20,8 +18,6 @@ const SongBar = ({songType, hadleDelete, song, i, artistId, isPlaying, activeSon
         />
       }
       <div className="flex-1 flex flex-col justify-center mx-3">
-
-
         {demo ?
           <p className="text-sm md:text-lg font-bold text-white hover:underline">
             example song
@@ -31,17 +27,13 @@ const SongBar = ({songType, hadleDelete, song, i, artistId, isPlaying, activeSon
             </p>
           </Link>
         }
-
-
         {
           demo ? <p className="text-base text-gray-300 mt-1">
             example Artist
           </p> : <Link to={`/artists/${artistId}`}>
             <p className="text-base text-gray-300 mt-1 hover:underline">
-              {artistId ? song?.attributes?.albumName : ""}
-              {song?.subtitle?.length > 30 ? song?.subtitle?.slice(0, 30) : song?.subtitle}
+              { song?.attributes?.albumName ?song?.attributes?.albumName.slice(0, 25): song?.subtitle.slice(0, 30)}
             </p>
-
           </Link>
         }
       </div>

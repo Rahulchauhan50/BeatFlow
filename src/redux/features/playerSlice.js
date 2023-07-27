@@ -33,7 +33,6 @@ const playerSlice = createSlice({
       } 
       else if (action.payload.song.song) {
         state.activeSong = action.payload.song.song
-        console.log("rahul")
         state.currentSongs = action.payload?.data[0].histories
       } 
       else if (action.payload?.data[0].FavSongs) {
@@ -78,14 +77,12 @@ const playerSlice = createSlice({
     },
     setArtistId: (state, action) => {
       state.artistId = action.payload?.data[0]?.id;
-      console.log(action.payload)
     },
     setAlert: (state, action) => {
       state.alert = action.payload
     },
     setAlertMsg: (state, action) => {
       state.Alertmessage = action.payload
-      console.log(state.alert)
     }
   },
 });

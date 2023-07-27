@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 export const UserDataApi = createApi({
   reducerPath: 'UserDataApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5000/',
     prepareHeaders: (headers) => {
-      headers.set('auth-token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRiZDIwODlkNjkxMzVjODg1YTAyMjY0In0sImlhdCI6MTY5MDExNjI5OH0.0c7-D98-uCBKMas44waNR5WxnxTqSHGC3jxfhD8MQn8" );
-      headers.set('Content-Type', 'application/json');
+      headers.set('auth-token', localStorage.getItem("token")) 
+      headers.set('Content-Type', 'application/json')
 
       return headers;
     },
@@ -90,6 +91,28 @@ export const UserDataApi = createApi({
   }),
 });
 
+export const UserAuthApi = createApi({
+  reducerPath: 'UserAuthApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:5000/auth/',
+    prepareHeaders: (headers) => {
+      headers.set('auth-token', localStorage.getItem("token")) 
+      headers.set('Content-Type', 'application/json')
+
+      return headers;
+    },
+  }), 
+  endpoints: (builder) => ({
+    userAuthentication: builder.mutation({
+      query: () => ({
+        url: 'getuser',
+        method: 'POST',
+      }),
+    }),
+    
+  }),
+});
+
 export const {
   useGetAllDataQuery,
   useDeleteAllFavSongsMutation,
@@ -104,3 +127,7 @@ export const {
   useAddFavArtistMutation ,
   useAddHistoryMutation ,
 } = UserDataApi;
+
+export const {
+  useUserAuthenticationMutation,
+} = UserAuthApi;

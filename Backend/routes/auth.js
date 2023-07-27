@@ -73,7 +73,7 @@ router.post('/login',[
     
         const AuthToken = jwt.sign(data,JWT_SECRET)
     
-        res.json({"success":true,"authToken":AuthToken})
+        res.json({"success":true,user,"authToken":AuthToken})
         }catch(err){
             res.json({error:err,mesage:err.message}).status(500)
         }

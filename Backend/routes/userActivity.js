@@ -65,7 +65,6 @@ router.post('/add-favsongs',fetchuser,async(req,res)=>{
 router.post('/IsfavSong',fetchuser,async(req,res)=>{
     try {
         const {uri} = req.body;
-
         const existingData = await Data.findOne({ user: req.user.id });
 
         if (existingData) {
@@ -104,7 +103,6 @@ router.post('/IsfavArtist',fetchuser,async(req,res)=>{
             res.json({result:true,artistId})
             return
         }
-        console.log("yes2")
                 res.json({result:false,artistId})
         }
         else {
@@ -126,7 +124,6 @@ router.post('/add-favArtist',fetchuser,async(req,res)=>{
             const existingSongIndex = await existingData.FavArtists.findIndex(
                 (artist) =>artist.ArtistId === ArtistId);
                 
-                console.log(existingSongIndex)
                 if(existingSongIndex < 0){
                 
                 existingData.FavArtists.push({title, subTitle, image, ArtistId});
@@ -173,7 +170,7 @@ router.post('/add-history',fetchuser,async(req,res)=>{
                 });
                 
                 
-                if (existingData.histories.length > 10) {
+                if (existingData.histories.length > 30) {
                     await existingData.histories.pop(); 
                 }
                 
@@ -209,7 +206,6 @@ router.delete('/delete-favsong/:songId', fetchuser, async (req, res) => {
     try {
         const songIdToDelete = req.params.songId;
         const existingData = await Data.findOne({ user: req.user.id });
-        console.log(songIdToDelete)
         if (!existingData) {
             return res.status(404).json({ error: "User's data not found" });
         }
@@ -243,7 +239,6 @@ router.delete('/delete-all-favsong', fetchuser, async (req, res) => {
 router.delete('/delete-artist/:artistid', fetchuser, async (req, res) => {
     try {
         const ArtistIdToDelete = req.params.artistid;
-        console.log(ArtistIdToDelete)
         const existingData = await Data.findOne({ user: req.user.id });
 
         if (!existingData) {

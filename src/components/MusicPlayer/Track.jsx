@@ -17,16 +17,11 @@ const Track = ({mobilePlayerOpen,changePlayer, isPlaying, isActive, activeSong }
       <div className='w-[80vw] top-[18%] relative text-white'>
       <marquee id='myMarquee' className="text-3xl font-bold text-center" direction="left" behavior="scroll" hspace="50">
         
-      {activeSong?.title?.length > 15 ? activeSong?.title?.slice(0,15)+"..." : ""}
-        {activeSong?.title?.length <= 15 ?activeSong?.title : ""}
-        {activeSong?.attributes?.name?.length > 15 ?activeSong?.attributes?.name.slice(0,15) : ""}
-        {activeSong?.attributes?.name?.length <= 15 ?activeSong?.attributes?.name : ""}</marquee>
+      {activeSong?.title? activeSong?.title?.slice(0,15)+"..." : activeSong?.attributes?.name.slice(0,15)}</marquee>
       <div className="flex flex-col items-center my-2">
         <div id="musicName" className="text-xl font-medium mb-2">
-        {activeSong?.subtitle?.length > 20 ? activeSong?.subtitle?.slice(0,20)+"..." : ""}
-        {activeSong?.subtitle?.length <= 20 ?activeSong?.subtitle : ""}
-        {activeSong?.attributes?.albumName?.length > 20 ?activeSong?.attributes?.albumName.slice(0,20) : ""}
-        {activeSong?.attributes?.albumName?.length <= 20 ?activeSong?.attributes?.albumName : ""}          </div>
+        {activeSong?.subtitle ? activeSong?.subtitle?.slice(0,20)+"..." : activeSong?.attributes?.albumName.slice(0,20)}
+        </div>
       </div>
       </div>
       </>}
@@ -35,16 +30,10 @@ const Track = ({mobilePlayerOpen,changePlayer, isPlaying, isActive, activeSong }
     </div>
     <div className="w-[50%]">
       {!mobilePlayerOpen && <><p className="truncate text-white font-bold text-lg">
-        {activeSong?.title?.length > 15 ? activeSong?.title?.slice(0,15)+"..." : ""}
-        {activeSong?.title?.length <= 15 ?activeSong?.title : ""}
-        {activeSong?.attributes?.name?.length > 15 ?activeSong?.attributes?.name.slice(0,15) : ""}
-        {activeSong?.attributes?.name?.length <= 15 ?activeSong?.attributes?.name : ""}      </p>
+        {activeSong?.title? activeSong?.title?.slice(0,15)+"..." : activeSong?.attributes?.name.slice(0,15)}
+    </p>
       <p className="truncate text-gray-300">
-        {activeSong?.subtitle?.length > 15 ? activeSong?.subtitle?.slice(0,15)+"..." : ""}
-        {activeSong?.subtitle?.length <= 15 ?activeSong?.subtitle : ""}
-        {activeSong?.attributes?.albumName?.length > 15 ?activeSong?.attributes?.albumName.slice(0,15) : ""}
-        {activeSong?.attributes?.albumName?.length <= 15 ?activeSong?.attributes?.albumName : ""}
-
+        {activeSong?.subtitle? activeSong?.subtitle?.slice(0,15)+"..." : activeSong?.attributes?.albumName.slice(0,15)}
       </p></>}
     </div>
   </div>

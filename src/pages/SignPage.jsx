@@ -1,10 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import google from '../assets/google.svg'
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../redux/features/UserAuthSlice';
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
-
+    const dispatch = useDispatch();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const [isfocus, setIsfocus] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -13,40 +16,51 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
 
         const response = await fetch("http://localhost:5000/auth/login", {
             method: "POST",
-            headers:{
+            headers: {
                 "Content-Type": "application/json"
             },
-            body:JSON.stringify({email, password })
+            body: JSON.stringify({ email, password })
 
         })
         const data = await response.json()
+        if (data?.success === true) {
+            await localStorage.setItem("token", data.authToken)
+            await dispatch(setUserDetails(data))
+            window.location.href = 'http://localhost:3000'
+
+        }
         console.log(data)
     }
-    
+
     return (
         showPopup && <div className="absolute min-h-screen flex items-center justify-center z-[100]">
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
-                <div className="bg-white rounded-lg p-8 w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105">
+                <div className={`bg-white rounded-lg p-8 ${!isfocus ? 'translate-y-0' : '-translate-y-40'} w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
                     <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign In</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Username</label>
+
                             <input
-                                className="form-input mt-1 block w-full bg-gray-100 rounded focus:border-transparent focus:ring-0"
-                                type="email" 
+                                
+                                type="email"
                                 ref={emailRef}
+                                onFocus={()=>{setIsfocus(true)}}
+                                onBlur={()=>{setIsfocus(false)}}
+                                placeholder="Email"
+                                className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                             />
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" ref={passwordRef} className="form-input mt-1 block w-full bg-gray-100 rounded" />
+                            <input onBlur={()=>{setIsfocus(false)}} onFocus={()=>{setIsfocus(true)}} type="password" ref={passwordRef} placeholder='password' className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
                         </div>
                         <div className='flex flex-row justify-between'>
                             <button
                                 className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md"
                             >
-                            <img className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
-                                
+                                <img className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
+
                                 Sign In with Google
                             </button>
                         </div>
@@ -74,7 +88,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                             <path d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
-                    <p className=''><span className='ml-[14%]' >Did't have any account?<span onClick={handleTogglePopupOut} style={{color:"blue"}} className='cursor-pointer'>SignUp here</span></span></p>
+                    <p className=''><span className='ml-[14%]' >Did't have any account?<span onClick={handleTogglePopupOut} style={{ color: "blue" }} className='cursor-pointer'>SignUp here</span></span></p>
                 </div>
             </div>
 

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DetailsHeader, Error, Loader, RelatedSongs } from '../components';
-
 import { setActiveSong, playPause } from '../redux/features/playerSlice';
 import { useGetSongDetailsQuery, useGetSongRelatedQuery } from '../redux/services/shazamCore';
 
@@ -12,16 +11,15 @@ const SongDetails = () => {
   const {songid} = useParams();
   const {id} = useParams();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
-  
   const { data, isFetching: isFetchinRelatedSongs, error } = useGetSongRelatedQuery(id );
   const { data: songData, isFetching: isFetchingSongDetails } = useGetSongDetailsQuery( songid );
   const divRef = useRef(null);
+
   useEffect(() => {
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
   },[isFetchinRelatedSongs]);  
 
   if (isFetchingSongDetails && isFetchinRelatedSongs) return <Loader title="Loadind Lyrics" />;
-
 
   if (error) return <Error />;
 

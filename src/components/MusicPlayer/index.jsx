@@ -15,10 +15,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
   const [AddFavSong] = useAddFavSongMutation();
   const [deletEFavSong] = useDeleteFavSongMutation();
   const dispatch = useDispatch();
-
-
   const [fav , setFav] = useState(false)
-
   const {activeSong, currentSongs, currentIndex, isActive, isPlaying, artistId } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
@@ -30,10 +27,10 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
   const handleAddFavSong = () => {
     if(fav){
       setFav(false)
-        deletEFavSong(activeSong?.key)
+        deletEFavSong(activeSong.key)
           .unwrap() // Use .unwrap() to access the response data directly
           .then((data) => {
-            console.log('song removed successfully', data);
+            console.log('song rahul successfully', data);
             dispatch(setAlert(true))
             dispatch(setAlertMsg("Song removed from Favorite list successfully"))
           })
@@ -47,7 +44,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         AddFavSong({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
         .unwrap()
         .then((data) => {
-          console.log(' song added successfully', data);
+          console.log(' rahul added successfully', data);
           dispatch(setAlert(true))
           dispatch(setAlertMsg("Song added to Favorite list successfully"))
         })
@@ -59,6 +56,8 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         .unwrap()
         .then((data) => {
           console.log(' song added successfully', data);
+          dispatch(setAlert(true))
+          dispatch(setAlertMsg("Song added to Favorite list successfully"))
         })
         .catch((error) => {
           console.error('Error adding song', error);
@@ -66,7 +65,6 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
     }
     
   };
-
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);

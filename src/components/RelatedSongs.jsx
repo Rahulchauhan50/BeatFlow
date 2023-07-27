@@ -2,7 +2,6 @@ import SongBar from '../components/SongBar'
 import { useDispatch } from 'react-redux';
 import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
-
 const RelatedSongs = ({artistData, artistId, isPlaying, activeSong, handlePauseClick , setArtist}) => {
   const dispatch = useDispatch(); ;
     return(
