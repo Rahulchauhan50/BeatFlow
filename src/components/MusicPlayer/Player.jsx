@@ -58,7 +58,6 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
       })
       .catch((error) => {
         console.error('Error adding song');
-        
         // eslint-disable-next-line
       }));},[activeSong])
   return (
