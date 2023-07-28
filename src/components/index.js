@@ -1,5 +1,5 @@
 import Sidebar from './Sidebar';
-import Searchbar from './Searchbar';
+import Navbar from './Navbar';
 import SongCard from './SongCard';
 import TopPlay from './TopPlay';
 import DetailsHeader from './DetailsHeader';
@@ -13,7 +13,7 @@ export {
   TopPlay,
   Sidebar,
   SongCard,
-  Searchbar,
+  Navbar,
   DetailsHeader,
   SongBar,
   RelatedSongs,
