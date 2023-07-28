@@ -32,71 +32,68 @@ const UserProfile = () => {
     deleteAllFavSongs()
       .unwrap()
       .then((data) => {
-        console.log('All favorite songs removed successfully', data);
+        console.log('All favorite songs removed successfully');
         dispatch(setAlert(true))
         dispatch(setAlertMsg("All favourite song removed successfully"))
       })
       .catch((error) => {
-        console.error('Error removing favorite songs', error);
+        console.error('Error removing favorite songs');
       });
   };
   const handleDeleteAllFavArtists = () => {
     deleteAllFavArtists()
       .unwrap()
       .then((data) => {
-        console.log('All favorite artists removed successfully', data);
+        console.log('All favorite artists removed successfully');
         dispatch(setAlert(true))
         dispatch(setAlertMsg("All favourite artists removed successfully"))
       })
       .catch((error) => {
-        console.error('Error removing favorite artists', error);
+        console.error('Error removing favorite artists');
       });
   };
   const handleDeleteAllHistory = () => {
     deletEAllHistory()
       .unwrap() // Use .unwrap() to access the response data directly
       .then((data) => {
-        console.log('All History removed successfully', data);
+        console.log('All History removed successfully');
         dispatch(setAlert(true))
         dispatch(setAlertMsg("History cleared successfully"))
       })
       .catch((error) => {
-        console.error('Error removing song from History', error);
+        console.error('Error removing song from History');
       });
   };
   const handleDeleteFavArtist = (artistId) => {
     deletEFavArtist(artistId)
       .unwrap() // Use .unwrap() to access the response data directly
       .then((data) => {
-        console.log(' Artist removed successfully', data);
+        console.log(' Artist removed successfully');
         dispatch(setAlert(true))
         dispatch(setAlertMsg("Artist removed successfully"))
       })
       .catch((error) => {
-        console.error('Error removing favorite Artist', error);
+        console.error('Error removing favorite Artist');
       });
   };
   const hadleDelete = (songId, val) => {
     if (val) {
-      console.log(songId)
       deletEHistory(songId)
         .unwrap()
         .then((data) => {
-          console.log(data);
         })
         .catch((error) => {
-          console.error('Error removing Artist from history', error);
+          console.error('Error removing Artist from history');
         });
 
     } else {
-      console.log(songId)
       deletEFavSong()
         .unwrap(songId) // Use .unwrap() to access the response data directly
         .then((data) => {
-          console.log('song removed successfully', data);
+          console.log('song removed successfully');
         })
         .catch((error) => {
-          console.error('Error removing favorite song', error);
+          console.error('Error removing favorite song');
         });
 
     }

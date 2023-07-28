@@ -20,11 +20,10 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
     IsFavsong({uri:activeSong?.hub?.actions[1]?.uri?activeSong?.hub?.actions[1]?.uri:activeSong?.attributes?.previews[0]?.url})
       .unwrap()
       .then((data) => {
-        console.log(data);
         setFav(data?.result)
       })
       .catch((error) => {
-        console.error('Error removing favorite Artist', error);
+        console.error('Error removing favorite Artist');
       });
   };
 
@@ -44,19 +43,19 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
       AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
       .unwrap()
       .then((data) => {
-        console.log(' song added successfully', data);
+        console.log(' song added successfully');
       })
       .catch((error) => {
-        console.error('Error adding song', error);
+        console.error('Error adding song');
       }))      
       
       : AddHistory({"title":activeSong?.attributes?.name, "key":activeSong?.id, "subtitle":activeSong?.attributes?.artistName, "adamid":artistId, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.id, "coverart":activeSong?.attributes?.artwork?.url, uri:activeSong?.attributes?.previews[0]?.url})
       .unwrap()
       .then((data) => {
-        console.log(' song added successfully', data);
+        console.log(' song added successfully');
       })
       .catch((error) => {
-        console.error('Error adding song', error);
+        console.error('Error adding song');
 
 
 

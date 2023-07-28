@@ -23,7 +23,6 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
         SignInUser({email,password})
       .unwrap()
       .then((data) => {
-        console.log( data);
         if(data?.success===true){
             setIsError(false)
           localStorage.setItem("token",data.authToken)
@@ -31,11 +30,10 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
           window.location.href = 'http://localhost:3000'
           }      })
       .catch((error) => {
-        console.error('Error Authenicationg user', error);
+        console.error('Error Authenicationg user');
         if("user does not exist"===error.data.error){
             setIsError(true)
           }
-          console.log("user does not exist"===error.data.error)
       });
     }
 

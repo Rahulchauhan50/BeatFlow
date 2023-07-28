@@ -25,7 +25,6 @@ const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) =>
       SignUPUser({phoneNumber,name,email,password})
       .unwrap()
       .then((data) => {
-        console.log( data);
         if(data?.success===true){
           setIsError(false)
           localStorage.setItem("token",data.authToken)
@@ -33,7 +32,7 @@ const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) =>
           window.location.href = 'http://localhost:3000'
           }})
       .catch((error) => {
-        console.error('Error Authenicationg user', error.data.error);
+        console.error('Error Authenicationg user');
         if("user already exist"===error.data.error){
           setIsError(true)
         }

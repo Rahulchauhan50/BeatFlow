@@ -46,7 +46,6 @@ const Navbar = ({handleTogglePopupOut,handleTogglePopup}) => {
 
     recognition.onresult = function (event) {
       const result = event.results[event.results.length - 1][0].transcript;
-      console.log(result)
       setSearchTerm(result)
     };
     recognition.start();

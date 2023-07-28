@@ -14,11 +14,11 @@ const DetailsHeader = ({ artistData, artistId }) => {
     AddFavArtist({ title: artistData?.resources?.artists[artistId]?.attributes?.name, subTitle: artistData?.resources?.artists[artistId]?.attributes?.genreNames[0], image: artistData?.resources?.artists[artistId]?.attributes?.artwork?.url, ArtistId: artistId })
       .unwrap()
       .then((data) => {
-        console.log(' Artist added successfully', data);
+        console.log(' Artist added successfully');
         setIsFavArtist(true)
       })
       .catch((error) => {
-        console.error('Error adding Artist', error);
+        console.error('Error adding Artist');
       });
   };
 
@@ -26,11 +26,11 @@ const DetailsHeader = ({ artistData, artistId }) => {
     deletEFavArtist(artistId)
       .unwrap()
       .then((data) => {
-        console.log(' Artist removed successfully', data);
+        console.log(' Artist removed successfully');
         setIsFavArtist(false)
       })
       .catch((error) => {
-        console.error('Error removing favorite Artist', error);
+        console.error('Error removing favorite Artist');
       });
   };
 
@@ -38,11 +38,10 @@ const DetailsHeader = ({ artistData, artistId }) => {
     isFavartist({ artistId })
       .unwrap()
       .then((data) => {
-        console.log(data);
         setIsFavArtist(data?.result)
       })
       .catch((error) => {
-        console.error('Error removing favorite Artist', error);
+        console.error('Error removing favorite Artist');
       });
   }, [artistId, IsfavArtist])
   return (

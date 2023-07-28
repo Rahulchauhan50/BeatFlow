@@ -30,12 +30,12 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         deletEFavSong(activeSong.key)
           .unwrap() // Use .unwrap() to access the response data directly
           .then((data) => {
-            console.log('song rahul successfully', data);
+            console.log('song deleted successfully');
             dispatch(setAlert(true))
             dispatch(setAlertMsg("Song removed from Favorite list successfully"))
           })
           .catch((error) => {
-            console.error('Error removing favorite song', error);
+            console.error('Error removing favorite song');
     })
         
     }else{
@@ -44,23 +44,23 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         AddFavSong({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
         .unwrap()
         .then((data) => {
-          console.log(' rahul added successfully', data);
+          console.log(' song added successfully');
           dispatch(setAlert(true))
           dispatch(setAlertMsg("Song added to Favorite list successfully"))
         })
         .catch((error) => {
-          console.error('Error adding song', error);
+          console.error('Error adding song');
         }))      
         
         : AddFavSong({"title":activeSong?.attributes?.name, "key":activeSong?.id, "subtitle":activeSong?.attributes?.artistName, "adamid":artistId, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.id, "coverart":activeSong?.attributes?.artwork?.url, uri:activeSong?.attributes?.previews[0]?.url})
         .unwrap()
         .then((data) => {
-          console.log(' song added successfully', data);
+          console.log(' song added successfully');
           dispatch(setAlert(true))
           dispatch(setAlertMsg("Song added to Favorite list successfully"))
         })
         .catch((error) => {
-          console.error('Error adding song', error);
+          console.error('Error adding song');
         }));
     }
     
@@ -111,7 +111,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         alert('Web Share API is not supported on this browser.');
       }
     } catch (error) {
-      console.error('Error sharing:', error);
+      console.error('Error sharing:');
     }
   };
 
