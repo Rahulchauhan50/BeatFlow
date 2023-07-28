@@ -29,9 +29,11 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
 
   useEffect(() => {
     ref.current.volume = volume;
+    // eslint-disable-next-line
   }, [volume]);
   useEffect(() => {
     ref.current.currentTime = seekTime;
+    // eslint-disable-next-line
   }, [seekTime]);
 
   useEffect(()=>{
@@ -56,9 +58,8 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
       })
       .catch((error) => {
         console.error('Error adding song');
-
-
-
+        
+        // eslint-disable-next-line
       }));},[activeSong])
   return (
     <audio
