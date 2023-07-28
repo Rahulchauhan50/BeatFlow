@@ -1,7 +1,6 @@
 import React from 'react';
 import {useEffect} from "react";
 
-
 const Track = ({mobilePlayerOpen,changePlayer, isPlaying, isActive, activeSong }) => {
   useEffect(() => {
     if(isPlaying && isActive){

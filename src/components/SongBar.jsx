@@ -4,7 +4,6 @@ import PlayPause from './PlayPause';
 
 const SongBar = ({ song, i, artistId, isPlaying, activeSong, handlePauseClick, handlePlayClick, demo }) => (
   <div className={`w-full flex flex-row items-center hover:bg-[#6649c6] ${activeSong?.title === song?.title && activeSong?.subtitle === song?.subtitle && activeSong?.attributes?.name === song?.attributes?.name && activeSong?.attributes?.albumName === song?.attributes?.albumName ? 'bg-[#6649c6]' : 'bg-[#260f70]'} py-2 p-4 rounded-lg mb-2`}>
-    {console.log(i)}
    <h3 className="font-bold text-base text-white mr-3">{i + 1}.</h3>
     
     <div className="flex-1 flex flex-row justify-between items-center">

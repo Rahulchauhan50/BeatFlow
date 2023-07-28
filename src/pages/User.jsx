@@ -7,28 +7,19 @@ import { useDeleteAllFavSongsMutation, useDeleteAllFavArtistsMutation, useDelete
 import Delete from '../assets/delete.png'
 import clear from '../assets/clear.svg'
 import 'tailwindcss/tailwind.css';
+import { Error, Loader } from '../components';
+import Dalle from '../assets/DALL.png'
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-
+  
+  const divRef = useRef(null);
   const [histroyExpand, setHistroyExpand] = useState(5)
   const [favSongExpand, setFavSongExpand] = useState(5)
   const [favArtistExpand, setFavArtistExpand] = useState(5)
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { UserDetails } = useSelector((state) => state.UserAuth);
   const { data, isFetching, error, refetch } = useGetAllDataQuery({ enabled: false });
-
-  // console.log(data)
-
-  useEffect(() => {
-    refetch();
-  })
-
-  const handlePauseClick = () => {
-    dispatch(playPause(false));
-  };
-
-  
 
   const [deleteAllFavSongs] = useDeleteAllFavSongsMutation();
   const [deleteAllFavArtists] = useDeleteAllFavArtistsMutation();
@@ -39,7 +30,7 @@ const UserProfile = () => {
 
   const handleDeleteAllFavSongs = () => {
     deleteAllFavSongs()
-      .unwrap() // Use .unwrap() to access the response data directly
+      .unwrap()
       .then((data) => {
         console.log('All favorite songs removed successfully', data);
         dispatch(setAlert(true))
@@ -51,7 +42,7 @@ const UserProfile = () => {
   };
   const handleDeleteAllFavArtists = () => {
     deleteAllFavArtists()
-      .unwrap() // Use .unwrap() to access the response data directly
+      .unwrap()
       .then((data) => {
         console.log('All favorite artists removed successfully', data);
         dispatch(setAlert(true))
@@ -111,8 +102,16 @@ const UserProfile = () => {
     }
   }
 
+  useEffect(() => {
+    refetch();
+  })
+  
+  if (error) return <Error />;
 
-  const divRef = useRef(null);
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+
   return (
     <div className="min-h-screen bg-transparent bg-gray-100 py-8 md:px-4 sm:px-6 lg:px-8">
       <div className="md:max-w-7xl mx-auto">
@@ -122,9 +121,10 @@ const UserProfile = () => {
               <div className="flex items-center justify-center bg-transparent mb-14 bg-gray-200 h-40">
                 <img
                   ref={divRef}
-                  className="h-32 w-32 rounded-full object-cover"
-                  src='https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=740'
+                  className="h-36 w-36 rounded-full object-cover"
+                  src={Dalle}
                   alt={UserDetails?.name}
+                  style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }}
                 />
               </div>
               <div className="bg-gradient-to-tr from-[#ff5b5b] to-[#44caff] px-4 rounded-3xl py-5 sm:p-6">

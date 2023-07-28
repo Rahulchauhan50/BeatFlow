@@ -38,6 +38,7 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
   useEffect(()=>{
 
     handleIsFavSong()
+    document.title = activeSong?.title? activeSong?.title+" - spotify it's Rahul" : activeSong?.attributes?.name+" - spotify it's Rahul"
 
     if(activeSong?.hub?.actions[1]?.uri? (
       AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
