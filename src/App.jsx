@@ -14,8 +14,6 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from './redux/features/UserAuthSlice';
 import { useUserAuthenticationMutation } from './redux/services/UserApi';
 import Footer from './components/Footer';
-import Loader from './components/Loader';
-
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,7 +21,7 @@ const App = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupOut, setShowPopupOut] = useState(false);
   const { UserDetails } = useSelector((state) => state.UserAuth);
-  const [IsUser, { isLoading, isError }] = useUserAuthenticationMutation();
+  const [IsUser, { isLoading }] = useUserAuthenticationMutation();
   const { activeSong } = useSelector((state) => state.player)
   const location = useLocation();
   const isUserPage = location.pathname === '/user' ;
@@ -54,7 +52,7 @@ const App = () => {
     .catch((error) => {
       console.error('Error Authenicationg user', error);
     });
-  }
+  } 
 
   const handleTogglePopupOut = () => {
     setShowPopup(false)

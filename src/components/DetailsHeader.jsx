@@ -9,7 +9,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
   const [deletEFavArtist] = useDeleteFavArtistMutation();
   const [IsfavArtist, setIsFavArtist] = useState(false)
   const [isFavartist] = useIsFavArtistMutation();
-
+ 
   const handleAddFavArtist = () => {
     AddFavArtist({ title: artistData?.resources?.artists[artistId]?.attributes?.name, subTitle: artistData?.resources?.artists[artistId]?.attributes?.genreNames[0], image: artistData?.resources?.artists[artistId]?.attributes?.artwork?.url, ArtistId: artistId })
       .unwrap()

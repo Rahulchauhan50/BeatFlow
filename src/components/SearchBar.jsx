@@ -85,18 +85,18 @@ const Navbar = ({handleTogglePopupOut,handleTogglePopup}) => {
       <div className="flex items-center gap-8">
         {UserDetails?.name ? <button
         onClick={()=>{localStorage.setItem("token","");dispatch(setUserDetails({}));window.location.href = 'http://localhost:3000'}}
-          className="px-4 py-2 bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
+          className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
         >
           LogOut
         </button> : <>
           <button
             onClick={handleTogglePopup}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 rounded hidden sm:block to-pink-500 text-white shadow hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors">
+            className="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 rounded hidden sm:block to-pink-500 text-white shadow hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors">
             SignIn
           </button>
           <button
             onClick={handleTogglePopupOut}
-            className="px-4 py-2 bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors">
+            className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors">
             SignUp
           </button>
         </>}
