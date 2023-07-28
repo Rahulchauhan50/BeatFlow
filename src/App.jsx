@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from './redux/features/UserAuthSlice';
 import { useUserAuthenticationMutation } from './redux/services/UserApi';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
 
 
 const App = () => {
@@ -22,31 +23,40 @@ const App = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupOut, setShowPopupOut] = useState(false);
   const { UserDetails } = useSelector((state) => state.UserAuth);
-  const [IsUser] = useUserAuthenticationMutation();
+  const [IsUser, { isLoading, isError }] = useUserAuthenticationMutation();
   const { activeSong } = useSelector((state) => state.player)
-
   const location = useLocation();
-
   const isUserPage = location.pathname === '/user' ;
-
   const divRef = useRef(null);
+  
+  useEffect(() => {
+    AuthUser()
+  },[]);
+  
+  useEffect(() => {
+    AuthUser()
+    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  },[]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowPopup(true)
+    }, 5000)
+  }, [])
+  
+  if (isLoading) return <Loader title="Loading songs..." />;
+  
   const AuthUser = async () => {
     IsUser()
     .unwrap()
     .then((data) => {
       console.log( data);
-        dispatch(setUserDetails({user:data}))
+      dispatch(setUserDetails({user:data}))
     })
     .catch((error) => {
       console.error('Error Authenicationg user', error);
     });
-}
-
-  useEffect(() => {
-    AuthUser()
-    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  },[]);
+  }
 
   const handleTogglePopupOut = () => {
     setShowPopup(false)
@@ -57,12 +67,6 @@ const App = () => {
     setShowPopupOut(false)
     setShowPopup(!showPopup);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowPopup(true)
-    }, 5000)
-  }, [])
 
   return (
     <div className="abolute flex h-[100%]">

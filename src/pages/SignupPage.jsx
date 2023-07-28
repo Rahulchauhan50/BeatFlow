@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import google from '../assets/google.svg'
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
+import { useUserSignupMutation } from '../redux/services/UserApi';
 
 const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) =>
   const phoneNumberRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const [SignUPUser] = useUserSignupMutation();
 
   const handleSignUp = async (e) => {
       e.preventDefault();
@@ -18,45 +20,41 @@ const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) =>
       const email = emailRef.current.value;
       const password = passwordRef.current.value;
 
-      const response = await fetch("http://localhost:5000/auth", {
-          method: "POST",
-          headers:{
-              "Content-Type": "application/json"
-          },
-          body:JSON.stringify({name,phoneNumber, email, password })
-
-      })
-      const data = await response.json()
-      if(data?.success===true){
-       await localStorage.setItem("token",data.authToken)
-       await dispatch(setUserDetails(data))
-        window.location.href = 'http://localhost:3000'
-
+      SignUPUser({phoneNumber,name,email,password})
+      .unwrap()
+      .then((data) => {
+        console.log( data);
+        if(data?.success===true){
+          localStorage.setItem("token",data.authToken)
+          dispatch(setUserDetails(data))
+          window.location.href = 'http://localhost:3000'
+          }      })
+      .catch((error) => {
+        console.error('Error Authenicationg user', error);
+      });
     }
-      console.log(data)
-  }
   
   return (
     showPopupOut &&  <div className="absolute min-h-screen flex items-center justify-center z-[500]">
         <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
-          <div className={`bg-white rounded-lg p-8 w-96 ${isfocus ? 'translate-y-0' : '-translate-y-40'} transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
+          <div className={`bg-white rounded-lg p-8 w-96 ${isfocus && window.innerWidth<576 ? '-translate-y-40' : 'translate-y-0'} transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
             <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign Up</h2>
             <form onSubmit={handleSignUp} autoComplete='true'>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                <input  onFocus={()=>{setIsfocus(false)}} onBlur={()=>{setIsfocus(true)}} placeholder='Name'  type="text" ref={nameRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
+                <input minLength={3}  onFocus={()=>{setIsfocus(true)}} onBlur={()=>{setIsfocus(false)}} placeholder='Name'  type="text" ref={nameRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Phone No.</label>
-                <input  onFocus={()=>{setIsfocus(false)}} onBlur={()=>{setIsfocus(true)}} placeholder='Phone number' type="number" ref={phoneNumberRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
+                <input minLength={10}  onFocus={()=>{setIsfocus(true)}} onBlur={()=>{setIsfocus(false)}} placeholder='Phone number' type="number" ref={phoneNumberRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input  onFocus={()=>{setIsfocus(false)}} onBlur={()=>{setIsfocus(true)}} placeholder='email' type="email" ref={emailRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"/>
+                <input required onFocus={()=>{setIsfocus(true)}} onBlur={()=>{setIsfocus(false)}} placeholder='email' type="email" ref={emailRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"/>
               </div>
               <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input  onFocus={()=>{setIsfocus(false)}} onBlur={()=>{setIsfocus(true)}} placeholder='create password' type='password' ref={passwordRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
+                <input minLength={8} onFocus={()=>{setIsfocus(true)}} onBlur={()=>{setIsfocus(false)}} placeholder='create password' type='password' ref={passwordRef} className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
               </div>
               <div className='flex mb-3 flex-row justify-between'>
                             <button

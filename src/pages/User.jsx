@@ -26,31 +26,7 @@ const UserProfile = () => {
     dispatch(playPause(false));
   };
 
-  const hadleDelete = (songId, val) => {
-    if (val) {
-      console.log(songId)
-      deletEHistory(songId)
-        .unwrap()
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error('Error removing Artist from history', error);
-        });
-
-    } else {
-      console.log(songId)
-      deletEFavSong()
-        .unwrap(songId) // Use .unwrap() to access the response data directly
-        .then((data) => {
-          console.log('song removed successfully', data);
-        })
-        .catch((error) => {
-          console.error('Error removing favorite song', error);
-        });
-
-    }
-  }
+  
 
   const [deleteAllFavSongs] = useDeleteAllFavSongsMutation();
   const [deleteAllFavArtists] = useDeleteAllFavArtistsMutation();
@@ -107,6 +83,31 @@ const UserProfile = () => {
         console.error('Error removing favorite Artist', error);
       });
   };
+  const hadleDelete = (songId, val) => {
+    if (val) {
+      console.log(songId)
+      deletEHistory(songId)
+        .unwrap()
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error('Error removing Artist from history', error);
+        });
+
+    } else {
+      console.log(songId)
+      deletEFavSong()
+        .unwrap(songId) // Use .unwrap() to access the response data directly
+        .then((data) => {
+          console.log('song removed successfully', data);
+        })
+        .catch((error) => {
+          console.error('Error removing favorite song', error);
+        });
+
+    }
+  }
 
 
   const divRef = useRef(null);

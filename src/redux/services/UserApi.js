@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
+const BaseUrl = process.env.REACT_APP_BASE_URL
 
 export const UserDataApi = createApi({
   reducerPath: 'UserDataApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/',
+    baseUrl: BaseUrl,
     prepareHeaders: (headers) => {
       headers.set('auth-token', localStorage.getItem("token")) 
       headers.set('Content-Type', 'application/json')
@@ -91,27 +91,41 @@ export const UserDataApi = createApi({
   }),
 });
 
-export const UserAuthApi = createApi({
-  reducerPath: 'UserAuthApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/auth/',
-    prepareHeaders: (headers) => {
-      headers.set('auth-token', localStorage.getItem("token")) 
-      headers.set('Content-Type', 'application/json')
+  export const UserAuthApi = createApi({
+    reducerPath: 'UserAuthApi',
+    baseQuery: fetchBaseQuery({
+      baseUrl: BaseUrl,
+      prepareHeaders: (headers) => {
+        headers.set('auth-token', localStorage.getItem('token')) 
+        headers.set('Content-Type', 'application/json')
 
-      return headers;
-    },
-  }), 
-  endpoints: (builder) => ({
-    userAuthentication: builder.mutation({
-      query: () => ({
-        url: 'getuser',
-        method: 'POST',
+        return headers;
+      },
+    }), 
+    endpoints: (builder) => ({
+      userAuthentication: builder.mutation({
+        query: () => ({
+          url: 'auth/getuser',
+          method: 'POST',
+        }),
       }),
+      userLogin: builder.mutation({
+        query: ({email,password}) => ({
+          url: 'auth/login',
+          method: 'POST',
+          body:JSON.stringify({ email, password })
+        }),
+      }),
+      userSignup: builder.mutation({
+        query: ({phoneNumber,name,email,password}) => ({
+          url: 'auth',
+          method: 'POST',
+          body:JSON.stringify({phoneNumber,name, email, password })
+        }),
+      }),
+      
     }),
-    
-  }),
-});
+  });
 
 export const {
   useGetAllDataQuery,
@@ -130,4 +144,6 @@ export const {
 
 export const {
   useUserAuthenticationMutation,
+  useUserLoginMutation,
+  useUserSignupMutation,
 } = UserAuthApi;

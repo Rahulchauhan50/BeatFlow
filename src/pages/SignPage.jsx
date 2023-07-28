@@ -2,40 +2,40 @@ import React, { useRef, useState } from 'react';
 import google from '../assets/google.svg'
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
+import { useUserLoginMutation } from '../redux/services/UserApi';
+
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
     const dispatch = useDispatch();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [isfocus, setIsfocus] = useState(false);
+    const [SignInUser] = useUserLoginMutation();
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        const response = await fetch("http://localhost:5000/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-
-        })
-        const data = await response.json()
-        if (data?.success === true) {
-            await localStorage.setItem("token", data.authToken)
-            await dispatch(setUserDetails(data))
-            window.location.href = 'http://localhost:3000'
-
-        }
-        console.log(data)
+        SignInUser({email,password})
+      .unwrap()
+      .then((data) => {
+        console.log( data);
+        if(data?.success===true){
+          localStorage.setItem("token",data.authToken)
+          dispatch(setUserDetails(data))
+          window.location.href = 'http://localhost:3000'
+          }      })
+      .catch((error) => {
+        console.error('Error Authenicationg user', error);
+      });
     }
 
     return (
         showPopup && <div className="absolute min-h-screen flex items-center justify-center z-[100]">
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
-                <div className={`bg-white rounded-lg p-8 ${!isfocus ? 'translate-y-0' : '-translate-y-40'} w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
+                <div className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576? '-translate-y-40' : 'translate-y-0'} w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
                     <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign In</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
