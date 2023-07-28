@@ -27,7 +27,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
             setIsError(false)
           localStorage.setItem("token",data.authToken)
           dispatch(setUserDetails(data))
-          window.location.href = 'http://localhost:3000'
+          window.location.href = 'https://music-rahul.netlify.app/'
           }      })
       .catch((error) => {
         console.error('Error Authenicationg user');

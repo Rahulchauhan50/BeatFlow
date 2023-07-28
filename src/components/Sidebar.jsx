@@ -30,7 +30,7 @@ export default function Sidebar({handleTogglePopup}) {
   
   return (
     <>
-      <div className='md:flex hidden flex-col w-[220px] py-6 px-4 bg-[#191624]'>
+      <div className='md:flex hidden flex-col h-full w-[220px] py-6 px-4 bg-[#191624]'>
           <div className={`${UserDetails?.name ? "flex-col flex" : 'flex-row flex'} items-center gap-3`}>
         <Link to='user'>
             <img className="h-[90px] rounded-full object-contain z-50" alt="Spotify logo with text" src={Dalle} />
@@ -51,7 +51,7 @@ export default function Sidebar({handleTogglePopup}) {
             <div className='flex flex-col justify-center text-white md:hidden'>
               <p>{UserDetails?.name}</p>
               <p>{UserDetails?.email}</p>
-              {UserDetails?.name ? <button onClick={()=>{ localStorage.setItem('token','');dispatch(setUserDetails({}));window.location.href = 'http://localhost:3000'}} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">LogOut</button> : <button onClick={handleTogglePopup} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">SignIn</button>}
+              {UserDetails?.name ? <button onClick={()=>{ localStorage.setItem('token','');dispatch(setUserDetails({}));window.location.href = 'https://music-rahul.netlify.app/'}} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">LogOut</button> : <button onClick={handleTogglePopup} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">SignIn</button>}
             </div>
           </div>
         <NavLinks />
