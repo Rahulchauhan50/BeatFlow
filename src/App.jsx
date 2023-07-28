@@ -9,7 +9,7 @@ import * as React from 'react';
 import DescriptionAlerts from './components/Alert';
 import SignInPopup from './pages/SignPage'
 import SignUpPopup from './pages/SignupPage';
-import Navbar from './components/Searchbar';
+import Navbar from './components/Navbar';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './redux/features/UserAuthSlice';
 import { useUserAuthenticationMutation } from './redux/services/UserApi';
