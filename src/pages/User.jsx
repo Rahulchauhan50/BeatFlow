@@ -234,7 +234,7 @@ const UserProfile = () => {
                     return <div key={e} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
                       <img alt='delete' className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
                       <div className='relative w-full h-auto group'>
-                        <img alt='delete' style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' src="https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg" />
+                        <img alt='hero' style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' src="https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg" />
                       </div>
                       <div className='mt-4 flex flex-col items-center'>
                         <span className='text-sm truncate text-gray-300 mt-1 hover:underline'>
