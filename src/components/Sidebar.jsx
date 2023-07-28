@@ -15,7 +15,7 @@ const NavLinks = ({ close }) => {
       <Link
         key={item.name}
         to={item.to}
-        className={`flex flex-row justify-start items-center my-8 text-sm font-medium ${location.pathname == item.to ? "text-cyan-400" : "text-gray-400"}  hover:text-cyan-400`} >
+        className={`flex flex-row justify-start items-center my-8 text-sm font-medium ${location.pathname === item.to ? "text-cyan-400" : "text-gray-400"}  hover:text-cyan-400`} >
         <item.icon className='w-6 h-6 mr-2' />
         {item.name}
       </Link>

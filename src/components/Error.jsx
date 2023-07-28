@@ -7,7 +7,7 @@ const Error = () => (
     <h1 className="font-bold text-2xl flex justify-center text-white">Something went wrong. Please try again</h1>
     </div>
     <div className='mt-[10vh] flex justify-center'>
-    <img className='md:w-[50vw] w-full' src={ErrorPage}/>
+    <img alt='error' className='md:w-[50vw] w-full' src={ErrorPage}/>
 
     </div>
   </div>

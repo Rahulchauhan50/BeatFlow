@@ -7,28 +7,28 @@ export default function Footer() {
       <footer style={{position:"relative",bottom:"0px"}} className={`text-center mt-20 text-white`}>
         <section className="justify-between lg:justify-between p-4 border-b" style={{justifyContent: "center",display: "flex"}}>
           <div style={{display: "flex",justifyContent: "space-between",width: "80%"}}>
-            <a target='_blank' href="https://wa.me/9625809384" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="https://wa.me/9625809384" className="me-4">
               <i className="fa fa-whatsapp fa-1x"></i>
             </a>
-            <a target='_blank' href="https://www.facebook.com/profile.php?id=100013005587099&mibextid=ZbWKwL" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="https://www.facebook.com/profile.php?id=100013005587099&mibextid=ZbWKwL" className="me-4">
               <i className="fa fa-facebook-f fa-1x"></i>
             </a>
-            <a target='_blank' href="/" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="/" className="me-4">
               <i className="fa fa-twitter fa-1x"></i>
             </a>
-            <a target='_blank' href="mailto:rahulchauhah50@gmail.com" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="mailto:rahulchauhah50@gmail.com" className="me-4">
               <i className="fa fa-envelope fa-1x"></i>
             </a>
-            <a target='_blank' href="https://www.linkedin.com/in/rahul-chauhan-939102208" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="https://www.linkedin.com/in/rahul-chauhan-939102208" className="me-4">
               <i className="fa fa-linkedin fa-1x"></i>
             </a>
-            <a target='_blank' href="https://github.com/Rahulchauhan50" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="https://github.com/Rahulchauhan50" className="me-4">
               <i className="fa fa-github fa-1x"></i>
             </a>
-            <a target='_blank' href="sms:+91 9625809384" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="sms:+91 9625809384" className="me-4">
                 <strong className="fa fa-comments-o fa-1x"></strong>
             </a>
-            <a target='_blank' href="tel:+91 9625809384" className="me-4">
+            <a rel="noreferrer noopener" target='_blank' href="tel:+91 9625809384" className="me-4">
             <strong className="fa fa-phone fa-1x"></strong>
             </a>
           </div>

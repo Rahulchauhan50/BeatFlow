@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import  {Link}  from 'react-router-dom'
 import { Error, Loader, SongCard } from '../components';
 import { useGetSongsByCountryQuery } from '../redux/services/shazamCore';
-import { genres } from '../assets/constants';
 
 const AroundYou = () => {
   const { activeSong , isPlaying} = useSelector((state) => state.player);

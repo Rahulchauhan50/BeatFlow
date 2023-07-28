@@ -19,6 +19,7 @@ export default function DescriptionAlerts() {
 
       return () => clearTimeout(timeout);
     }
+    // eslint-disable-next-line
   }, [alert]);
 
   return (

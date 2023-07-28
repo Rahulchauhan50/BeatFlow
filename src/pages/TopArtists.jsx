@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import  {useParams,Link}  from 'react-router-dom'
-import { Error, Loader, SongCard } from '../components';
-import { selectGenreListId } from '../redux/features/playerSlice';
+import  {Link}  from 'react-router-dom'
+import { Error, Loader } from '../components';
 import { useGetSongsByCountryQuery } from '../redux/services/shazamCore';
-import { genres } from '../assets/constants';
 
 const TopAtists = () => {
   const divRef = useRef(null);
@@ -12,9 +9,6 @@ const TopAtists = () => {
   useEffect(() => {
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
   },[]);
-  const dispatch = useDispatch();
-  const { genreListId } = useSelector((state) => state.player);
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetSongsByCountryQuery();
 
   if (isFetching) return <Loader title="Loading Artists..." />;

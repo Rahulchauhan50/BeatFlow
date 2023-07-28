@@ -42,7 +42,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
                 <div className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576? '-translate-y-40' : 'translate-y-0'} w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
                 {isLoading &&  <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
-            <img className='m-auto' src={IconLoading}/>
+            <img alt='loading' className='m-auto' src={IconLoading}/>
           </div>}
                     <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign In</h2>
                     <form onSubmit={handleLogin} autoComplete='true' autoFocus>
@@ -70,7 +70,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                             <button
                                 className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md"
                             >
-                                <img className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
+                                <img alt='googe' className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
 
                                 Sign In with Google
                             </button>

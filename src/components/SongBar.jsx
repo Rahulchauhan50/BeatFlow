@@ -10,6 +10,7 @@ const SongBar = ({ song, i, artistId, isPlaying, activeSong, handlePauseClick, h
       {demo ?
         <img
           className="h220 w-20 rounded-lg"
+          alt='song'
           src='https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/88/04/aa/8804aa35-c7d4-cee9-bb30-02dec60d7f26/AppIcon-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg'
         /> : <img
           className="h-20 w-20 rounded-lg"

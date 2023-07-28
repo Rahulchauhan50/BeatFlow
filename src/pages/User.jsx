@@ -7,7 +7,7 @@ import { useDeleteAllFavSongsMutation, useDeleteAllFavArtistsMutation, useDelete
 import Delete from '../assets/delete.png'
 import clear from '../assets/clear.svg'
 import 'tailwindcss/tailwind.css';
-import { Error, Loader } from '../components';
+import { Error } from '../components';
 import Dalle from '../assets/DALL.png'
 
 const UserProfile = () => {
@@ -19,7 +19,7 @@ const UserProfile = () => {
   const [favArtistExpand, setFavArtistExpand] = useState(5)
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { UserDetails } = useSelector((state) => state.UserAuth);
-  const { data, isFetching, error, refetch } = useGetAllDataQuery({ enabled: false });
+  const { data, error, refetch } = useGetAllDataQuery({ enabled: false });
 
   const [deleteAllFavSongs] = useDeleteAllFavSongsMutation();
   const [deleteAllFavArtists] = useDeleteAllFavArtistsMutation();
@@ -141,7 +141,7 @@ const UserProfile = () => {
               <div className='flex justify-between items-center'>
                 <h2 className="flex flex-row items-center text-lg font-medium text-gray-300">
                   History
-                  <img onClick={() => { handleDeleteAllHistory() }} title='Clear All History' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
+                  <img alt='delte' onClick={() => { handleDeleteAllHistory() }} title='Clear All History' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
                 </h2>
                 <h2 onClick={() => { histroyExpand === 30 ? setHistroyExpand(5) : setHistroyExpand(30) }} className="items-center cursor-pointer text-sm font-medium text-gray-400">
                   {histroyExpand === 30 ? "Collapse" : "See more"}
@@ -175,7 +175,7 @@ const UserProfile = () => {
               <div className='flex justify-between items-center'>
                 <h2 className="flex flex-row items-center text-lg font-medium text-gray-300">
                   Favorite Songs
-                  <img onClick={() => { handleDeleteAllFavSongs() }} title='Clear all favorite songs' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
+                  <img alt='delete' onClick={() => { handleDeleteAllFavSongs() }} title='Clear all favorite songs' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
                 </h2>
                 <h2 onClick={() => { favSongExpand === 5 ? setFavSongExpand(99) : setFavSongExpand(5) }} className="items-center cursor-pointer text-sm font-medium text-gray-400">
                   {favSongExpand === 5 ? "See more" : "Collapse"}
@@ -207,7 +207,7 @@ const UserProfile = () => {
               <div className='flex justify-between items-center'>
                 <h2 className="flex flex-row items-center text-lg font-medium text-gray-300">
                   Favorite Artists
-                  <img onClick={() => { handleDeleteAllFavArtists() }} title='Clear all favorite artists' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
+                  <img alt='delete' onClick={() => { handleDeleteAllFavArtists() }} title='Clear all favorite artists' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
                 </h2>
                 <h2 onClick={() => { favArtistExpand === 5 ? setFavArtistExpand(99) : setFavArtistExpand(6) }} className="items-center cursor-pointer text-sm font-medium text-gray-400">
                   {favArtistExpand === 5 ? "See more" : "Collapse"}
@@ -218,10 +218,10 @@ const UserProfile = () => {
                 <div className='flex flex-wrap justify-between gap-8'>
                   {data?.length >= 1 ? data[0]?.FavArtists?.map((Elements, favArtistExpand) => {
                     return <div key={Elements?.ArtistId} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
-                      <img onClick={() => { handleDeleteFavArtist(Elements?.ArtistId) }} className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
+                      <img alt='delete' onClick={() => { handleDeleteFavArtist(Elements?.ArtistId) }} className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
                       <div className='relative w-full h-auto group'>
                         <Link to={`/artists/${Elements?.ArtistId ? Elements?.ArtistId : ""}`}>
-                          <img style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' alt='images' src={Elements?.image ? Elements?.image.replace('{w}', '125').replace('{h}', '125') : "https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg"} ></img>
+                          <img style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' alt='images' src={Elements?.image ? Elements?.image.replace('{w}', '125').replace('{h}', '125') : "https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg"} />
                         </Link>
                       </div>
                       <div className='mt-4 flex flex-col items-center'>
@@ -232,9 +232,9 @@ const UserProfile = () => {
                     </div>
                   }) : [1, 2, 3].map((e) => {
                     return <div key={e} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
-                      <img className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
+                      <img alt='delete' className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
                       <div className='relative w-full h-auto group'>
-                        <img style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' alt='images' src="https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg" ></img>
+                        <img alt='delete' style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }} className='w-full rounded-full' alt='images' src="https://png.pngtree.com/png-clipart/20210424/ourlarge/pngtree-blue-ladies-suit-cartoon-character-avatar-png-image_3232195.jpg" />
                       </div>
                       <div className='mt-4 flex flex-col items-center'>
                         <span className='text-sm truncate text-gray-300 mt-1 hover:underline'>

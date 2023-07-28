@@ -43,6 +43,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
       .catch((error) => {
         console.error('Error removing favorite Artist');
       });
+      // eslint-disable-next-line
   }, [artistId, IsfavArtist])
   return (
     <div className="relative w-full flex flex-col">
@@ -64,7 +65,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
           {
             IsfavArtist ?
               <FaHeart color='red' className='w-8 h-8 mt-4 cursor-pointer' onClick={handleDeleteFavArtist} /> :
-              <img className='w-8 h-8 mt-4 cursor-pointer' onClick={handleAddFavArtist} src={add} />
+              <img alt='fav' className='w-8 h-8 mt-4 cursor-pointer' onClick={handleAddFavArtist} src={add} />
           }
         </div>
       </div>

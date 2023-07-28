@@ -1,5 +1,5 @@
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate , Link} from 'react-router-dom';
 import start from '../assets/start.mp3'
 import end from '../assets/end.mp3'

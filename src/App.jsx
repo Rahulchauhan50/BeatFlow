@@ -29,11 +29,13 @@ const App = () => {
   
   useEffect(() => {
     AuthUser()
+    // eslint-disable-next-line
   },[]);
   
   useEffect(() => {
     AuthUser()
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+    // eslint-disable-next-line
   },[]);
 
   useEffect(() => {
