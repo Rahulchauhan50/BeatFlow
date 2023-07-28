@@ -66,7 +66,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
     
   };
   useEffect(() => {
-    if (currentSongs?.length) dispatch(playPause(true));
+    if (currentSongs.length) dispatch(playPause(true));
   }, [currentIndex]);
 
   const handlePlayPause = () => {

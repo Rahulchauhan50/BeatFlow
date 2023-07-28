@@ -6,7 +6,7 @@ const BaseUrl2 = process.env.REACT_APP_SHAZAM_URL1
 export const shazamCoreApi = createApi({
   reducerPath: 'shazamCoreApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'ewiou',
+    baseUrl: BaseUrl1,
     prepareHeaders: (headers) => {
       headers.set('X-RapidAPI-Key', KeyArray[Math.floor(Math.random() * 11)] );
 

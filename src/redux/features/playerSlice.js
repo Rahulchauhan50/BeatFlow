@@ -26,21 +26,17 @@ const playerSlice = createSlice({
       }
       else if (action.payload?.artistData?.data) {
         state.currentSongs = action.payload?.artistData?.data;
-       
       } 
       else if (action.payload?.artistData) {
         state.currentSongs = action.payload?.artistData
       } 
-      else if (action.payload.song.song) {
+      else if (action.payload?.song?.song) {
         state.activeSong = action.payload.song.song
         state.currentSongs = action.payload?.data[0].histories
       } 
-      else if (action.payload?.data[0].FavSongs) {
+      else if (action.payload?.data[0]?.FavSongs) {
         state.currentSongs = action.payload?.data[0].FavSongs
       } 
-      else {
-        state.currentSongs = action.payload.data;
-      }
       
       state.currentIndex = action.payload.i;
       state.isActive = true;

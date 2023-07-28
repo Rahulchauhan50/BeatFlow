@@ -39,12 +39,10 @@ const App = () => {
   },[]);
 
   useEffect(() => {
-    setTimeout(() => {
       setShowPopup(true)
-    }, 5000)
   }, [])
   
-  if (isLoading) return <Loader title="Loading songs..." />;
+  if (isLoading) return 
   
   const AuthUser = async () => {
     IsUser()

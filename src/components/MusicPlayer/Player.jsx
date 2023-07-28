@@ -17,7 +17,6 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
     }
   }
   const handleIsFavSong = () => {
-    console.log(activeSong)
     IsFavsong({uri:activeSong?.hub?.actions[1]?.uri?activeSong?.hub?.actions[1]?.uri:activeSong?.attributes?.previews[0]?.url})
       .unwrap()
       .then((data) => {
@@ -40,11 +39,11 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
 
     handleIsFavSong()
 
-
     if(activeSong?.hub?.actions[1]?.uri? (
       AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
       .unwrap()
       .then((data) => {
+        console.log(' song added successfully', data);
       })
       .catch((error) => {
         console.error('Error adding song', error);

@@ -18,6 +18,8 @@ const UserProfile = () => {
   const { UserDetails } = useSelector((state) => state.UserAuth);
   const { data, isFetching, error, refetch } = useGetAllDataQuery({ enabled: false });
 
+  // console.log(data)
+
   useEffect(() => {
     refetch();
   })
@@ -150,13 +152,13 @@ const UserProfile = () => {
               </div>
               <div className="mt-6 w-full flex flex-col">
 
-                {data?.length === 1 ? data[0]?.histories?.slice(0, histroyExpand).map((song, i) => {
+                {data?.length >= 1 ? data[0]?.histories?.slice(0, histroyExpand).map((song, i) => {
                   return <SongBar
                     songType={true}
                     hadleDelete={hadleDelete}
                     demo={false}
                     song={song}
-                    key={`${song.key}-${i}`}
+                    key={`${song.key}-${i*Math.random}`}
                     i={i}
                     artistId={song?.artists[0]?.adamid}
                     isPlaying={isPlaying}
@@ -183,7 +185,7 @@ const UserProfile = () => {
                 </h2>
               </div>
               <div className="mt-6 w-full flex flex-col">
-                {data?.length === 1 ? data[0]?.FavSongs?.slice(0, favSongExpand).map((song, i) => {
+                {data?.length >= 1 ? data[0]?.FavSongs?.slice(0, favSongExpand).map((song, i) => {
                   return <SongBar
                     songType={song?.artists[0]?.adamid}
                     hadleDelete={hadleDelete}
@@ -203,6 +205,7 @@ const UserProfile = () => {
                 }
               </div>
             </div>
+
             <div className="mt-16">
               <div className='flex justify-between items-center'>
                 <h2 className="flex flex-row items-center text-lg font-medium text-gray-300">
@@ -216,7 +219,7 @@ const UserProfile = () => {
 
               <div className='flex flex-col'>
                 <div className='flex flex-wrap justify-between gap-8'>
-                  {data?.length === 1 ? data[0]?.FavArtists?.map((Elements, favArtistExpand) => {
+                  {data?.length >= 1 ? data[0]?.FavArtists?.map((Elements, favArtistExpand) => {
                     return <div key={Elements?.ArtistId} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
                       <img onClick={() => { handleDeleteFavArtist(Elements?.ArtistId) }} className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
                       <div className='relative w-full h-auto group'>

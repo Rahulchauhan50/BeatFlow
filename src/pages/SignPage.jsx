@@ -3,14 +3,16 @@ import google from '../assets/google.svg'
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
 import { useUserLoginMutation } from '../redux/services/UserApi';
-
+import IconLoading from '../assets/my-loader.svg'
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
     const dispatch = useDispatch();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [isfocus, setIsfocus] = useState(false);
-    const [SignInUser] = useUserLoginMutation();
+    const [SignInUser,{ isLoading }] = useUserLoginMutation();
+    const [isError, setIsError] = useState(false);
+
 
 
     const handleLogin = async (e) => {
@@ -23,12 +25,17 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
       .then((data) => {
         console.log( data);
         if(data?.success===true){
+            setIsError(false)
           localStorage.setItem("token",data.authToken)
           dispatch(setUserDetails(data))
           window.location.href = 'http://localhost:3000'
           }      })
       .catch((error) => {
         console.error('Error Authenicationg user', error);
+        if("user does not exist"===error.data.error){
+            setIsError(true)
+          }
+          console.log("user does not exist"===error.data.error)
       });
     }
 
@@ -36,24 +43,30 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
         showPopup && <div className="absolute min-h-screen flex items-center justify-center z-[100]">
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
                 <div className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576? '-translate-y-40' : 'translate-y-0'} w-96 transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
+                {isLoading &&  <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
+            <img className='m-auto' src={IconLoading}/>
+          </div>}
                     <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign In</h2>
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLogin} autoComplete='true' autoFocus>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Username</label>
 
                             <input
-                                
+                                required
+                                onInput={()=>{setIsError(false)}}
                                 type="email"
                                 ref={emailRef}
                                 onFocus={()=>{setIsfocus(true)}}
                                 onBlur={()=>{setIsfocus(false)}}
                                 placeholder="Email"
-                                className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+                                className={`${isError?"border-[#ff0909]":"border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`}
                             />
+                             {isError?<p className='text-red-600 text-sm font-[450]'>Invalid credentials</p>:""}
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Password</label>
-                            <input onBlur={()=>{setIsfocus(false)}} onFocus={()=>{setIsfocus(true)}} type="password" ref={passwordRef} placeholder='password' className="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
+                            <input required minLength={8} onInput={()=>{setIsError(false)}} onBlur={()=>{setIsfocus(false)}} onFocus={()=>{setIsfocus(true)}} type="password" ref={passwordRef} placeholder='password' className={`${isError?"border-[#ff0909]":"border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`} />
+                            {isError?<p className='text-red-600 text-sm font-[450]'>Invalid credentials</p>:""}
                         </div>
                         <div className='flex flex-row justify-between'>
                             <button

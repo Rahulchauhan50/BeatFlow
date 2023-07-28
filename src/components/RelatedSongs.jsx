@@ -13,7 +13,7 @@ const RelatedSongs = ({artistData, artistId, isPlaying, activeSong, handlePauseC
                   song={song}
                   key={`${artistId}-${song.key}-${i}`}
                   i={i}
-                   artistId={artistId}
+                  artistId={artistId}
                   isPlaying={isPlaying}
                   activeSong={activeSong}
                   handlePlayClick={() => {
