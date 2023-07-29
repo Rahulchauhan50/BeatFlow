@@ -30,7 +30,7 @@ export default function Sidebar({handleTogglePopup}) {
   
   return (
     <>
-      <div className='md:flex hidden flex-col h-full w-[220px] py-6 px-4 bg-[#191624]'>
+      <div className='md:flex hidden flex-col w-[220px] py-6 px-4 bg-[#191624]'>
           <div className={`${UserDetails?.name ? "flex-col flex" : 'flex-row flex'} items-center gap-3`}>
         <Link to='user'>
             <img className="h-[90px] rounded-full object-contain z-50" alt="Spotify logo with text" src={Dalle} />

@@ -78,7 +78,7 @@ const App = () => {
         <Navbar handleTogglePopupOut={handleTogglePopupOut} handleTogglePopup={handleTogglePopup} />
        <DescriptionAlerts/>
 
-        <div className="px-6 h-[calc(100vh-1px)] md:h-[calc(100vh-0px)] overflow-y-scroll flex xl:flex-row flex-col-reverse">
+        <div style={{ height: "calc(100vh - 70px)"}} className="px-6 overflow-y-scroll flex xl:flex-row flex-col-reverse">
           <div className="flex-1 h-fit pb-40 md:mt-1">
             <Routes>
               <Route path="/" element={<Discover />} />
@@ -102,7 +102,7 @@ const App = () => {
       </div>
 
       {(activeSong?.title || activeSong?.attributes) && (<> 
-        <div  className={`absolute ${mobilePlayerOpen?"h-[110%]":"h-20"} bottom-[0vh] transition-all duration-[450]  w-screen left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2424a8] overflow-hidden backdrop-blur-lg rounded-t-3xl z-20`}>
+        <div  className={`absolute ${mobilePlayerOpen?"h-[110vh]":"h-20"} bottom-[0vh] transition-all duration-[450] w-full left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2424a8] overflow-hidden backdrop-blur-lg rounded-t-3xl z-20`}>
           <MusicPlayer mobilePlayerOpen={mobilePlayerOpen} changePlayer={()=>{mobilePlayerOpen===true?setmobilePlayerOpen(false):setmobilePlayerOpen(true)}}/>
         </div>
         </>
