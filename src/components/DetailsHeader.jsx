@@ -1,7 +1,7 @@
 import {setAlert, setAlertMsg} from '../redux/features/playerSlice'
 import { useAddFavArtistMutation } from '../redux/services/UserApi';
 import add from '../assets/add.png'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useIsFavArtistMutation } from '../redux/services/UserApi';
 import { useDeleteFavArtistMutation } from '../redux/services/UserApi';
