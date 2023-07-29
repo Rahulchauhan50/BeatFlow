@@ -14,9 +14,11 @@ const Track = ({mobilePlayerOpen,changePlayer, isPlaying, isActive, activeSong }
     {mobilePlayerOpen && 
     <>
       <div className='w-[80vw] top-[18%] relative text-white'>
-      <marquee id='myMarquee' className="text-3xl font-bold text-center" direction="left" behavior="scroll" hspace="50">
-        
-      {activeSong?.title? activeSong?.title?.slice(0,15)+"..." : activeSong?.attributes?.name.slice(0,15)}</marquee>
+      <div className="marquee-container">
+              <div className="marquee-content text-3xl font-bold text-center">
+                {activeSong?.title ? activeSong?.title.slice(0, 15) + "..." : activeSong?.attributes?.name.slice(0, 15)}
+              </div>
+            </div>
       <div className="flex flex-col items-center my-2">
         <div id="musicName" className="text-xl font-medium mb-2">
         {activeSong?.subtitle ? activeSong?.subtitle?.slice(0,20)+"..." : activeSong?.attributes?.albumName.slice(0,20)}

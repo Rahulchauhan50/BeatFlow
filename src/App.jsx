@@ -48,7 +48,6 @@ const App = () => {
     IsUser()
     .unwrap()
     .then((data) => {
-      console.log( data);
       dispatch(setUserDetails({user:data}))
     })
     .catch((error) => {
