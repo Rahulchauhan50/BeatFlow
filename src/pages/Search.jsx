@@ -18,9 +18,11 @@ const Search = () => {
 
   const divRef = useRef(null);
 
-  useEffect(() => {
-    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [isFetching]);
+  if(isFetching){divRef?.current?.scrollIntoView({ behavior: 'smooth' });}
+
+  // useEffect(() => {
+    
+  // }, [isFetching]);
 
   const handlePauseClick = () => {
     dispatch(playPause(false));

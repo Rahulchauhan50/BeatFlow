@@ -43,7 +43,7 @@ const SignUpPopup = ({showPopupOut, handleTogglePopupOut, handleTogglePopup}) =>
     showPopupOut &&  <div className="absolute min-h-screen flex items-center justify-center z-[500]">
         <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
           
-          <div className={`bg-white rounded-lg p-8 w-96 ${isfocus && window.innerWidth<576 ? '-translate-y-40' : 'translate-y-0'} transform transition-all duration-300 ease-in-out scale-100 hover:scale-105`}>
+          <div style={{maxWidth: "96vw"}} className={`bg-white rounded-lg p-8 w-96 ${isfocus && window.innerWidth<576 ? '-translate-y-40' : 'translate-y-0 hover:scale-105'} transform transition-all duration-300 ease-in-out scale-100`}>
          {isLoading &&  <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
             <img alt='hero' className='m-auto' src={IconLoading}/>
           </div>}

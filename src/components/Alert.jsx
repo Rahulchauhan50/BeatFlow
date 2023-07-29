@@ -26,7 +26,7 @@ export default function DescriptionAlerts() {
     <div
       className={`transition-all duration-500 ${
         alert ? 'translate-y-0' : '-translate-y-40'
-      } fixed top-10 left-0 right-0 z-[1000]`}
+      } fixed top-10 left-0 right-0 z-[1000] md:hidden`}
     >
       <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert

@@ -55,7 +55,7 @@ const Navbar = ({handleTogglePopupOut,handleTogglePopup}) => {
   }
 
   return (
-    <nav className="from-black to-[#121286] p-4 flex h-[60px] md:justify-between items-center mt-2 rounded-2xl">
+    <nav style={{position: "sticky"}} className="from-black to-[#121286] p-4 flex h-[60px] md:justify-between items-center mt-2 rounded-2xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Link to='/'>

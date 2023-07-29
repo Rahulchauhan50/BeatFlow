@@ -6,7 +6,7 @@ const Loader = ({ title }) => {
 
   useEffect(() => {
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  },[]);
+  });
 
   return  <>
   <span ref={divRef} ></span>

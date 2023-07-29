@@ -1,20 +1,26 @@
+import {setAlert, setAlertMsg} from '../redux/features/playerSlice'
 import { useAddFavArtistMutation } from '../redux/services/UserApi';
 import add from '../assets/add.png'
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useIsFavArtistMutation } from '../redux/services/UserApi';
 import { useDeleteFavArtistMutation } from '../redux/services/UserApi';
 import { FaHeart } from "react-icons/fa";
 const DetailsHeader = ({ artistData, artistId }) => {
+  const dispatch = useDispatch();
   const [AddFavArtist] = useAddFavArtistMutation();
   const [deletEFavArtist] = useDeleteFavArtistMutation();
   const [IsfavArtist, setIsFavArtist] = useState(false)
   const [isFavartist] = useIsFavArtistMutation();
- 
+
+  
   const handleAddFavArtist = () => {
     AddFavArtist({ title: artistData?.resources?.artists[artistId]?.attributes?.name, subTitle: artistData?.resources?.artists[artistId]?.attributes?.genreNames[0], image: artistData?.resources?.artists[artistId]?.attributes?.artwork?.url, ArtistId: artistId })
       .unwrap()
       .then((data) => {
         console.log(' Artist added successfully');
+        dispatch(setAlert(true))
+        dispatch(setAlertMsg("Artist added to Favorite list successfully"))
         setIsFavArtist(true)
       })
       .catch((error) => {
@@ -27,6 +33,8 @@ const DetailsHeader = ({ artistData, artistId }) => {
       .unwrap()
       .then((data) => {
         console.log(' Artist removed successfully');
+        dispatch(setAlert(true))
+        dispatch(setAlertMsg("Artist added to Favorite list successfully"))
         setIsFavArtist(false)
       })
       .catch((error) => {
