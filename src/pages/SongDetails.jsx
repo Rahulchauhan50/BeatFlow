@@ -10,7 +10,7 @@ const SongDetails = () => {
   const dispatch = useDispatch();
   const {songid} = useParams();
   const {id} = useParams();
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { activeSong, isPlaying , artistId} = useSelector((state) => state.player);
   const { data, isFetching: isFetchinRelatedSongs, error } = useGetSongRelatedQuery(id );
   const { data: songData, isFetching: isFetchingSongDetails } = useGetSongDetailsQuery( songid );
   const divRef = useRef(null);
@@ -55,7 +55,7 @@ const SongDetails = () => {
       </div>
       <RelatedSongs
       artistData={data?data:[]}
-      artistId={true}
+      artistId={artistId}
       isPlaying={isPlaying}
       activeSong={activeSong}
       handlePauseClick={handlePauseClick}

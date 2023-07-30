@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes, useLocation  } from 'react-router-dom';
 import { useState } from 'react';
@@ -25,7 +25,6 @@ const App = () => {
   const { activeSong } = useSelector((state) => state.player)
   const location = useLocation();
   const isUserPage = location.pathname === '/user' ;
-  const divRef = useRef(null);
   
   useEffect(() => {
     AuthUser()
@@ -34,7 +33,6 @@ const App = () => {
   
   useEffect(() => {
     AuthUser()
-    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
     // eslint-disable-next-line 
   },[]);
 
@@ -64,7 +62,6 @@ const App = () => {
     setShowPopupOut(false)
     setShowPopup(!showPopup);
   };
-
   return (
     <div className="abolute flex h-[100%]">
       {!UserDetails?.name && <>
@@ -77,7 +74,7 @@ const App = () => {
         <Navbar handleTogglePopupOut={handleTogglePopupOut} handleTogglePopup={handleTogglePopup} />
        <DescriptionAlerts/>
 
-        <div className="px-6 h-[calc(100vh-130px)] md:h-[calc(100vh-70px)] overflow-y-scroll flex xl:flex-row flex-col-reverse">
+        <div className={`px-6 ${activeSong?.title || activeSong?.attributes?"h-[calc(100vh-130px)]":"h-[calc(100vh-70px)]"} md:h-[calc(100vh-70px)] overflow-y-scroll flex xl:flex-row flex-col-reverse`}>
           <div className="flex-1 h-fit pb-40 md:mt-1">
             <Routes>
               <Route path="/" element={<Discover />} />

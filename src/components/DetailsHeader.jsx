@@ -68,7 +68,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
           </p>
 
           <p className="text-base text-gray-400 mt-2">
-            {artistData?.resources ? artistData?.resources?.artists[artistId]?.attributes?.genreNames : artistData.genres?.primary}
+            {artistData?.resources ? artistData?.resources?.artists[artistId]?.attributes?.genreNames : artistData?.genres?.primary}
           </p>
           {
             IsfavArtist ?

@@ -15,8 +15,10 @@ const Navbar = ({handleTogglePopupOut,handleTogglePopup}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    document.getElementById('search-field').blur()
     navigate(`/search/${searchTerm}`);
+    setTimeout(()=>{
+      document.getElementById('search-field').blur()
+    },1000)
   };
 
   const startRecogniion = () => {

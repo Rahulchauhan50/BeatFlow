@@ -9,34 +9,33 @@ import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
 const Search = () => {
   const dispatch = useDispatch();
-
   const { searchTerm } = useParams();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetSongsBySearchQuery(searchTerm);
-
   const songs = data?.tracks?.hits.map((song) => song.track);
-
   const divRef = useRef(null);
 
-  if(isFetching){divRef?.current?.scrollIntoView({ behavior: 'smooth' });}
-
+  
   useEffect(() => {
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }, [isFetching]);
+  
+  if (isFetching) return <Loader ref={divRef} title={`Searching...`} />;
+  if(isFetching){divRef?.current?.scrollIntoView({ behavior: 'smooth' });}
+
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
-  if (isFetching) return <Loader title={`Searching...`} />;
 
   if (error) return <Error />;
 
   return (
-    <div ref={divRef}>
+    <div>
       <div className="flex flex-col mt-5 md-0">
         <div className="flex flex-col mt-5 md-0">
           <div className="flex flex-col ">
-            <h1 className="font-bold text-3xl mb-2 text-white">{`Related Songs :`}</h1>
+            <h1 ref={divRef} className="font-bold text-3xl mb-2 text-white">{`Related Songs :`}</h1>
             <div className="mt-6 w-full flex flex-col">
               {songs ? songs?.map((song, i) => {
                 return <SongBar
