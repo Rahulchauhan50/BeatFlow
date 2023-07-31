@@ -32,7 +32,7 @@ export default function Sidebar({handleTogglePopup}) {
     <>
       <div className='md:flex hidden flex-col w-[220px] py-6 px-4 bg-[#191624]'>
           <div className={`${UserDetails?.name ? "flex-col flex" : 'flex-row flex'} items-center gap-3`}>
-        <Link to='user'>
+        <Link to='user'>{console.log(UserDetails)}
             <img className="h-[90px] rounded-full object-contain z-50" alt="Spotify logo with text" src={UserDetails?.profileImage?UserDetails?.profileImage:Dalle} />
         </Link>
             {UserDetails?.name ? <p className='text-white items-center mt-3 flex'>{UserDetails?.name}</p> : <button onClick={handleTogglePopup} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">SignIn</button>}

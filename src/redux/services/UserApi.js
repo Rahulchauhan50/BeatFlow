@@ -94,7 +94,7 @@ export const UserDataApi = createApi({
   export const UserAuthApi = createApi({
     reducerPath: 'UserAuthApi',
     baseQuery: fetchBaseQuery({
-      baseUrl: 'http://localhost:5000',
+      baseUrl: BaseUrl,
       prepareHeaders: (headers) => {
         headers.set('auth-token', localStorage.getItem('token')) 
         headers.set('Content-Type', 'application/json')

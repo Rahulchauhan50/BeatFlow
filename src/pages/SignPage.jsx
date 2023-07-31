@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
 import { useUserLoginMutation } from '../redux/services/UserApi';
 import IconLoading from '../assets/my-loader.svg'
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "@firebase/auth";
 import { firebaseAuth } from "./FirebaseConfig"
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
@@ -27,7 +27,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                     setIsError(false)
                     localStorage.setItem("token", data.authToken)
                     dispatch(setUserDetails(data))
-                    window.location.href = 'https://music-rahul.netlify.app/'
+                    window.location.href = 'http://localhost:3000'
                 }
             })
             .catch((error) => {
@@ -39,42 +39,23 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
     }
 
     const HandleGoolelogin = async () => {
-        const provider = new GoogleAuthProvider();
         try {
-            const { user } = await signInWithPopup(firebaseAuth, provider);
-            console.log('User signed in:', user?.reloadUserInfo);
-            SignInUser({ email: user.reloadUserInfo.email, password: user.reloadUserInfo.providerUserInfo[0].rawId })
-                .unwrap()
-                .then((data) => {
-                    if (data?.success === true) {
-                        setIsError(false)
-                        localStorage.setItem("token", data.authToken)
-                        dispatch(setUserDetails(data))
-                        window.location.href = 'https://music-rahul.netlify.app/'
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error Authenicationg user');
-                    if ("user does not exist" === error.data.error) {
-                        setIsError(true)
-                    }
-                });
+            const provider = new GoogleAuthProvider();
+            await signInWithRedirect(firebaseAuth, provider);
 
-
-        } catch (error) {
+        }catch (error) {
             if (error.code === 'auth/cancelled-popup-request') {
                 console.log('User canceled the sign-in process.');
             } else {
                 console.error('Error signing in:', error);
             }
         }
-
     }
 
     return (
         showPopup && <div className="absolute min-h-screen flex items-center justify-center z-[100]">
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
-                <div style={{ maxWidth: "96vw" }} className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576 ? '-translate-y-40' : 'translate-y-0 hover:scale-105'} w-96 transform transition-all duration-300 ease-in-out scale-100`}>
+                <div style={{ maxWidth: "95vw" }} className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576 ? '-translate-y-40' : 'translate-y-0 hover:scale-105'} w-96 transform transition-all duration-300 ease-in-out scale-100`}>
                     {isLoading && <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
                         <img alt='loading' className='m-auto' src={IconLoading} />
                     </div>}

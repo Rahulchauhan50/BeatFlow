@@ -7,7 +7,6 @@ import { useDeleteAllFavSongsMutation, useDeleteAllFavArtistsMutation, useDelete
 import Delete from '../assets/delete.png'
 import clear from '../assets/clear.svg'
 import 'tailwindcss/tailwind.css';
-import { Error } from '../components';
 import Dalle from '../assets/DALL.png'
 
 const UserProfile = () => {
@@ -102,9 +101,11 @@ const UserProfile = () => {
   useEffect(() => {
     refetch();
   })
-  
-  if (error) return <Error />;
 
+  useEffect(()=>{
+    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  })
+  
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
