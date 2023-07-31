@@ -15,9 +15,7 @@ const Discover = () => {
   return (<>
     <div className='flex flex-col'>
       <div className='w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10'>
-        <Link to='/player' >
           <h2 className='font-bold text-3xl text-white'>Discover</h2>
-        </Link>
       </div>
       <div className='flex flex-wrap sm:justify-start justify-center gap-8 md:gap-[calc(1.3vw)]'>
         {data?.tracks?.map((song, i) => {

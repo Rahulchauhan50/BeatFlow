@@ -33,7 +33,7 @@ export default function Sidebar({handleTogglePopup}) {
       <div className='md:flex hidden flex-col w-[220px] py-6 px-4 bg-[#191624]'>
           <div className={`${UserDetails?.name ? "flex-col flex" : 'flex-row flex'} items-center gap-3`}>
         <Link to='user'>
-            <img className="h-[90px] rounded-full object-contain z-50" alt="Spotify logo with text" src={Dalle} />
+            <img className="h-[90px] rounded-full object-contain z-50" alt="Spotify logo with text" src={UserDetails?.profileImage?UserDetails?.profileImage:Dalle} />
         </Link>
             {UserDetails?.name ? <p className='text-white items-center mt-3 flex'>{UserDetails?.name}</p> : <button onClick={handleTogglePopup} className="text-white bg-[#17f7ff18] h-10 w-20 px-4 py-2 rounded">SignIn</button>}
           </div>
@@ -46,7 +46,7 @@ export default function Sidebar({handleTogglePopup}) {
       <div onClick={() => setMobileMenuOpen(false)} className={`absolute top-0 h-full w-2/3 bg-gradient-to-tl from-white/10 to-[#483d8b] backdrop-blur-lg z-30 p-6 transition-all duration-500 md:hidden ${mobileMenuOpen ? 'left-0' : '-left-full'}`}>
           <div className='w-full flex items-center'>
         <Link to='/user'>
-            <img className=" rounded-full h-14 object-contain z-40 mr-3" alt="Spotify logo with text" src={Dalle} />
+            <img className=" rounded-full h-14 object-contain z-40 mr-3" alt="Spotify logo with text" src={UserDetails?.profileImage?UserDetails?.profileImage:Dalle}/>
         </Link>
             <div className='flex flex-col justify-center text-white md:hidden'>
               <p>{UserDetails?.name}</p>

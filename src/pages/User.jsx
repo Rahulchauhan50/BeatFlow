@@ -119,7 +119,7 @@ const UserProfile = () => {
                 <img
                   ref={divRef}
                   className="h-36 w-36 rounded-full object-cover"
-                  src={Dalle}
+                  src={UserDetails?.profileImage?UserDetails?.profileImage:Dalle}
                   alt={UserDetails?.name}
                   style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 30px rgba(0, 0, 0, 0.3)" }}
                 />
@@ -130,9 +130,6 @@ const UserProfile = () => {
                 </h3>
                 <p className="mt-1 max-w-2xl text-sm text-gray-900">
                   {UserDetails?.email ? UserDetails?.email : "example@gmail.com"}
-                </p>
-                <p className="mt-1 max-w-2xl text-sm text-gray-900">
-                  +{UserDetails?.phoneNumber ? UserDetails?.phoneNumber : "(xx)-xxxxxxxxxx"}
                 </p>
               </div>
             </div>

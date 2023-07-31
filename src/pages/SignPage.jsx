@@ -4,46 +4,80 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
 import { useUserLoginMutation } from '../redux/services/UserApi';
 import IconLoading from '../assets/my-loader.svg'
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { firebaseAuth } from "./FirebaseConfig"
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
     const dispatch = useDispatch();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [isfocus, setIsfocus] = useState(false);
-    const [SignInUser,{ isLoading }] = useUserLoginMutation();
+    const [SignInUser, { isLoading }] = useUserLoginMutation();
     const [isError, setIsError] = useState(false);
-
-
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        SignInUser({email,password})
-      .unwrap()
-      .then((data) => {
-        if(data?.success===true){
-            setIsError(false)
-          localStorage.setItem("token",data.authToken)
-          dispatch(setUserDetails(data))
-          window.location.href = 'https://music-rahul.netlify.app/'
-          }      })
-      .catch((error) => {
-        console.error('Error Authenicationg user');
-        if("user does not exist"===error.data.error){
-            setIsError(true)
-          }
-      });
+        SignInUser({ email, password })
+            .unwrap()
+            .then((data) => {
+                if (data?.success === true) {
+                    setIsError(false)
+                    localStorage.setItem("token", data.authToken)
+                    dispatch(setUserDetails(data))
+                    window.location.href = 'https://music-rahul.netlify.app/'
+                }
+            })
+            .catch((error) => {
+                console.error('Error Authenicationg user');
+                if ("user does not exist" === error.data.error) {
+                    setIsError(true)
+                }
+            });
+    }
+
+    const HandleGoolelogin = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const { user } = await signInWithPopup(firebaseAuth, provider);
+            console.log('User signed in:', user?.reloadUserInfo);
+            SignInUser({ email: user.reloadUserInfo.email, password: user.reloadUserInfo.providerUserInfo[0].rawId })
+                .unwrap()
+                .then((data) => {
+                    if (data?.success === true) {
+                        setIsError(false)
+                        localStorage.setItem("token", data.authToken)
+                        dispatch(setUserDetails(data))
+                        window.location.href = 'http://localhost:3000'
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error Authenicationg user');
+                    if ("user does not exist" === error.data.error) {
+                        setIsError(true)
+                    }
+                });
+
+
+        } catch (error) {
+            if (error.code === 'auth/cancelled-popup-request') {
+                console.log('User canceled the sign-in process.');
+            } else {
+                console.error('Error signing in:', error);
+            }
+        }
+
     }
 
     return (
         showPopup && <div className="absolute min-h-screen flex items-center justify-center z-[100]">
             <div className="fixed inset-0 bg-black bg-opacity-[0.65] flex items-center justify-center">
-                <div style={{maxWidth: "96vw"}} className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576? '-translate-y-40' : 'translate-y-0 hover:scale-105'} w-96 transform transition-all duration-300 ease-in-out scale-100`}>
-                {isLoading &&  <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
-            <img alt='loading' className='m-auto' src={IconLoading}/>
-          </div>}
+                <div style={{ maxWidth: "96vw" }} className={`bg-white rounded-lg p-8 ${isfocus && window.innerWidth < 576 ? '-translate-y-40' : 'translate-y-0 hover:scale-105'} w-96 transform transition-all duration-300 ease-in-out scale-100`}>
+                    {isLoading && <div className={`fixed inset-0 bg-black items-center flex bg-opacity-[0.65] rounded-lg p-8 w-full`} >
+                        <img alt='loading' className='m-auto' src={IconLoading} />
+                    </div>}
                     <h2 className="text-2xl font-bold text-center mb-6 text-green-600">Sign In</h2>
                     <form onSubmit={handleLogin} autoComplete='true' autoFocus>
                         <div className="mb-4">
@@ -51,29 +85,20 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
 
                             <input
                                 required
-                                onInput={()=>{setIsError(false)}}
+                                onInput={() => { setIsError(false) }}
                                 type="email"
                                 ref={emailRef}
-                                onFocus={()=>{setIsfocus(true)}}
-                                onBlur={()=>{setIsfocus(false)}}
+                                onFocus={() => { setIsfocus(true) }}
+                                onBlur={() => { setIsfocus(false) }}
                                 placeholder="Email"
-                                className={`${isError?"border-[#ff0909]":"border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`}
+                                className={`${isError ? "border-[#ff0909]" : "border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`}
                             />
-                             {isError?<p className='text-red-600 text-sm font-[450]'>Invalid credentials</p>:""}
+                            {isError ? <p className='text-red-600 text-sm font-[450]'>Invalid credentials</p> : ""}
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Password</label>
-                            <input required minLength={8} onInput={()=>{setIsError(false)}} onBlur={()=>{setIsfocus(false)}} onFocus={()=>{setIsfocus(true)}} type="password" ref={passwordRef} placeholder='password' className={`${isError?"border-[#ff0909]":"border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`} />
-                            {isError?<p className='text-red-600 text-sm font-[450]'>Invalid credentials</p>:""}
-                        </div>
-                        <div className='flex flex-row justify-between'>
-                            <button
-                                className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md"
-                            >
-                                <img alt='googe' className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
-
-                                Sign In with Google
-                            </button>
+                            <input required minLength={8} onInput={() => { setIsError(false) }} onBlur={() => { setIsfocus(false) }} onFocus={() => { setIsfocus(true) }} type="password" ref={passwordRef} placeholder='password' className={`${isError ? "border-[#ff0909]" : "border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`} />
+                            {isError ? <p className='text-red-600 text-sm font-[450]'>Invalid credentials</p> : ""}
                         </div>
                         <button
                             type="submit"
@@ -82,11 +107,14 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                             Sign In
                         </button>
                     </form>
+                    <div className='flex flex-row justify-between'>
+                        <button onClick={HandleGoolelogin} className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md">
+                            <img alt='googe' className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
+                            Sign In with Google
+                        </button>
+                    </div>
 
-                    <button
-                        onClick={handleTogglePopup}
-                        className="absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-600 focus:outline-none"
-                    >
+                    <button onClick={handleTogglePopup} className="absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-600 focus:outline-none">
                         <svg
                             className="h-6 w-6"
                             fill="none"

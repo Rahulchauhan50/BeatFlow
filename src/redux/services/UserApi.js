@@ -94,7 +94,7 @@ export const UserDataApi = createApi({
   export const UserAuthApi = createApi({
     reducerPath: 'UserAuthApi',
     baseQuery: fetchBaseQuery({
-      baseUrl: BaseUrl,
+      baseUrl: 'http://localhost:5000',
       prepareHeaders: (headers) => {
         headers.set('auth-token', localStorage.getItem('token')) 
         headers.set('Content-Type', 'application/json')
@@ -117,10 +117,10 @@ export const UserDataApi = createApi({
         }),
       }),
       userSignup: builder.mutation({
-        query: ({phoneNumber,name,email,password}) => ({
+        query: ({profileImage,name,email,password}) => ({
           url: 'auth',
           method: 'POST',
-          body:JSON.stringify({phoneNumber,name, email, password })
+          body:JSON.stringify({profileImage,name, email, password })
         }),
       }),
       

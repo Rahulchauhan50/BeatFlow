@@ -37,7 +37,14 @@ const App = () => {
   },[]);
 
   useEffect(() => {
+    setTimeout(()=>{
       setShowPopup(true)
+
+    },6000)
+
+    return () => {
+      setShowPopup(false)
+    };
   }, [])
   
   if (isLoading) return 
