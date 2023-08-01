@@ -4,7 +4,8 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
 import { useUserSignupMutation } from '../redux/services/UserApi';
 import IconLoading from '../assets/my-loader.svg'
-import { GoogleAuthProvider, signInWithRedirect } from "@firebase/auth";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "./FirebaseConfig"
 
 const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) => {
@@ -31,7 +32,7 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
           setIsError(false)
           localStorage.setItem("token", data.authToken)
           dispatch(setUserDetails(data))
-          window.location.href = 'http://localhost:3000'
+          window.location.href = 'https://music-rahul.netlify.app/'
         }
       })
       .catch((error) => {
@@ -42,19 +43,38 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
       });
   }
 
-  const HandleGoogleSignUP = async () => {
-    try {
-        const provider = new GoogleAuthProvider();
-        await signInWithRedirect(firebaseAuth, provider);
 
-    }catch (error) {
-        if (error.code === 'auth/cancelled-popup-request') {
-            console.log('User canceled the sign-in process.');
-        } else {
-            console.error('Error signing in:', error);
-        }
+  const HandleGoogleSignUP = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const { user } = await signInWithPopup(firebaseAuth, provider);
+      console.log('User signed in:', user?.reloadUserInfo);
+      SignUPUser({ profileImage: user.reloadUserInfo.photoUrl, name: user.reloadUserInfo.displayName, email: user.reloadUserInfo.email, password: user.reloadUserInfo.providerUserInfo[0].rawId })
+        .unwrap()
+        .then((data) => {
+          if (data?.success === true) {
+            localStorage.setItem("token", data.authToken)
+            dispatch(setUserDetails(data))
+            window.location.href = 'http://localhost:3000'
+          } else {
+            console.log("user already exist hbjhbjhjjhnihik")
+          }
+        })
+        .catch((error) => {
+          console.error('Error Authenicationg user', error);
+          if ("user already exist" === error.data.error) {
+            alert('user already exist SignIn instead')
+          }
+        });
+    } catch (error) {
+      if (error.code === 'auth/cancelled-popup-request') {
+        console.log('User canceled the sign-in process.');
+      } else {
+        console.error('Error signing in:', error);
+      }
     }
-}
+  };
 
   return (
     showPopupOut && <div className="absolute min-h-screen flex items-center justify-center z-[500]">
@@ -79,14 +99,12 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input minLength={8} required onFocus={() => { setIsfocus(true) }} onBlur={() => { setIsfocus(false) }} placeholder='create password' type='password' ref={passwordRef} className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
             </div>
-
-            {/* <div className='flex mb-3 flex-row justify-between'>
-                            <button className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-gradient-to-r from-purple-400 to-pink-600 text-white rounded-md shadow-md">
-                            <BsFillTelephoneFill alt='hello' className="w-8 h-6 rounded-[10px] my-4 cursor-pointer mr-2" color='green'/>
-                                Sign In with phone number
-                            </button>
-                        </div> */}
-
+            <div className='flex mb-3 flex-row justify-between'>
+              <button onClick={HandleGoogleSignUP} className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md">
+                <img alt='hello' className="w-8 h-6 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
+                Sign In with Google
+              </button>
+            </div>
             <button
               type="submit"
               className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md py-2 font-medium hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
@@ -94,12 +112,7 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
               Sign Up
             </button>
           </form>
-          <div className='flex mb-3 flex-row justify-between'>
-            <button onClick={HandleGoogleSignUP} className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md">
-              <img alt='hello' className="w-8 h-6 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
-              Sign In with Google
-            </button>
-          </div>
+
           <button
             onClick={handleTogglePopupOut}
             className="absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-600 focus:outline-none"
