@@ -15,7 +15,7 @@ export default function DescriptionAlerts() {
     if (alert) {
       const timeout = setTimeout(() => {
        dispatch(setAlert(false));
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timeout);
     }
@@ -30,13 +30,13 @@ export default function DescriptionAlerts() {
     >
       <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert
-        style={{ margin: "auto", border: "2px solid green", background: "#d7efd7", borderRadius: "15px", height: "50px"}}
-        className="w-[90%] md:w-[50%]"
-          severity="success"
+        style={{borderRadius: "15px"}}
+        className={`${Alertmessage==="User does not exist" || Alertmessage==="user already exist SignIn instead"?"bg-[#d44141] border-[#ff0000]":"bg-[#d7efd7] border-[#2dee37]"} w-[90%] md:w-[50%] m-auto h-[50px] border-2`}
+          severity={Alertmessage==="User does not exist" || Alertmessage==="user already exist SignIn instead"?"error":"success"}
           onClose={() => setAlert(false)}
           sx={{ cursor: 'pointer' }}
         >
-          <AlertTitle className='text-green-900 ' >{Alertmessage}</AlertTitle>
+          <AlertTitle className={`${Alertmessage==="User does not exist" || Alertmessage==="user already exist SignIn instead"?"text-red-900":"text-green-900"}`} >{Alertmessage}</AlertTitle>
         </Alert>
       </Stack>
     </div>

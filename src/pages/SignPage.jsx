@@ -6,6 +6,8 @@ import { useUserLoginMutation } from '../redux/services/UserApi';
 import IconLoading from '../assets/my-loader.svg'
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "./FirebaseConfig"
+import {setAlert, setAlertMsg} from '../redux/features/playerSlice';
+
 
 const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => {
     const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
         const provider = new GoogleAuthProvider();
         try {
             const { user } = await signInWithPopup(firebaseAuth, provider);
-            console.log('User signed in:', user?.reloadUserInfo);
+            console.log('User signed in:');
             SignInUser({ email: user.reloadUserInfo.email, password: user.reloadUserInfo.providerUserInfo[0].rawId })
                 .unwrap()
                 .then((data) => {
@@ -50,13 +52,14 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                         setIsError(false)
                         localStorage.setItem("token", data.authToken)
                         dispatch(setUserDetails(data))
-                        window.location.href = 'http://localhost:3000'
+                        window.location.href = 'https://music-rahul.netlify.app/'
                     }
                 })
                 .catch((error) => {
                     console.error('Error Authenicationg user');
                     if ("user does not exist" === error.data.error) {
-                        setIsError(true)
+                        dispatch(setAlert(true))
+                        dispatch(setAlertMsg("User does not exist"))
                     }
                 });
 
@@ -100,7 +103,15 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                             <input required minLength={8} onInput={() => { setIsError(false) }} onBlur={() => { setIsfocus(false) }} onFocus={() => { setIsfocus(true) }} type="password" ref={passwordRef} placeholder='password' className={`${isError ? "border-[#ff0909]" : "border-[#E9EDF4]"} w-full rounded-md border bg-[#FCFDFE] py-2 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none`} />
                             {isError ? <p className='text-red-600 text-sm font-[450]'>Invalid credentials</p> : ""}
                         </div>
-                        <div className='flex flex-row justify-between'>
+                        <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r mt-5 mb-0 from-purple-500 to-pink-500 text-white rounded-md py-2 font-medium hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors"
+                        >
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div className='flex my-5 flex-row justify-between'>
                             <button
                                 onClick={HandleGoolelogin}
                                 className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md"
@@ -110,13 +121,6 @@ const SignInPopup = ({ showPopup, handleTogglePopup, handleTogglePopupOut }) => 
                                 Sign In with Google
                             </button>
                         </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-gradient-to-r mt-5 mb-0 from-purple-500 to-pink-500 text-white rounded-md py-2 font-medium hover:from-purple-600 hover:to-pink-600 focus:outline-none transition-colors"
-                        >
-                            Sign In
-                        </button>
-                    </form>
 
                     <button
                         onClick={handleTogglePopup}

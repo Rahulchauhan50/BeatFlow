@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/features/UserAuthSlice';
 import { useUserSignupMutation } from '../redux/services/UserApi';
 import IconLoading from '../assets/my-loader.svg'
-import { BsFillTelephoneFill } from "react-icons/bs";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "./FirebaseConfig"
+import {setAlert, setAlertMsg} from '../redux/features/playerSlice';
 
 const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) => {
   const dispatch = useDispatch();
@@ -49,14 +49,14 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
 
     try {
       const { user } = await signInWithPopup(firebaseAuth, provider);
-      console.log('User signed in:', user?.reloadUserInfo);
+      console.log('User signed in:');
       SignUPUser({ profileImage: user.reloadUserInfo.photoUrl, name: user.reloadUserInfo.displayName, email: user.reloadUserInfo.email, password: user.reloadUserInfo.providerUserInfo[0].rawId })
         .unwrap()
         .then((data) => {
           if (data?.success === true) {
             localStorage.setItem("token", data.authToken)
             dispatch(setUserDetails(data))
-            window.location.href = 'http://localhost:3000'
+            window.location.href = 'https://music-rahul.netlify.app/'
           } else {
             console.log("user already exist hbjhbjhjjhnihik")
           }
@@ -64,7 +64,8 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
         .catch((error) => {
           console.error('Error Authenicationg user', error);
           if ("user already exist" === error.data.error) {
-            alert('user already exist SignIn instead')
+            dispatch(setAlert(true))
+            dispatch(setAlertMsg('user already exist SignIn instead'))
           }
         });
     } catch (error) {
@@ -99,12 +100,7 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input minLength={8} required onFocus={() => { setIsfocus(true) }} onBlur={() => { setIsfocus(false) }} placeholder='create password' type='password' ref={passwordRef} className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-[5px] px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none" />
             </div>
-            <div className='flex mb-3 flex-row justify-between'>
-              <button onClick={HandleGoogleSignUP} className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md">
-                <img alt='hello' className="w-8 h-6 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
-                Sign In with Google
-              </button>
-            </div>
+            
             <button
               type="submit"
               className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md py-2 font-medium hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
@@ -112,6 +108,12 @@ const SignUpPopup = ({ showPopupOut, handleTogglePopupOut, handleTogglePopup }) 
               Sign Up
             </button>
           </form>
+          <div className='flex my-5 flex-row justify-between'>
+              <button onClick={HandleGoogleSignUP} className="flex font-[600] items-center justify-center w-full h-[42px] py-2 px-4 bg-[#0f13ff9f] text-white rounded-md shadow-md">
+                <img alt='hello' className="w-8 h-8 rounded-[10px] bg-white my-4 cursor-pointer mr-2" src={google} />
+                Sign In with Google
+              </button>
+            </div>
 
           <button
             onClick={handleTogglePopupOut}

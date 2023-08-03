@@ -20,7 +20,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
       .then((data) => {
         console.log(' Artist added successfully');
         dispatch(setAlert(true))
-        dispatch(setAlertMsg("Artist added to Favorite list successfully"))
+        dispatch(setAlertMsg("Artist added to Favorite list"))
         setIsFavArtist(true)
       })
       .catch((error) => {

@@ -32,7 +32,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
           .then((data) => {
             console.log('song deleted successfully');
             dispatch(setAlert(true))
-            dispatch(setAlertMsg("Song removed from Favorite list successfully"))
+            dispatch(setAlertMsg("Song removed from Favorite list"))
           })
           .catch((error) => {
             console.error('Error removing favorite song');
@@ -46,7 +46,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         .then((data) => {
           console.log(' song added successfully');
           dispatch(setAlert(true))
-          dispatch(setAlertMsg("Song added to Favorite list successfully"))
+          dispatch(setAlertMsg("Song added to Favorite list"))
         })
         .catch((error) => {
           console.error('Error adding song');
@@ -57,7 +57,7 @@ const MusicPlayer = ({mobilePlayerOpen,changePlayer}) => {
         .then((data) => {
           console.log(' song added successfully');
           dispatch(setAlert(true))
-          dispatch(setAlertMsg("Song added to Favorite list successfully"))
+          dispatch(setAlertMsg("Song added to Favorite list"))
         })
         .catch((error) => {
           console.error('Error adding song');

@@ -31,14 +31,6 @@ const App = () => {
     // eslint-disable-next-line
   },[]);
   
-  useEffect(() => {
-    AuthUser()
-    // eslint-disable-next-line 
-  },[]);
-
-  
-  if (isLoading) return 
-  
   const AuthUser = async () => {
     IsUser()
     .unwrap()
@@ -49,7 +41,8 @@ const App = () => {
       console.error('Error Authenicationg user', error);
     });
   } 
-
+  
+  if (isLoading) return 
   const handleTogglePopupOut = () => {
     setShowPopup(false)
     setShowPopupOut(!showPopupOut);
