@@ -85,8 +85,8 @@ const Navbar = ({handleTogglePopupOut,handleTogglePopup}) => {
         </div>
       </form>
       <div className="flex items-center gap-8">
-        {UserDetails?.name ? <button
-        onClick={()=>{localStorage.setItem("token","");dispatch(setUserDetails({}));window.location.href = 'http://localhost:3000'}}
+        {UserDetails?.name ? <button 
+        onClick={()=>{localStorage.setItem("token","");dispatch(setUserDetails({}));window.location.href = 'https://music-rahul.netlify.app/'}}
           className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 rounded hidden sm:block to-blue-500 text-white shadow hover:from-green-600 hover:to-blue-600 focus:outline-none transition-colors"
         >
           LogOut

@@ -25,8 +25,8 @@ const AroundYou = () => {
       <h2 className='font-bold text-3xl text-white'>Around You</h2>
         </Link>
       </div>  
-      <div className='flex flex-wrap sm:justify-start justify-center gap-8 md:gap-[calc(1.3vw)]'>
-       {data?.tracks?.map((song, i)=>{
+      <div className='flex flex-wrap gap-y-6 justify-between'>
+       {data?.tracks?.slice(0,data.tracks.length-(data.tracks.length%3)).map((song, i)=>{
         return <SongCard 
         key={song.key}
         song={song}

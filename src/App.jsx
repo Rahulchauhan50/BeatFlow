@@ -42,7 +42,8 @@ const App = () => {
     });
   } 
   
-  if (isLoading) return 
+  // if (isLoading) return 
+
   const handleTogglePopupOut = () => {
     setShowPopup(false)
     setShowPopupOut(!showPopupOut);
