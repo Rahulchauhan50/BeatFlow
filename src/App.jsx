@@ -21,7 +21,7 @@ const App = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupOut, setShowPopupOut] = useState(false);
   const { UserDetails } = useSelector((state) => state.UserAuth);
-  const [IsUser, { isLoading }] = useUserAuthenticationMutation();
+  const [IsUser] = useUserAuthenticationMutation();
   const { activeSong } = useSelector((state) => state.player)
   const location = useLocation();
   const isUserPage = location.pathname === '/user' ;
@@ -65,7 +65,7 @@ const App = () => {
         <Navbar handleTogglePopupOut={handleTogglePopupOut} handleTogglePopup={handleTogglePopup} />
        <DescriptionAlerts/>
 
-        <div className={`px-6 ${activeSong?.title || activeSong?.attributes?"h-[calc(100vh-130px)]":"h-[calc(100vh-70px)]"} md:h-[calc(100vh-70px)] overflow-y-scroll flex xl:flex-row flex-col-reverse`}>
+        <div className={`px-6 ${activeSong?.title || activeSong?.attributes?"h-[calc(100vh-130px)]":"h-[calc(100vh-70px)]"} md:h-[calc(100vh-70px)] no-scrollbar overflow-y-scroll flex xl:flex-row flex-col-reverse`}>
           <div className="flex-1 h-fit pb-40 md:mt-1">
             <Routes>
               <Route path="/" element={<Discover />} />
