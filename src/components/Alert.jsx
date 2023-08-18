@@ -12,6 +12,9 @@ export default function DescriptionAlerts() {
 
 
   React.useEffect(() => {
+    const childs = document.getElementById('alertMod').children
+    childs[1].style.overflow = 'hidden'
+    childs[2].style.visibility = 'hidden'
     if (alert) {
       const timeout = setTimeout(() => {
        dispatch(setAlert(false));
@@ -25,12 +28,13 @@ export default function DescriptionAlerts() {
   return (
     <div
       className={`transition-all duration-500 ${
-        alert ? 'translate-y-0' : '-translate-y-40'
+        alert ? 'translate-y-[-20px]' : '-translate-y-40'
       } fixed top-10 left-0 right-0 z-[1000] md:hidden`}
     >
       <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert
         style={{borderRadius: "15px"}}
+        id='alertMod'
         className={`${Alertmessage==="User does not exist" || Alertmessage==="user already exist SignIn instead"?"bg-[#d44141] border-[#ff0000]":"bg-[#d7efd7] border-[#2dee37]"} w-[90%] md:w-[50%] m-auto h-[50px] border-2`}
           severity={Alertmessage==="User does not exist" || Alertmessage==="user already exist SignIn instead"?"error":"success"}
           onClose={() => setAlert(false)}

@@ -11,8 +11,8 @@ const SongDetails = () => {
   const {songid} = useParams();
   const {id} = useParams();
   const { activeSong, isPlaying , artistId} = useSelector((state) => state.player);
-  const { data, isFetching: isFetchinRelatedSongs, error } = useGetSongRelatedQuery(id );
-  const { data: songData, isFetching: isFetchingSongDetails } = useGetSongDetailsQuery( songid );
+  const { data, isFetching: isFetchinRelatedSongs, error } = useGetSongRelatedQuery(id);
+  const { data: songData, isFetching: isFetchingSongDetails} = useGetSongDetailsQuery( songid );
   const divRef = useRef(null);
 
   useEffect(() => {

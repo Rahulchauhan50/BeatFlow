@@ -15,10 +15,10 @@ const UserProfile = () => {
   const divRef = useRef(null);
   const [histroyExpand, setHistroyExpand] = useState(5)
   const [favSongExpand, setFavSongExpand] = useState(5)
-  const [favArtistExpand, setFavArtistExpand] = useState(5)
+  const [favArtistExpand, setFavArtistExpand] = useState(6)
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { UserDetails } = useSelector((state) => state.UserAuth);
-  const { data, error, refetch } = useGetAllDataQuery({ enabled: false });
+  const { data, refetch } = useGetAllDataQuery({ enabled: false });
 
   const [deleteAllFavSongs] = useDeleteAllFavSongsMutation();
   const [deleteAllFavArtists] = useDeleteAllFavArtistsMutation();
@@ -100,7 +100,8 @@ const UserProfile = () => {
 
   useEffect(() => {
     refetch();
-  })
+    // eslint-disable-next-line
+  },[activeSong])
 
   useEffect(()=>{
     divRef?.current?.scrollIntoView({ behavior: 'smooth' });
@@ -207,14 +208,14 @@ const UserProfile = () => {
                   Favorite Artists
                   <img alt='delete' onClick={() => { handleDeleteAllFavArtists() }} title='Clear all favorite artists' className='cursor-pointer mx-4 w-14 h-14' src={clear} />
                 </h2>
-                <h2 onClick={() => { favArtistExpand === 5 ? setFavArtistExpand(99) : setFavArtistExpand(6) }} className="items-center cursor-pointer text-sm font-medium text-gray-400">
-                  {favArtistExpand === 5 ? "See more" : "Collapse"}
+                <h2 onClick={() => { favArtistExpand === 6 ? setFavArtistExpand(99) : setFavArtistExpand(6) }} className="items-center cursor-pointer text-sm font-medium text-gray-400">
+                  {favArtistExpand === 6 ? "See more" : "Collapse"}
                 </h2>
               </div>
 
               <div className='flex flex-col'>
                 <div className='flex flex-wrap justify-between gap-8'>
-                  {data?.length >= 1 ? data[0]?.FavArtists?.map((Elements, favArtistExpand) => {
+                  {data?.length >= 1 ? data[0]?.FavArtists?.slice(0, favArtistExpand).map((Elements) => {
                     return <div key={Elements?.ArtistId} className='flex flex-col w-[38vw] md:w-[190px] p-4 bg-white/8 bg-opacity-80 backdrop-blur-sm rounded-lg'>
                       <img alt='delete' onClick={() => { handleDeleteFavArtist(Elements?.ArtistId) }} className='md:h-8 md:w-8 w-[30px] h-[30px] cursor-pointer absolute md:right-[25px] right-[14px] z-[15]' src={Delete} />
                       <div className='relative w-full h-auto group'>

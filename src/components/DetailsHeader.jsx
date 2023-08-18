@@ -49,7 +49,7 @@ const DetailsHeader = ({ artistData, artistId }) => {
         setIsFavArtist(data?.result)
       })
       .catch((error) => {
-        console.error('Error removing favorite Artist');
+        console.error('Error removing favorite Artist',error);
       });
       // eslint-disable-next-line
   }, [artistId, IsfavArtist])

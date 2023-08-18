@@ -2,11 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import { useAddHistoryMutation } from '../../redux/services/UserApi';
 import { useIsFavSongMutation } from '../../redux/services/UserApi';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate, onLoadedData, repeat }) => {
   const { artistId } = useSelector((state) => state.player);
   const [AddHistory] = useAddHistoryMutation();
   const [IsFavsong] = useIsFavSongMutation();
+  const location = useLocation();
 
   const ref = useRef(null);
   if (ref.current) {
@@ -37,12 +39,13 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
   }, [seekTime]);
 
   useEffect(()=>{
+    const artistid = location.pathname.split('/')[1]==='artists'?location.pathname.split('/')[2]:"";
 
     handleIsFavSong()
     document.title = activeSong?.title? activeSong?.title+" - spotify it's Rahul" : activeSong?.attributes?.name+" - spotify it's Rahul"
 
     if(activeSong?.hub?.actions[1]?.uri? (
-      AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
+      AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid?activeSong?.artists[0].adamid:artistid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
       .unwrap()
       .then((data) => {
         console.log(' song added successfully');
