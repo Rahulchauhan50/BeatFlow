@@ -42,7 +42,7 @@ const Player = ({ setFav ,activeSong, isPlaying, volume, seekTime, onEnded, onTi
     const artistid = location.pathname.split('/')[1]==='artists'?location.pathname.split('/')[2]:"";
 
     handleIsFavSong()
-    document.title = activeSong?.title? activeSong?.title+" - spotify it's Rahul" : activeSong?.attributes?.name+" - spotify it's Rahul"
+    document.title = activeSong?.title? activeSong?.title+" - BeatFlow" : activeSong?.attributes?.name+" - BeatFlow"
 
     if(activeSong?.hub?.actions[1]?.uri? (
       AddHistory({"title":activeSong?.title, "key":activeSong?.key, "subtitle":activeSong?.subtitle, "adamid":activeSong?.artists[0].adamid?activeSong?.artists[0].adamid:artistid, "background":activeSong?.attributes?.artwork?.url, "id":activeSong?.hub?.actions[0].id, "coverart":activeSong?.images?.coverart, uri:activeSong?.hub?.actions[1]?.uri})
